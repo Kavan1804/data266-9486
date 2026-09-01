@@ -186,11 +186,12 @@ Status: Pending Colab execution
 | Epochs | `30` |
 | Batch size | `32` |
 | Optimizer | Adam |
-| Loss | `BinaryCrossentropy(from_logits=True)` |
-| Activation | ReLU hidden layers; one raw-logit output |
+| Loss | `binary_crossentropy` |
+| Metrics | `accuracy` |
+| Activation | ReLU hidden layers; sigmoid output |
 | Device | CPU |
 | Training seeds | `9486`, `9487`, `9488` |
-| Evaluation metric | Test accuracy, `tf.sigmoid` threshold `0.5` |
+| Evaluation metric | `model.evaluate()` accuracy; manual `model.predict()` threshold `0.5` check |
 | Accuracy variability | Sample standard deviation, `ddof=1` |
 | Split and arrays | Existing fixed preprocessed split and arrays |
 
