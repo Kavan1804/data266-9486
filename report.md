@@ -55,4 +55,24 @@ The class distributions overlap across all eight feature plots. The Diabetes=1 g
 
 The PyTorch baseline uses hidden layers `[64, 32]`, while the HP_ID 0 modified model reduces capacity to `[32]`. Both models use ReLU hidden activations, one raw output logit, Adam with learning rate `0.001`, `BCEWithLogitsLoss`, batch size `32`, and exactly 30 epochs. The fixed preprocessed training, validation, and testing split from Step 3 is reused without re-splitting, and the three training seeds are `9486`, `9487`, and `9488`.
 
-Each run records sample-weighted training and validation losses and evaluates test accuracy only after training using a sigmoid threshold of `0.5`. The mean, minimum, maximum, and sample standard deviation of the three test accuracies will be reported after execution, with the standard deviation calculated using `np.std(accuracies, ddof=1)`. Each model/seed run will save a checkpoint containing the model state and experiment metadata. The per-run results, summary statistics, and loss-curve interpretation remain pending Colab execution.
+Each run records sample-weighted training and validation losses and evaluates test accuracy only after training using a sigmoid threshold of `0.5`. The sample standard deviation is calculated using `np.std(accuracies, ddof=1)`. Each model/seed run saves a checkpoint containing the model state and experiment metadata. The executed results are summarized below.
+
+| Model | Seed | Final train loss | Final validation loss | Test accuracy |
+| --- | ---: | ---: | ---: | ---: |
+| Baseline | 9486 | 0.4061901019 | 0.5196852684 | 0.7982456088 |
+| Baseline | 9487 | 0.3937149304 | 0.5209291243 | 0.7894737124 |
+| Baseline | 9488 | 0.4080526210 | 0.5359846531 | 0.7894737124 |
+| Modified | 9486 | 0.4490796123 | 0.5211900054 | 0.8157894611 |
+| Modified | 9487 | 0.4427113002 | 0.5094487134 | 0.7982456088 |
+| Modified | 9488 | 0.4452180164 | 0.5196500316 | 0.7982456088 |
+
+| Model | Parameters | Mean accuracy | Sample standard deviation | Minimum | Maximum |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Baseline | 2,689 | 79.24% | 0.51 percentage points | 78.95% | 79.82% |
+| Modified | 321 | 80.41% | 1.01 percentage points | 79.82% | 81.58% |
+
+For seed 9486, the baseline minimum validation loss was 0.5048945870 at epoch 7, with final validation loss 0.5196852684, final training loss 0.4061901019, and a validation-training gap of 0.1135. The modified model minimum was 0.5032110570 at epoch 14, with final validation loss 0.5211900054, final training loss 0.4490796123, and a gap of 0.0721.
+
+The modified model performed slightly better on average while using substantially fewer parameters. Both models showed mild overfitting because training loss continued decreasing after validation loss reached its minimum. Overfitting appeared later and the final train-validation gap was smaller for the modified model. Because only three seeds were used and the accuracy ranges overlap, the improvement is modest rather than conclusive. No claim of statistical significance is made.
+
+The executed loss curves are shown in [figures/pytorch_loss_curves.png](figures/pytorch_loss_curves.png). Checkpoints were saved for every model and training seed.

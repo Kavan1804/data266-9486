@@ -119,7 +119,7 @@ EDA uses the full dataset descriptively, with zero sentinels masked only in the 
 
 ## PyTorch Experiment Settings
 
-Status: Pending Colab execution
+Status: Executed Colab results recorded
 
 | Setting | Value |
 | --- | --- |
@@ -140,22 +140,30 @@ Status: Pending Colab execution
 
 ### PyTorch Per-Run Results
 
-Pending Colab execution.
-
 | Framework | Model | Seed | Hidden Layers | Learning Rate | Epochs | Final Train Loss | Final Validation Loss | Test Accuracy |
 | --- | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |
-| Pending | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Pending |
+| PyTorch | Baseline | 9486 | `[64, 32]` | 0.001 | 30 | 0.4061901019 | 0.5196852684 | 0.7982456088 |
+| PyTorch | Baseline | 9487 | `[64, 32]` | 0.001 | 30 | 0.3937149304 | 0.5209291243 | 0.7894737124 |
+| PyTorch | Baseline | 9488 | `[64, 32]` | 0.001 | 30 | 0.4080526210 | 0.5359846531 | 0.7894737124 |
+| PyTorch | Modified | 9486 | `[32]` | 0.001 | 30 | 0.4490796123 | 0.5211900054 | 0.8157894611 |
+| PyTorch | Modified | 9487 | `[32]` | 0.001 | 30 | 0.4427113002 | 0.5094487134 | 0.7982456088 |
+| PyTorch | Modified | 9488 | `[32]` | 0.001 | 30 | 0.4452180164 | 0.5196500316 | 0.7982456088 |
 
 ### PyTorch Summary Results
 
-Pending Colab execution.
-
 | Model | Number of Runs | Mean Test Accuracy | Sample Std. Dev. | Minimum Test Accuracy | Maximum Test Accuracy |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Baseline | Pending | Pending | Pending | Pending | Pending |
-| Modified | Pending | Pending | Pending | Pending | Pending |
+| Baseline | 3 | 0.7923976779 (79.2398%) | 0.0050644567 (0.5064 pp) | 0.7894737124 | 0.7982456088 |
+| Modified | 3 | 0.8040935596 (80.4094%) | 0.0101289479 (1.0129 pp) | 0.7982456088 | 0.8157894611 |
 
-### Expected Checkpoints
+### PyTorch Parameters and Curve Diagnostics
+
+| Model | Trainable parameters | Minimum validation-loss epoch | Minimum validation loss | Final validation loss | Final training loss | Final validation-training gap |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Baseline | 2,689 | 7 | 0.5048945870 | 0.5196852684 | 0.4061901019 | 0.1134951665 |
+| Modified | 321 | 14 | 0.5032110570 | 0.5211900054 | 0.4490796123 | 0.0721103931 |
+
+### PyTorch Checkpoints
 
 - `checkpoints/pytorch/pytorch_baseline_seed_9486.pt`
 - `checkpoints/pytorch/pytorch_baseline_seed_9487.pt`
@@ -164,19 +172,19 @@ Pending Colab execution.
 - `checkpoints/pytorch/pytorch_modified_seed_9487.pt`
 - `checkpoints/pytorch/pytorch_modified_seed_9488.pt`
 
-PyTorch per-run results, summary statistics, and curve diagnostics remain Pending.
+Loss figure: `figures/pytorch_loss_curves.png` (`2970 × 1765` pixels, `277891` bytes).
 
 # Neural Network Results
 
-Status: Pending
+Status: PyTorch results recorded; TensorFlow Pending
 
 ## Baseline Results
 
-Pending
+Recorded in the PyTorch results tables above.
 
 ## Modified Results
 
-Pending
+Recorded in the PyTorch results tables above.
 
 # CUDA Results
 

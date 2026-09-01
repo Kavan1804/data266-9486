@@ -226,3 +226,36 @@ UTC Timestamp: 2026-09-01T17:41:34Z
 Status: Added the PyTorch baseline and HP_ID-modified experiment code, reproducibility controls, metrics tables, loss-curve code, diagnostics, and checkpoint logic.
 Execution status: Training was not executed locally; no training metrics, checkpoints, or loss-curve outputs were generated.
 Static validation scope: JSON, nbformat, syntax, model output shape, raw-logit model output, BCEWithLogitsLoss usage, evaluation-mode/no-grad validation and testing, fixed split preservation, configured seeds, seed-9486 curve selection, unique checkpoint filenames, and unchanged dataset.
+
+STEP 5 ARTIFACT INTEGRATION — EXECUTED COLAB RESULTS
+UTC Timestamp: 2026-09-01T18:06:52Z
+Source: Executed Colab notebook and supplied pytorch_step5_artifacts.zip.
+Device: cpu
+Architectures:
+Baseline: PyTorchBinaryClassifier(Linear(8,64), ReLU, Linear(64,32), ReLU, Linear(32,1)); trainable parameters=2689.
+Modified: PyTorchBinaryClassifier(Linear(8,32), ReLU, Linear(32,1)); trainable parameters=321.
+
+Executed Colab run output:
+Baseline seed 9486: final_train_loss=0.4061901019342426, final_validation_loss=0.5196852684020996, test_accuracy=0.7982456088066101
+Baseline seed 9487: final_train_loss=0.39371493037811106, final_validation_loss=0.5209291242716605, test_accuracy=0.7894737124443054
+Baseline seed 9488: final_train_loss=0.4080526209708212, final_validation_loss=0.5359846531299123, test_accuracy=0.7894737124443054
+Modified seed 9486: final_train_loss=0.4490796123296303, final_validation_loss=0.5211900054362782, test_accuracy=0.8157894611358643
+Modified seed 9487: final_train_loss=0.44271130020784566, final_validation_loss=0.5094487133779024, test_accuracy=0.7982456088066101
+Modified seed 9488: final_train_loss=0.44521801642329906, final_validation_loss=0.5196500316000822, test_accuracy=0.7982456088066101
+
+Summary statistics (sample standard deviation, ddof=1):
+Baseline: mean_accuracy=0.792397677898407, sample_std=0.00506445672608011, minimum=0.7894737124443054, maximum=0.7982456088066101.
+Modified: mean_accuracy=0.8040935595830282, sample_std=0.010128947864917926, minimum=0.7982456088066101, maximum=0.8157894611358643.
+
+Seed-9486 curve diagnostics:
+Baseline: minimum_validation_epoch=7, minimum_validation_loss=0.504894587031582, final_validation_loss=0.5196852684020996, final_training_loss=0.4061901019342426, final_validation_training_gap=0.11349516646785701.
+Modified: minimum_validation_epoch=14, minimum_validation_loss=0.5032110569769876, final_validation_loss=0.5211900054362782, final_training_loss=0.4490796123296303, final_validation_training_gap=0.07211039310664796.
+
+Checkpoint filenames:
+checkpoints/pytorch/pytorch_baseline_seed_9486.pt
+checkpoints/pytorch/pytorch_baseline_seed_9487.pt
+checkpoints/pytorch/pytorch_baseline_seed_9488.pt
+checkpoints/pytorch/pytorch_modified_seed_9486.pt
+checkpoints/pytorch/pytorch_modified_seed_9487.pt
+checkpoints/pytorch/pytorch_modified_seed_9488.pt
+Loss figure: figures/pytorch_loss_curves.png, dimensions=2970 x 1765, bytes=277891.
