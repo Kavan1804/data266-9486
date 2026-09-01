@@ -11,7 +11,7 @@
 
 ## Assignment Overview
 
-This repository is the Step 0 starting point for the DATA 266 HW1 assignment. It sets up the notebook structure, placeholder CUDA source, documentation files, and local Git repository needed for later work.
+This repository contains the completed DATA 266 HW1 submission for Kavan Siddesh Kumar (SID4 9486). It includes the autoregressive-model explanation, diabetes preprocessing and EDA, PyTorch and TensorFlow/Keras baseline and modified experiments, three-seed evaluation, training and validation loss curves, CUDA matrix multiplication, CPU/GPU timing comparison, successful Nsight Compute profiling, and the final report.
 
 ## Model Configurations
 
@@ -32,13 +32,15 @@ This repository is the Step 0 starting point for the DATA 266 HW1 assignment. It
 - `neural_networks.ipynb`
 - `cuda.ipynb`
 - `matrix_multiplication.cu`
+- `HW1_Report_9486.pdf`
 - `RUN_LOG.txt`
 - `METRICS.md`
 - `AI_USE.md`
 - `README.md`
-- `.gitignore`
+- `checkpoints/`
+- `figures/`
+- `artifacts/cuda/`
 
 ## Status
 
-This repository is in progress.
-
+The HW1 implementation, executed results, documentation, artifacts, and final report are complete. The notebooks record the executed experiments and hardware-specific CUDA results; no claim is made that CUDA hardware is available locally.
