@@ -174,6 +174,45 @@ Status: Executed Colab results recorded
 
 Loss figure: `figures/pytorch_loss_curves.png` (`2970 × 1765` pixels, `277891` bytes).
 
+## TensorFlow/Keras Experiment Settings
+
+Status: Pending Colab execution
+
+| Setting | Value |
+| --- | --- |
+| Baseline hidden layers | `[64, 32]` |
+| Modified hidden layers | `[32]` |
+| Learning rate | `0.001` |
+| Epochs | `30` |
+| Batch size | `32` |
+| Optimizer | Adam |
+| Loss | `BinaryCrossentropy(from_logits=True)` |
+| Activation | ReLU hidden layers; one raw-logit output |
+| Device | CPU |
+| Training seeds | `9486`, `9487`, `9488` |
+| Evaluation metric | Test accuracy, `tf.sigmoid` threshold `0.5` |
+| Accuracy variability | Sample standard deviation, `ddof=1` |
+| Split and arrays | Existing fixed preprocessed split and arrays |
+
+### TensorFlow Per-Run Results
+
+Pending Colab execution.
+
+### TensorFlow Summary Results
+
+Pending Colab execution.
+
+### Expected TensorFlow Checkpoints
+
+- `checkpoints/tensorflow/tensorflow_baseline_seed_9486.keras`
+- `checkpoints/tensorflow/tensorflow_baseline_seed_9487.keras`
+- `checkpoints/tensorflow/tensorflow_baseline_seed_9488.keras`
+- `checkpoints/tensorflow/tensorflow_modified_seed_9486.keras`
+- `checkpoints/tensorflow/tensorflow_modified_seed_9487.keras`
+- `checkpoints/tensorflow/tensorflow_modified_seed_9488.keras`
+
+Expected loss figure path: `figures/tensorflow_loss_curves.png`.
+
 # Neural Network Results
 
 Status: PyTorch results recorded; TensorFlow Pending

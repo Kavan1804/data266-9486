@@ -259,3 +259,9 @@ checkpoints/pytorch/pytorch_modified_seed_9486.pt
 checkpoints/pytorch/pytorch_modified_seed_9487.pt
 checkpoints/pytorch/pytorch_modified_seed_9488.pt
 Loss figure: figures/pytorch_loss_curves.png, dimensions=2970 x 1765, bytes=277891.
+
+STEP 6 — TENSORFLOW/KERAS EXPERIMENT IMPLEMENTATION
+UTC Timestamp: 2026-09-01T18:16:28Z
+Status: Added the TensorFlow/Keras baseline and HP_ID-modified experiment code, CPU configuration, deterministic seeding, repeated-run logic, summary calculations, loss-curve code, diagnostics, and checkpoint logic.
+Execution status: TensorFlow training was not executed locally; no TensorFlow metrics, checkpoints, or loss-curve outputs were generated. No TensorFlow installation was attempted.
+Static validation scope: Notebook JSON, nbformat, syntax, raw-logit model output, BinaryCrossentropy(from_logits=True), post-training tf.sigmoid evaluation, fresh model and optimizer per run, no early stopping, 30 epochs, configured seeds, sample standard deviation with ddof=1, existing array reuse, unique checkpoint filenames, preserved prior notebook outputs, unchanged PyTorch content, and unchanged dataset.

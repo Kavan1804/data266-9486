@@ -76,3 +76,9 @@ For seed 9486, the baseline minimum validation loss was 0.5048945870 at epoch 7,
 The modified model performed slightly better on average while using substantially fewer parameters. Both models showed mild overfitting because training loss continued decreasing after validation loss reached its minimum. Overfitting appeared later and the final train-validation gap was smaller for the modified model. Because only three seeds were used and the accuracy ranges overlap, the improvement is modest rather than conclusive. No claim of statistical significance is made.
 
 The executed loss curves are shown in [figures/pytorch_loss_curves.png](figures/pytorch_loss_curves.png). Checkpoints were saved for every model and training seed.
+
+### 2.5 TensorFlow/Keras Experimental Method
+
+The TensorFlow/Keras experiments use the same baseline `[64, 32]` and HP_ID 0 modified `[32]` architectures, learning rate `0.001`, 30 epochs, batch size `32`, and training seeds `9486`, `9487`, and `9488` as the PyTorch experiments. They reuse the same fixed preprocessed split and arrays, run on the CPU, and use Adam with `BinaryCrossentropy(from_logits=True)`. Each model returns one raw logit; test probabilities are obtained with `tf.sigmoid` after training and thresholded at `0.5` for accuracy.
+
+Each run will save a full Keras checkpoint with its configuration and seed. TensorFlow per-run results, mean accuracy, sample standard deviation, and curve interpretation remain pending Colab execution.
