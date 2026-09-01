@@ -1,0 +1,15 @@
+GPU: Tesla T4
+CUDA runtime version: 12.8
+TILE_SIZE: 16
+Seed: 9486
+GPU repetitions: 5
+CPU repetitions: 3
+
+Human-readable results (median milliseconds)
+size	CPU	GPU kernel	H2D+D2H	GPU total	speedup	valid
+256	0.510085	0.113312	0.258176	0.371488	1.37309	PASS
+RESULT,size=256,cpu_ms=0.510085,gpu_kernel_ms=0.1133119985,transfer_ms=0.2581759989,gpu_total_ms=0.3714879975,speedup=1.373086085,max_abs_error=0,max_relative_error=0,valid=1
+1024	19.007706	4.370048046	2.917920113	7.287968159	2.608093996	PASS
+RESULT,size=1024,cpu_ms=19.007706,gpu_kernel_ms=4.370048046,transfer_ms=2.917920113,gpu_total_ms=7.287968159,speedup=2.608093996,max_abs_error=6.484985352e-05,max_relative_error=0.635842979,valid=1
+4096	1208.051661	194.5991364	54.21852875	248.8176651	4.855168384	PASS
+RESULT,size=4096,cpu_ms=1208.051661,gpu_kernel_ms=194.5991364,transfer_ms=54.21852875,gpu_total_ms=248.8176651,speedup=4.855168384,max_abs_error=0.000358581543,max_relative_error=7.350311279,valid=1

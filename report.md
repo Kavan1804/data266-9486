@@ -115,3 +115,41 @@ Accuracy from `model.evaluate()` was checked against manually thresholded `model
 Across both frameworks, the HP_ID 0 modified model achieved approximately 1.17 percentage points higher mean test accuracy while using about 88.1% fewer parameters. The baseline models showed clearer overfitting, whereas the modified models showed later or weaker overfitting behavior. TensorFlow’s mean accuracies were only about 0.29 percentage points higher than PyTorch’s, which is too small to support a conclusion that one framework was superior. Given the three-seed sample and overlapping accuracy ranges, the modified model’s advantage is modest but consistent across both implementations.
 
 The PyTorch and TensorFlow seed-9486 curves are shown in [figures/pytorch_loss_curves.png](figures/pytorch_loss_curves.png) and [figures/tensorflow_loss_curves.png](figures/tensorflow_loss_curves.png). The PyTorch baseline validation loss increased after epoch 7, while the TensorFlow baseline increased after epoch 20. The modified models showed later or weaker overfitting patterns.
+
+## 3. CUDA Matrix Multiplication
+
+### 3.1 Implementation
+
+The CUDA benchmark uses a tiled shared-memory matrix-multiplication kernel with `16 x 16` thread blocks. The CPU reference is optimized OpenBLAS `cblas_sgemm`, and the program reports correctness, CPU time, GPU kernel time, transfer time, end-to-end GPU time, and speedup.
+
+### 3.2 Blocks and Threads
+
+Each thread computes one output element. A two-dimensional grid maps `blockIdx` and `threadIdx` to matrix coordinates, while shared-memory tiles reduce repeated global-memory reads. Boundary tiles are zero-padded and final writes are guarded.
+
+### 3.3 Timing Methodology
+
+The normal benchmark reports median timings after a GPU warm-up, with CPU timing repeated three times and GPU timing repeated five times. GPU total time is kernel time plus two H2D and one D2H transfer time. The primary results below are unprofiled timings.
+
+### 3.4 Correctness
+
+All tested sizes passed. CPU and GPU accumulation orders can differ, so each element uses the combined tolerance `abs_error <= 1e-3 + 1e-3 * abs(cpu_value)`. Maximum relative error is retained as a diagnostic; it can be large when a CPU reference value is near zero and does not independently determine PASS/FAIL.
+
+### 3.5 Benchmark Table
+
+| Matrix size | CPU (ms) | GPU kernel (ms) | H2D+D2H (ms) | GPU total (ms) | Speedup |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 256 | 0.510085 | 0.113312 | 0.258176 | 0.371488 | 1.373086 |
+| 1024 | 19.007706 | 4.370048 | 2.917920 | 7.287968 | 2.608094 |
+| 4096 | 1208.051661 | 194.599136 | 54.218529 | 248.817665 | 4.855168 |
+
+Every row has `valid=1`. Maximum absolute errors were 0, 0.0000648499, and 0.000358582 for sizes 256, 1024, and 4096; maximum relative errors were 0, 0.635842979, and 7.350311279, respectively, as diagnostics only.
+
+### 3.6 Profiler
+
+NVIDIA Nsight Compute (`ncu`) succeeded on a Tesla T4 (compute capability 7.5) for size 1024. The profiled kernel used 256 threads per block (`16 x 16`) and 4,096 blocks (`64 x 64`). Theoretical occupancy was 100%, achieved occupancy was approximately 98.7%, compute and memory throughput were approximately 74.4%, and L1/TEX cache throughput was approximately 95.3%. Nsight described computation and memory traffic as well balanced; individual profiled kernel duration was approximately 5.79–5.80 ms.
+
+The `1682.78 ms` internal timing under `ncu` is not comparable to the normal benchmark because Nsight replayed and instrumented the kernel across nine passes. The primary table therefore uses the unprofiled `4.370048 ms` kernel time. Raw evidence is stored in `artifacts/cuda/cuda_benchmark_output.txt` and `artifacts/cuda/profiler_output.txt`.
+
+### 3.7 Crossover Interpretation
+
+The GPU was faster end-to-end at every tested size, and 256 x 256 was the smallest tested beneficial size. The experiment establishes only that the crossover occurred at or below 256; it does not determine the exact crossover below 256. Speedup increased from 1.37x to 2.61x to 4.86x as available parallel computation grew and fixed launch and transfer overhead became less important.

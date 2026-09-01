@@ -258,37 +258,37 @@ Parameter reduction: 2,689 to 321, or 2,368 fewer parameters and approximately 8
 
 # CUDA Results
 
-Status: Pending
+Status: Executed Colab results recorded
 
 ## CUDA Matrix-Multiplication Benchmark
 
 | Matrix size | CPU (ms) | GPU kernel (ms) | H2D+D2H (ms) | Speedup |
 | ---: | ---: | ---: | ---: | ---: |
-| 256 | Pending | Pending | Pending | Pending |
-| 1024 | Pending | Pending | Pending | Pending |
-| 4096 | Pending | Pending | Pending | Pending |
+| 256 | 0.510085 | 0.113312 | 0.258176 | 1.373086 |
+| 1024 | 19.007706 | 4.370048 | 2.917920 | 2.608094 |
+| 4096 | 1208.051661 | 194.599136 | 54.218529 | 4.855168 |
 
 | CUDA field | Value |
 | --- | --- |
-| GPU model | Pending Colab GPU execution |
-| Compute capability | Pending Colab GPU execution |
-| CUDA version | Pending Colab GPU execution |
-| Profiler | Pending Colab profiler execution |
-| Correctness | Pending Colab GPU execution |
-| Maximum absolute error | Pending |
-| Maximum relative error | Pending |
-| GPU-total time | Pending |
-| Crossover size | Pending |
+| GPU model | Tesla T4 |
+| Compute capability | 7.5 |
+| CUDA version | 12.8 runtime; 13.0 driver |
+| Profiler | NVIDIA Nsight Compute (`ncu`), return code 0 |
+| Correctness | PASS (`valid=1` at all sizes) |
+| Maximum absolute error | 0; 0.0000648499; 0.000358582 |
+| Maximum relative error | 0; 0.635842979; 7.350311279 (diagnostic) |
+| GPU-total time | 0.371488; 7.287968; 248.817665 ms |
+| Crossover size | At or below 256; exact sub-256 crossover not measured |
 | Split/preprocessing | Not used; CUDA benchmark uses generated matrices |
 
 ## Compilation
 
-Pending
+Completed in Colab with dynamically detected `sm_75` and OpenBLAS linking.
 
 ## Timing
 
-Pending
+Completed for 256, 1024, and 4096 using unprofiled median timings. GPU total is kernel plus H2D+D2H transfer time.
 
 ## Profiler
 
-Pending
+NVIDIA Nsight Compute (`ncu`) completed successfully with return code 0. Raw output is stored in `artifacts/cuda/profiler_output.txt`.

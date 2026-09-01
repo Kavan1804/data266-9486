@@ -327,3 +327,14 @@ CUDA CORRECTION — FLOATING-POINT CORRECTNESS VALIDATION
 UTC Timestamp: 2026-09-01T19:12:09Z
 Status: Changed CUDA correctness validation to use the combined per-element bound ABS_TOL + REL_TOL * abs(cpu_value), with ABS_TOL=1e-3f and REL_TOL=1e-3f. Maximum relative error remains diagnostic and no new CUDA measurements were added.
 Execution status: CUDA was not executed locally; validation of the corrected program remains deferred to Colab GPU execution.
+
+CUDA STEP 8 — EXECUTED BENCHMARK AND PROFILER INTEGRATION
+UTC Timestamp: 2026-09-01T19:27:02Z
+Source: Executed Colab cuda.ipynb and cuda_step8_artifacts.zip. CUDA source matched the tracked matrix_multiplication.cu.
+Normal unprofiled benchmark output:
+RESULT,size=256,cpu_ms=0.510085,gpu_kernel_ms=0.1133119985,transfer_ms=0.2581759989,gpu_total_ms=0.3714879975,speedup=1.373086085,max_abs_error=0,max_relative_error=0,valid=1
+RESULT,size=1024,cpu_ms=19.007706,gpu_kernel_ms=4.370048046,transfer_ms=2.917920113,gpu_total_ms=7.287968159,speedup=2.608093996,max_abs_error=6.484985352e-05,max_relative_error=0.635842979,valid=1
+RESULT,size=4096,cpu_ms=1208.051661,gpu_kernel_ms=194.5991364,transfer_ms=54.21852875,gpu_total_ms=248.8176651,speedup=4.855168384,max_abs_error=0.000358581543,max_relative_error=7.350311279,valid=1
+All tested sizes passed the combined absolute/relative correctness tolerance. Maximum relative error is diagnostic because near-zero CPU reference values can inflate it.
+Profiler: NVIDIA Nsight Compute (ncu), return code 0; kernel tiled_matmul_kernel; GPU Tesla T4, compute capability 7.5; profiled size 1024; block size 256 threads (16 x 16); grid size 4096 blocks (64 x 64); theoretical occupancy 100%; achieved occupancy approximately 98.7%; compute throughput approximately 74.4%; memory throughput approximately 74.4%; L1/TEX cache throughput approximately 95.3%; individual profiled kernel duration approximately 5.79–5.80 ms; computation and memory traffic were reported as well balanced.
+The ncu internal 1682.78 ms program timing is instrumentation overhead from nine replay passes and is not compared with the normal 4.370048 ms kernel timing. Raw evidence is stored in artifacts/cuda/cuda_benchmark_output.txt and artifacts/cuda/profiler_output.txt.
