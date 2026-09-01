@@ -317,3 +317,8 @@ TensorFlow Modified: mean_accuracy=0.8070175449, sample_std=approximately 0.0087
 Modified-minus-baseline improvement: PyTorch=0.0116958817 (approximately +1.17 percentage points); TensorFlow=0.0116959214 (approximately +1.17 percentage points).
 Parameter reduction: 2689 to 321, 2368 fewer parameters, approximately 88.1% reduction.
 Conclusion: Across both frameworks, the modified model achieved a modest but consistent accuracy advantage with substantially fewer parameters. Baseline curves showed clearer overfitting, while modified curves showed later or weaker overfitting. Only three seeds were used, accuracy ranges overlap, and no statistical significance or framework superiority is claimed.
+
+STEP CUDA — CUDA MATRIX-MULTIPLICATION IMPLEMENTATION
+UTC Timestamp: 2026-09-01T18:57:25Z
+Status: Implemented the CUDA tiled matrix-multiplication kernel, OpenBLAS CPU reference, correctness checks, separated median timing methodology, CLI options, and profiler fallback notebook logic.
+Execution status: CUDA was not executed locally because this Mac has no NVIDIA CUDA environment. Compilation, benchmark measurements, and profiler output remain Pending Colab GPU execution. No fabricated CUDA output was added.

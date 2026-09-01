@@ -260,6 +260,27 @@ Parameter reduction: 2,689 to 321, or 2,368 fewer parameters and approximately 8
 
 Status: Pending
 
+## CUDA Matrix-Multiplication Benchmark
+
+| Matrix size | CPU (ms) | GPU kernel (ms) | H2D+D2H (ms) | Speedup |
+| ---: | ---: | ---: | ---: | ---: |
+| 256 | Pending | Pending | Pending | Pending |
+| 1024 | Pending | Pending | Pending | Pending |
+| 4096 | Pending | Pending | Pending | Pending |
+
+| CUDA field | Value |
+| --- | --- |
+| GPU model | Pending Colab GPU execution |
+| Compute capability | Pending Colab GPU execution |
+| CUDA version | Pending Colab GPU execution |
+| Profiler | Pending Colab profiler execution |
+| Correctness | Pending Colab GPU execution |
+| Maximum absolute error | Pending |
+| Maximum relative error | Pending |
+| GPU-total time | Pending |
+| Crossover size | Pending |
+| Split/preprocessing | Not used; CUDA benchmark uses generated matrices |
+
 ## Compilation
 
 Pending
