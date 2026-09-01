@@ -305,3 +305,15 @@ checkpoints/tensorflow/tensorflow_modified_seed_9487.keras: 24821 bytes
 checkpoints/tensorflow/tensorflow_modified_seed_9488.keras: 24821 bytes
 Loss figure: figures/tensorflow_loss_curves.png, dimensions=2970 x 1765, bytes=263506.
 TensorFlow produced retracing warnings during repeated model.predict() calls, but training and evaluation completed and manually thresholded prediction accuracy matched model.evaluate() accuracy.
+
+STEP 7 — CROSS-FRAMEWORK COMPARISON AND CONCLUSION
+UTC Timestamp: 2026-09-01T18:44:59Z
+Source: Values derived from executed PyTorch and TensorFlow notebook outputs.
+Summary:
+PyTorch Baseline: mean_accuracy=0.7923976779, sample_std=0.0050644567, parameters=2689.
+PyTorch Modified: mean_accuracy=0.8040935596, sample_std=0.0101289479, parameters=321.
+TensorFlow Baseline: mean_accuracy=0.7953216235, sample_std=approximately 0.033210, parameters=2689.
+TensorFlow Modified: mean_accuracy=0.8070175449, sample_std=approximately 0.008772, parameters=321.
+Modified-minus-baseline improvement: PyTorch=0.0116958817 (approximately +1.17 percentage points); TensorFlow=0.0116959214 (approximately +1.17 percentage points).
+Parameter reduction: 2689 to 321, 2368 fewer parameters, approximately 88.1% reduction.
+Conclusion: Across both frameworks, the modified model achieved a modest but consistent accuracy advantage with substantially fewer parameters. Baseline curves showed clearer overfitting, while modified curves showed later or weaker overfitting. Only three seeds were used, accuracy ranges overlap, and no statistical significance or framework superiority is claimed.

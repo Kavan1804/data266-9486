@@ -176,7 +176,7 @@ Loss figure: `figures/pytorch_loss_curves.png` (`2970 × 1765` pixels, `277891` 
 
 ## TensorFlow/Keras Experiment Settings
 
-Status: Pending Colab execution
+Status: Executed Colab results recorded
 
 | Setting | Value |
 | --- | --- |
@@ -231,11 +231,11 @@ Mean improvement: approximately 1.17 percentage points. Accuracy variability use
 - `checkpoints/tensorflow/tensorflow_modified_seed_9487.keras`
 - `checkpoints/tensorflow/tensorflow_modified_seed_9488.keras`
 
-Expected loss figure path: `figures/tensorflow_loss_curves.png`.
+Loss figure: `figures/tensorflow_loss_curves.png` (`2970 × 1765` pixels, `263506` bytes).
 
 # Neural Network Results
 
-Status: PyTorch results recorded; TensorFlow Pending
+Status: PyTorch and TensorFlow results recorded
 
 ## Baseline Results
 
@@ -244,6 +244,17 @@ Recorded in the PyTorch results tables above.
 ## Modified Results
 
 Recorded in the PyTorch results tables above.
+
+## Final Neural-Network Comparison
+
+| Framework | Model | Parameters | Mean accuracy | Sample SD | Min | Max | Modified improvement |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| PyTorch | Baseline | 2,689 | 0.7923976779 | 0.0050644567 | 0.7894737124 | 0.7982456088 | — |
+| PyTorch | Modified | 321 | 0.8040935596 | 0.0101289479 | 0.7982456088 | 0.8157894611 | 0.0116958817 |
+| TensorFlow | Baseline | 2,689 | 0.7953216235 | 0.033210 | 0.7719298005 | 0.8333333135 | — |
+| TensorFlow | Modified | 321 | 0.8070175449 | 0.008772 | 0.7982456088 | 0.8157894611 | 0.0116959214 |
+
+Parameter reduction: 2,689 to 321, or 2,368 fewer parameters and approximately 88.1% fewer. Both frameworks used the same fixed split, preprocessing, processed arrays, and test accuracy metric. Sample standard deviation uses `ddof=1`.
 
 # CUDA Results
 

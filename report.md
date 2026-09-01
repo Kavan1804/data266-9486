@@ -102,3 +102,16 @@ The baseline has 2,689 trainable parameters and the modified model has 321, an a
 The modified TensorFlow model achieved slightly higher mean test accuracy and substantially lower run-to-run variability while using about 88.1% fewer parameters. The baseline showed mild overfitting because validation loss reached its minimum at epoch 20 and then increased while training loss continued decreasing. The modified model’s validation loss continued decreasing through epoch 30, so there was no clear validation-loss upturn within the assigned training budget, although a train-validation gap remained. With only three seeds and overlapping accuracy ranges, the improvement should be described as modest rather than statistically conclusive.
 
 Accuracy from `model.evaluate()` was checked against manually thresholded `model.predict()` probabilities at `0.5`. The sample standard deviation uses `ddof=1`. The executed loss curves are shown in [figures/tensorflow_loss_curves.png](figures/tensorflow_loss_curves.png). Checkpoints were saved for every model and training seed.
+
+### 2.6 Cross-Framework Comparison and Conclusion
+
+| Framework | Model | Parameters | Mean accuracy | Sample SD | Min | Max | Modified improvement |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| PyTorch | Baseline | 2,689 | 79.2398% | 0.5064 pp | 78.9474% | 79.8246% | — |
+| PyTorch | Modified | 321 | 80.4094% | 1.0129 pp | 79.8246% | 81.5789% | +1.17 pp |
+| TensorFlow | Baseline | 2,689 | 79.5322% | 3.3210 pp | 77.1930% | 83.3333% | — |
+| TensorFlow | Modified | 321 | 80.7018% | 0.8772 pp | 79.8246% | 81.5789% | +1.17 pp |
+
+Across both frameworks, the HP_ID 0 modified model achieved approximately 1.17 percentage points higher mean test accuracy while using about 88.1% fewer parameters. The baseline models showed clearer overfitting, whereas the modified models showed later or weaker overfitting behavior. TensorFlow’s mean accuracies were only about 0.29 percentage points higher than PyTorch’s, which is too small to support a conclusion that one framework was superior. Given the three-seed sample and overlapping accuracy ranges, the modified model’s advantage is modest but consistent across both implementations.
+
+The PyTorch and TensorFlow seed-9486 curves are shown in [figures/pytorch_loss_curves.png](figures/pytorch_loss_curves.png) and [figures/tensorflow_loss_curves.png](figures/tensorflow_loss_curves.png). The PyTorch baseline validation loss increased after epoch 7, while the TensorFlow baseline increased after epoch 20. The modified models showed later or weaker overfitting patterns.
