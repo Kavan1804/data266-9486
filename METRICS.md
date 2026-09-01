@@ -37,38 +37,56 @@
 
 # Dataset Inspection
 
+The headerless CSV is the transformed, approximately `[-1, 1]`-scaled dataset described in the assignment notes. Semantic names are assigned in the notebook using the matched schema. `SourceLabel=0` means diabetes and `SourceLabel=1` means no diabetes; the modeling target is `Diabetes = 1 - SourceLabel`.
+
 | Metric | Value |
 | --- | ---: |
 | Rows | 759 |
-| Columns | 9 |
+| Source columns | 9 |
 | Input features | 8 |
-| Target column | 8 |
+| Source label column | SourceLabel |
+| Final target column | Diabetes |
 | Target classes | 0, 1 |
 | Duplicate rows | 0 |
 | Total explicit missing values | 0 |
 
-## Target Class Distribution
+## Source and Final Target Distribution
 
-| Class | Count | Percentage |
-| ---: | ---: | ---: |
-| 0 | 263 | 34.6509% |
-| 1 | 496 | 65.3491% |
+| Label | Meaning | Count | Percentage |
+| --- | --- | ---: | ---: |
+| SourceLabel 0 | diabetes | 263 | 34.6509% |
+| SourceLabel 1 | no diabetes | 496 | 65.3491% |
+| Diabetes 0 | no diabetes | 496 | 65.3491% |
+| Diabetes 1 | diabetes | 263 | 34.6509% |
 
-## Suspicious Zero Values
+## Zero-Value Treatment
 
-The supplied CSV is headerless, so the feature columns below use their standard order and numeric column indices. Zero is valid for pregnancy count (column 0) and the binary target (column 8). Suspicious measurement zeros are retained for inspection and will be handled during preprocessing.
+Valid zeros are preserved in Pregnancies, DiabetesPedigreeFunction, and Age. SourceLabel is a valid binary label. Zero is treated as a missing-value sentinel only in the five medical measurement columns below.
 
-| Column / standard feature | Zero count |
+| Column | Zero count |
 | --- | ---: |
-| 0 / pregnancies | 111 |
-| 1 / glucose | 5 |
-| 2 / blood pressure | 35 |
-| 3 / skin thickness | 224 |
-| 4 / insulin | 371 |
-| 5 / BMI | 11 |
-| 6 / diabetes pedigree function | 1 |
-| 7 / age-like feature | 63 |
-| 8 / target | 263 |
+| Pregnancies | 111 |
+| Glucose sentinel | 5 |
+| BloodPressure sentinel | 35 |
+| SkinThickness sentinel | 224 |
+| Insulin sentinel | 371 |
+| BMI sentinel | 11 |
+| DiabetesPedigreeFunction | 1 |
+| Age | 63 |
+| SourceLabel | 263 |
+
+## Fixed Split and Preprocessing
+
+| Split | Rows | Class 0 count | Class 1 count | Class 0 percentage | Class 1 percentage |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Training | 531 | 347 | 184 | 65.3484% | 34.6516% |
+| Validation | 114 | 75 | 39 | 65.7895% | 34.2105% |
+| Testing | 114 | 74 | 40 | 64.9123% | 35.0877% |
+
+- Split uses row indices, `random_state=9486`, and stratification.
+- Train, validation, and test indices have no overlap and cover all 759 rows.
+- Median imputation and `StandardScaler` are fit on training data only.
+- Final processed feature and target arrays are `float32` with no remaining NaNs.
 
 # Neural Network Results
 

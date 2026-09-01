@@ -6,6 +6,97 @@ Step 1 Autoregressive Models Report
 UTC Timestamp: 2026-09-01T16:22:53Z
 Status: Added the autoregressive-model report section using the course lecture as guidance.
 
+STEP 3 — LEAKAGE-FREE PREPROCESSING AND FIXED SPLIT
+UTC Timestamp: 2026-09-01T17:02:53Z
+Verification command:
+python3 - <<'PY'
+from pathlib import Path
+import hashlib
+import numpy as np
+import pandas as pd
+from sklearn.impute import SimpleImputer
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+SEED = 9486
+DATA_PATH = Path('data/diabetes.csv')
+EXPECTED_SHA256 = '89e33de71cd5afdcd4fe8a722b60c4d69eb8f9b96446cea9347d735ff2df395e'
+COLUMN_NAMES = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age', 'SourceLabel']
+FEATURE_NAMES = COLUMN_NAMES[:8]
+MISSING_ZERO_COLUMNS = ['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI']
+df = pd.read_csv(DATA_PATH, header=None)
+raw_shape = df.shape
+df.columns = COLUMN_NAMES
+df['Diabetes'] = 1 - df['SourceLabel']
+X = df[FEATURE_NAMES].copy()
+y = df['Diabetes'].astype('int64').copy()
+X[MISSING_ZERO_COLUMNS] = X[MISSING_ZERO_COLUMNS].replace(0, np.nan)
+indices = np.arange(len(df))
+train_indices, temporary_indices = train_test_split(indices, test_size=0.30, random_state=SEED, stratify=y)
+validation_indices, test_indices = train_test_split(temporary_indices, test_size=0.50, random_state=SEED, stratify=y.iloc[temporary_indices])
+X_train_raw, X_val_raw, X_test_raw = X.iloc[train_indices], X.iloc[validation_indices], X.iloc[test_indices]
+y_train_int, y_val_int, y_test_int = y.iloc[train_indices], y.iloc[validation_indices], y.iloc[test_indices]
+imputer = SimpleImputer(strategy='median')
+X_train_imputed = imputer.fit_transform(X_train_raw)
+X_val_imputed = imputer.transform(X_val_raw)
+X_test_imputed = imputer.transform(X_test_raw)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train_imputed).astype(np.float32)
+X_val = scaler.transform(X_val_imputed).astype(np.float32)
+X_test = scaler.transform(X_test_imputed).astype(np.float32)
+y_train = y_train_int.to_numpy(dtype=np.float32)
+y_val = y_val_int.to_numpy(dtype=np.float32)
+y_test = y_test_int.to_numpy(dtype=np.float32)
+
+print('Dataset checksum:', hashlib.sha256(DATA_PATH.read_bytes()).hexdigest())
+print('Raw dataset shape:', raw_shape)
+print('SourceLabel counts:', df['SourceLabel'].value_counts().sort_index().to_dict())
+print('Diabetes counts:', df['Diabetes'].value_counts().sort_index().to_dict())
+print('Missing-sentinel counts:', X.isna().sum().to_dict())
+print('Split sizes:', {'train': len(train_indices), 'validation': len(validation_indices), 'test': len(test_indices)})
+for name, target in [('train', y_train_int), ('validation', y_val_int), ('test', y_test_int)]:
+    counts = target.value_counts().sort_index().to_dict()
+    percentages = (target.value_counts(normalize=True).sort_index() * 100).round(4).to_dict()
+    print(f'{name} class counts:', counts)
+    print(f'{name} class percentages:', percentages)
+print('No-overlap checks:', {
+    'train_validation': len(set(train_indices) & set(validation_indices)) == 0,
+    'train_test': len(set(train_indices) & set(test_indices)) == 0,
+    'validation_test': len(set(validation_indices) & set(test_indices)) == 0,
+})
+print('Index union size:', len(set(train_indices) | set(validation_indices) | set(test_indices)))
+print('Complete coverage:', set(train_indices) | set(validation_indices) | set(test_indices) == set(indices))
+print('NaNs remaining:', {'train': int(np.isnan(X_train).sum()), 'validation': int(np.isnan(X_val).sum()), 'test': int(np.isnan(X_test).sum())})
+print('Final dtypes:', {'X_train': str(X_train.dtype), 'X_val': str(X_val.dtype), 'X_test': str(X_test.dtype), 'y_train': str(y_train.dtype), 'y_val': str(y_val.dtype), 'y_test': str(y_test.dtype)})
+print('Training means:', np.round(X_train.mean(axis=0), 8).tolist())
+print('Training standard deviations:', np.round(X_train.std(axis=0), 8).tolist())
+PY
+
+Actual console output:
+Dataset checksum: 89e33de71cd5afdcd4fe8a722b60c4d69eb8f9b96446cea9347d735ff2df395e
+Raw dataset shape: (759, 9)
+SourceLabel counts: {0: 263, 1: 496}
+Diabetes counts: {0: 496, 1: 263}
+Missing-sentinel counts: {'Pregnancies': 0, 'Glucose': 5, 'BloodPressure': 35, 'SkinThickness': 224, 'Insulin': 371, 'BMI': 11, 'DiabetesPedigreeFunction': 0, 'Age': 0}
+Split sizes: {'train': 531, 'validation': 114, 'test': 114}
+train class counts: {0: 347, 1: 184}
+train class percentages: {0: 65.3484, 1: 34.6516}
+validation class counts: {0: 75, 1: 39}
+validation class percentages: {0: 65.7895, 1: 34.2105}
+test class counts: {0: 74, 1: 40}
+test class percentages: {0: 64.9123, 1: 35.0877}
+No-overlap checks: {'train_validation': True, 'train_test': True, 'validation_test': True}
+Index union size: 759
+Complete coverage: True
+NaNs remaining: {'train': 0, 'validation': 0, 'test': 0}
+Final dtypes: {'X_train': 'float32', 'X_val': 'float32', 'X_test': 'float32', 'y_train': 'float32', 'y_val': 'float32', 'y_test': 'float32'}
+Training means: [-9.99999993922529e-09, 0.0, -0.0, -9.99999993922529e-09, 0.0, -0.0, -0.0, 0.0]
+Training standard deviations: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+Exact split sizes: train=531, validation=114, test=114.
+No-overlap result: all pairwise checks True; union size 759; complete coverage True.
+No-remaining-NaN result: train=0, validation=0, test=0.
+
 STEP 2 — DATASET INSPECTION
 UTC Timestamp: 2026-09-01T16:42:40Z
 Inspection command:
