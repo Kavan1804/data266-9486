@@ -50,3 +50,9 @@ The class distributions overlap across all eight feature plots. The Diabetes=1 g
 ![Correlation matrix](figures/correlation_matrix.png)
 
 ![Feature distributions](figures/feature_distributions.png)
+
+### 2.4 PyTorch Experimental Method
+
+The PyTorch baseline uses hidden layers `[64, 32]`, while the HP_ID 0 modified model reduces capacity to `[32]`. Both models use ReLU hidden activations, one raw output logit, Adam with learning rate `0.001`, `BCEWithLogitsLoss`, batch size `32`, and exactly 30 epochs. The fixed preprocessed training, validation, and testing split from Step 3 is reused without re-splitting, and the three training seeds are `9486`, `9487`, and `9488`.
+
+Each run records sample-weighted training and validation losses and evaluates test accuracy only after training using a sigmoid threshold of `0.5`. The mean, minimum, maximum, and sample standard deviation of the three test accuracies will be reported after execution, with the standard deviation calculated using `np.std(accuracies, ddof=1)`. Each model/seed run will save a checkpoint containing the model state and experiment metadata. The per-run results, summary statistics, and loss-curve interpretation remain pending Colab execution.

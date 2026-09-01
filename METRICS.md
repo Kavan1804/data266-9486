@@ -117,6 +117,55 @@ EDA uses the full dataset descriptively, with zero sentinels masked only in the 
 - `figures/correlation_matrix.png` — 3197 × 2606 pixels
 - `figures/feature_distributions.png` — 4767 × 2578 pixels
 
+## PyTorch Experiment Settings
+
+Status: Pending Colab execution
+
+| Setting | Value |
+| --- | --- |
+| Baseline hidden layers | `[64, 32]` |
+| Modified hidden layers | `[32]` |
+| Learning rate | `0.001` |
+| Epochs | `30` |
+| Batch size | `32` |
+| Optimizer | Adam |
+| Loss | BCEWithLogitsLoss |
+| Activation | ReLU |
+| Output | One raw logit |
+| Device | CPU |
+| Training seeds | `9486`, `9487`, `9488` |
+| Evaluation metric | Test accuracy, sigmoid threshold `0.5` |
+| Accuracy variability | Sample standard deviation, `ddof=1` |
+| Split | Existing fixed stratified 70/15/15 split |
+
+### PyTorch Per-Run Results
+
+Pending Colab execution.
+
+| Framework | Model | Seed | Hidden Layers | Learning Rate | Epochs | Final Train Loss | Final Validation Loss | Test Accuracy |
+| --- | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| Pending | Pending | Pending | Pending | Pending | Pending | Pending | Pending | Pending |
+
+### PyTorch Summary Results
+
+Pending Colab execution.
+
+| Model | Number of Runs | Mean Test Accuracy | Sample Std. Dev. | Minimum Test Accuracy | Maximum Test Accuracy |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Baseline | Pending | Pending | Pending | Pending | Pending |
+| Modified | Pending | Pending | Pending | Pending | Pending |
+
+### Expected Checkpoints
+
+- `checkpoints/pytorch/pytorch_baseline_seed_9486.pt`
+- `checkpoints/pytorch/pytorch_baseline_seed_9487.pt`
+- `checkpoints/pytorch/pytorch_baseline_seed_9488.pt`
+- `checkpoints/pytorch/pytorch_modified_seed_9486.pt`
+- `checkpoints/pytorch/pytorch_modified_seed_9487.pt`
+- `checkpoints/pytorch/pytorch_modified_seed_9488.pt`
+
+PyTorch per-run results, summary statistics, and curve diagnostics remain Pending.
+
 # Neural Network Results
 
 Status: Pending
