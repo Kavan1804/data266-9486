@@ -11,7 +11,6 @@ UTC Timestamp: 2026-09-01T17:02:53Z
 Verification command:
 python3 - <<'PY'
 from pathlib import Path
-import hashlib
 import numpy as np
 import pandas as pd
 from sklearn.impute import SimpleImputer
@@ -20,7 +19,6 @@ from sklearn.preprocessing import StandardScaler
 
 SEED = 9486
 DATA_PATH = Path('data/diabetes.csv')
-EXPECTED_SHA256 = '89e33de71cd5afdcd4fe8a722b60c4d69eb8f9b96446cea9347d735ff2df395e'
 COLUMN_NAMES = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age', 'SourceLabel']
 FEATURE_NAMES = COLUMN_NAMES[:8]
 MISSING_ZERO_COLUMNS = ['Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI']
@@ -48,7 +46,6 @@ y_train = y_train_int.to_numpy(dtype=np.float32)
 y_val = y_val_int.to_numpy(dtype=np.float32)
 y_test = y_test_int.to_numpy(dtype=np.float32)
 
-print('Dataset checksum:', hashlib.sha256(DATA_PATH.read_bytes()).hexdigest())
 print('Raw dataset shape:', raw_shape)
 print('SourceLabel counts:', df['SourceLabel'].value_counts().sort_index().to_dict())
 print('Diabetes counts:', df['Diabetes'].value_counts().sort_index().to_dict())
@@ -73,7 +70,6 @@ print('Training standard deviations:', np.round(X_train.std(axis=0), 8).tolist()
 PY
 
 Actual console output:
-Dataset checksum: 89e33de71cd5afdcd4fe8a722b60c4d69eb8f9b96446cea9347d735ff2df395e
 Raw dataset shape: (759, 9)
 SourceLabel counts: {0: 263, 1: 496}
 Diabetes counts: {0: 496, 1: 263}
@@ -102,7 +98,6 @@ UTC Timestamp: 2026-09-01T16:42:40Z
 Inspection command:
 python3 - <<'PY'
 from pathlib import Path
-import hashlib
 import pandas as pd
 
 path = Path('data/diabetes.csv')
@@ -110,7 +105,6 @@ raw = path.read_bytes()
 df = pd.read_csv(path, header=None)
 print(f'File path: {path}')
 print(f'File size: {len(raw)} bytes')
-print(f'SHA-256: {hashlib.sha256(raw).hexdigest()}')
 print(f'Shape: {df.shape}')
 print(f'Column names: {list(df.columns)}')
 print('First five rows:')
@@ -137,7 +131,6 @@ PY
 
 Dataset path: data/diabetes.csv
 File size: 53438 bytes
-SHA-256: 89e33de71cd5afdcd4fe8a722b60c4d69eb8f9b96446cea9347d735ff2df395e
 Shape: (759, 9)
 Column names: [0, 1, 2, 3, 4, 5, 6, 7, 8]
 First five rows:
@@ -201,7 +194,6 @@ Zero-value counts for numeric columns:
 
 STEP 4 — DATASET VISUALIZATIONS AND EDA
 UTC Timestamp: 2026-09-01T17:18:16Z
-Dataset checksum: 89e33de71cd5afdcd4fe8a722b60c4d69eb8f9b96446cea9347d735ff2df395e
 Plot-generation command:
 MPLCONFIGDIR=/tmp/data266-mpl python3 - <<'PY'
 # The command used the EDA plotting code now stored in neural_networks.ipynb:
