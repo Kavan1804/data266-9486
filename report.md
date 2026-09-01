@@ -81,4 +81,24 @@ The executed loss curves are shown in [figures/pytorch_loss_curves.png](figures/
 
 The TensorFlow/Keras experiments follow the class demonstration while using the HW1-required baseline `[64, 32]` and HP_ID 0 modified `[32]` architectures, learning rate `0.001`, 30 epochs, batch size `32`, and training seeds `9486`, `9487`, and `9488`. They reuse the same fixed preprocessed split and arrays, run on the CPU, and use Adam with `loss="binary_crossentropy"` and `metrics=["accuracy"]`. Each model returns a sigmoid probability; `model.evaluate()` reports test loss and accuracy, while `model.predict()` supplies probabilities that are thresholded at `0.5` for a manual accuracy check.
 
-Each run will save a full Keras checkpoint with its configuration and seed. TensorFlow per-run results, mean accuracy, sample standard deviation, and curve interpretation remain pending Colab execution.
+The six executed runs produced the following results:
+
+| Model | Seed | Final train loss | Final validation loss | Test loss | Test accuracy |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Baseline | 9486 | 0.3907621503 | 0.5301329494 | 0.4734252095 | 0.7719298005 |
+| Baseline | 9487 | 0.3850820661 | 0.5131751895 | 0.4801962972 | 0.7807017565 |
+| Baseline | 9488 | 0.3829312623 | 0.5114467740 | 0.4625320733 | 0.8333333135 |
+| Modified | 9486 | 0.4514864385 | 0.5250613689 | 0.4339624047 | 0.7982456088 |
+| Modified | 9487 | 0.4461356103 | 0.5085556507 | 0.4465323389 | 0.8157894611 |
+| Modified | 9488 | 0.4451223900 | 0.5071377158 | 0.4554108083 | 0.8070175648 |
+
+| Model | Mean test accuracy | Sample standard deviation | Minimum | Maximum |
+| --- | ---: | ---: | ---: | ---: |
+| Baseline | 79.5322% | 3.3210 percentage points | 0.7719298005 | 0.8333333135 |
+| Modified | 80.7018% | 0.8772 percentage points | 0.7982456088 | 0.8157894611 |
+
+The baseline has 2,689 trainable parameters and the modified model has 321, an approximately 88.1% reduction. For seed 9486, the baseline minimum validation loss was 0.5240626335 at epoch 20, with final validation loss 0.5301329494, final training loss 0.3907621503, and a final validation-training gap of 0.1394. The modified minimum validation loss was 0.5250613689 at epoch 30, equal to its final validation loss, with final training loss 0.4514864385 and a final gap of 0.0736.
+
+The modified TensorFlow model achieved slightly higher mean test accuracy and substantially lower run-to-run variability while using about 88.1% fewer parameters. The baseline showed mild overfitting because validation loss reached its minimum at epoch 20 and then increased while training loss continued decreasing. The modified model’s validation loss continued decreasing through epoch 30, so there was no clear validation-loss upturn within the assigned training budget, although a train-validation gap remained. With only three seeds and overlapping accuracy ranges, the improvement should be described as modest rather than statistically conclusive.
+
+Accuracy from `model.evaluate()` was checked against manually thresholded `model.predict()` probabilities at `0.5`. The sample standard deviation uses `ddof=1`. The executed loss curves are shown in [figures/tensorflow_loss_curves.png](figures/tensorflow_loss_curves.png). Checkpoints were saved for every model and training seed.

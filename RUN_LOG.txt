@@ -270,3 +270,38 @@ STEP 6 CORRECTION — TENSORFLOW/KERAS CLASS-DEMO STRUCTURE
 UTC Timestamp: 2026-09-01T18:16:28Z
 Status: Revised the TensorFlow/Keras implementation to use the class-demo sigmoid output, `loss="binary_crossentropy"`, `metrics=["accuracy"]`, `model.fit()`, `model.evaluate()`, and `model.predict()` with a manual 0.5 threshold check.
 Execution status: TensorFlow training was not executed locally; no TensorFlow metrics, checkpoints, or loss-curve outputs were generated. The manual prediction accuracy versus `model.evaluate()` accuracy will be asserted after Colab execution.
+
+STEP 6 ARTIFACT INTEGRATION — EXECUTED COLAB RESULTS
+UTC Timestamp: 2026-09-01T18:16:28Z
+Source: Executed Colab notebook and supplied tensorflow_step6_artifacts.zip.
+TensorFlow version: 2.20.0
+Device: CPU (explicit CPU execution)
+Architectures:
+Baseline: tf.keras.Sequential(Input(8), Dense(64, activation="relu"), Dense(32, activation="relu"), Dense(1, activation="sigmoid")); trainable parameters=2689.
+Modified: tf.keras.Sequential(Input(8), Dense(32, activation="relu"), Dense(1, activation="sigmoid")); trainable parameters=321.
+
+Executed Colab run output:
+Baseline seed 9486: final_train_loss=0.3907621502876282, final_validation_loss=0.5301329493522644, test_accuracy=0.7719298005104065, test_loss=0.4734252095222473
+Baseline seed 9487: final_train_loss=0.38508206605911255, final_validation_loss=0.5131751894950867, test_accuracy=0.780701756477356, test_loss=0.4801962971687317
+Baseline seed 9488: final_train_loss=0.38293126225471497, final_validation_loss=0.5114467740058899, test_accuracy=0.8333333134651184, test_loss=0.46253207325935364
+Modified seed 9486: final_train_loss=0.4514864385128021, final_validation_loss=0.5250613689422607, test_accuracy=0.7982456088066101, test_loss=0.4339624047279358
+Modified seed 9487: final_train_loss=0.44613561034202576, final_validation_loss=0.5085556507110596, test_accuracy=0.8157894611358643, test_loss=0.44653233885765076
+Modified seed 9488: final_train_loss=0.4451223909854889, final_validation_loss=0.5071377158164978, test_accuracy=0.8070175647735596, test_loss=0.45541080832481384
+
+Summary statistics (sample standard deviation, ddof=1):
+Baseline: mean_accuracy=0.7953216234842936, sample_std=approximately 0.033210, minimum=0.7719298005104065, maximum=0.8333333134651184.
+Modified: mean_accuracy=0.8070175449053446, sample_std=approximately 0.008772, minimum=0.7982456088066101, maximum=0.8157894611358643.
+
+Seed-9486 curve diagnostics:
+Baseline: minimum_validation_epoch=20, minimum_validation_loss=0.5240626335144043, final_validation_loss=0.5301329493522644, final_training_loss=0.3907621502876282, final_validation_training_gap=0.13937079906463623.
+Modified: minimum_validation_epoch=30, minimum_validation_loss=0.5250613689422607, final_validation_loss=0.5250613689422607, final_training_loss=0.4514864385128021, final_validation_training_gap=0.07357493042945862.
+
+Checkpoint files and sizes:
+checkpoints/tensorflow/tensorflow_baseline_seed_9486.keras: 57794 bytes
+checkpoints/tensorflow/tensorflow_baseline_seed_9487.keras: 57794 bytes
+checkpoints/tensorflow/tensorflow_baseline_seed_9488.keras: 57794 bytes
+checkpoints/tensorflow/tensorflow_modified_seed_9486.keras: 24821 bytes
+checkpoints/tensorflow/tensorflow_modified_seed_9487.keras: 24821 bytes
+checkpoints/tensorflow/tensorflow_modified_seed_9488.keras: 24821 bytes
+Loss figure: figures/tensorflow_loss_curves.png, dimensions=2970 x 1765, bytes=263506.
+TensorFlow produced retracing warnings during repeated model.predict() calls, but training and evaluation completed and manually thresholded prediction accuracy matched model.evaluate() accuracy.

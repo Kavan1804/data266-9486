@@ -197,13 +197,32 @@ Status: Pending Colab execution
 
 ### TensorFlow Per-Run Results
 
-Pending Colab execution.
+| Framework | Model | Seed | Hidden Layers | Learning Rate | Epochs | Final Train Loss | Final Validation Loss | Test Accuracy | Test Loss |
+| --- | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| TensorFlow | Baseline | 9486 | `[64, 32]` | 0.001 | 30 | 0.3907621503 | 0.5301329494 | 0.7719298005 | 0.4734252095 |
+| TensorFlow | Baseline | 9487 | `[64, 32]` | 0.001 | 30 | 0.3850820661 | 0.5131751895 | 0.7807017565 | 0.4801962972 |
+| TensorFlow | Baseline | 9488 | `[64, 32]` | 0.001 | 30 | 0.3829312623 | 0.5114467740 | 0.8333333135 | 0.4625320733 |
+| TensorFlow | Modified | 9486 | `[32]` | 0.001 | 30 | 0.4514864385 | 0.5250613689 | 0.7982456088 | 0.4339624047 |
+| TensorFlow | Modified | 9487 | `[32]` | 0.001 | 30 | 0.4461356103 | 0.5085556507 | 0.8157894611 | 0.4465323389 |
+| TensorFlow | Modified | 9488 | `[32]` | 0.001 | 30 | 0.4451223900 | 0.5071377158 | 0.8070175648 | 0.4554108083 |
 
 ### TensorFlow Summary Results
 
-Pending Colab execution.
+| Model | Number of Runs | Mean Accuracy | Sample Std. Dev. | Minimum | Maximum |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Baseline | 3 | 0.7953216235 (79.5322%) | 0.033210 (3.3210 pp) | 0.7719298005 | 0.8333333135 |
+| Modified | 3 | 0.8070175449 (80.7018%) | 0.008772 (0.8772 pp) | 0.7982456088 | 0.8157894611 |
 
-### Expected TensorFlow Checkpoints
+Mean improvement: approximately 1.17 percentage points. Accuracy variability uses sample standard deviation with `ddof=1`.
+
+### TensorFlow Parameters and Curve Diagnostics
+
+| Model | Trainable parameters | Minimum validation-loss epoch | Minimum validation loss | Final validation loss | Final training loss | Final validation-training gap |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Baseline | 2,689 | 20 | 0.5240626335 | 0.5301329494 | 0.3907621503 | 0.1393707991 |
+| Modified | 321 | 30 | 0.5250613689 | 0.5250613689 | 0.4514864385 | 0.0735749304 |
+
+### TensorFlow Checkpoints
 
 - `checkpoints/tensorflow/tensorflow_baseline_seed_9486.keras`
 - `checkpoints/tensorflow/tensorflow_baseline_seed_9487.keras`
