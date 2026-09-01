@@ -13,8 +13,8 @@
 #include <vector>
 
 constexpr int TILE_SIZE = 16;
-constexpr float ABS_TOLERANCE = 1.0e-2f;
-constexpr float REL_TOLERANCE = 1.0e-3f;
+constexpr float ABS_TOL = 1.0e-3f;
+constexpr float REL_TOL = 1.0e-3f;
 
 #define CUDA_CHECK(call)                                                        \
     do {                                                                        \
@@ -152,8 +152,15 @@ Errors compare_results(const std::vector<float>& reference, const std::vector<fl
         errors.maximum_absolute = std::max(errors.maximum_absolute, absolute);
         errors.maximum_relative = std::max(errors.maximum_relative, relative);
     }
-    errors.valid = errors.maximum_absolute <= ABS_TOLERANCE &&
-                   errors.maximum_relative <= REL_TOLERANCE;
+    errors.valid = true;
+    for (std::size_t index = 0; index < reference.size(); ++index) {
+        const float absolute = std::fabs(reference[index] - result[index]);
+        const float allowed = ABS_TOL + REL_TOL * std::fabs(reference[index]);
+        if (absolute > allowed) {
+            errors.valid = false;
+            break;
+        }
+    }
     return errors;
 }
 

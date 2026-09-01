@@ -322,3 +322,8 @@ STEP CUDA — CUDA MATRIX-MULTIPLICATION IMPLEMENTATION
 UTC Timestamp: 2026-09-01T18:57:25Z
 Status: Implemented the CUDA tiled matrix-multiplication kernel, OpenBLAS CPU reference, correctness checks, separated median timing methodology, CLI options, and profiler fallback notebook logic.
 Execution status: CUDA was not executed locally because this Mac has no NVIDIA CUDA environment. Compilation, benchmark measurements, and profiler output remain Pending Colab GPU execution. No fabricated CUDA output was added.
+
+CUDA CORRECTION — FLOATING-POINT CORRECTNESS VALIDATION
+UTC Timestamp: 2026-09-01T19:12:09Z
+Status: Changed CUDA correctness validation to use the combined per-element bound ABS_TOL + REL_TOL * abs(cpu_value), with ABS_TOL=1e-3f and REL_TOL=1e-3f. Maximum relative error remains diagnostic and no new CUDA measurements were added.
+Execution status: CUDA was not executed locally; validation of the corrected program remains deferred to Colab GPU execution.
