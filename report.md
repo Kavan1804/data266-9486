@@ -26,3 +26,11 @@ For example, an AR(2) temperature model predicts today's temperature using the t
 AR models are relatively simple and computationally efficient, and their coefficients are interpretable. They often capture useful short-term dependencies in sequential data. They work best when the time series is reasonably stationary, meaning properties such as its mean and variance remain stable over time.
 
 Source: DATA 266 course lecture, “01-Intro-NN-CUDA,” slides 54–59.
+
+## 2. Diabetes Dataset and Neural Networks
+
+### 2.1 Dataset Overview
+
+The supplied diabetes CSV contains 759 rows and 9 columns. Because it has no header row, the columns are indexed from 0 through 8. The first 8 columns are input features, and column 8 is the final binary target column representing the diabetes outcome. The target contains 263 class-0 observations (34.6509%) and 496 class-1 observations (65.3491%).
+
+The dataset contains no explicit missing values and no duplicate rows. It does contain zero values that may be suspicious for medical measurements: under the standard feature order, glucose (column 1) has 5, blood pressure (column 2) has 35, skin thickness (column 3) has 224, insulin (column 4) has 371, and BMI (column 5) has 11. The age-like column 7 also contains 63 zeros. Zero is valid for the pregnancy-count feature and for the binary target. These suspicious zeros will be handled during preprocessing rather than changed during inspection. Preprocessing and data splitting will be performed in the next stage; no model accuracy or preprocessing results are reported here.

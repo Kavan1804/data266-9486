@@ -5,3 +5,105 @@ Status: Completed local repository setup and Step 0 scaffold creation.
 Step 1 Autoregressive Models Report
 UTC Timestamp: 2026-09-01T16:22:53Z
 Status: Added the autoregressive-model report section using the course lecture as guidance.
+
+STEP 2 — DATASET INSPECTION
+UTC Timestamp: 2026-09-01T16:42:40Z
+Inspection command:
+python3 - <<'PY'
+from pathlib import Path
+import hashlib
+import pandas as pd
+
+path = Path('data/diabetes.csv')
+raw = path.read_bytes()
+df = pd.read_csv(path, header=None)
+print(f'File path: {path}')
+print(f'File size: {len(raw)} bytes')
+print(f'SHA-256: {hashlib.sha256(raw).hexdigest()}')
+print(f'Shape: {df.shape}')
+print(f'Column names: {list(df.columns)}')
+print('First five rows:')
+print(df.head().to_string(index=False, header=False))
+print('Data types:')
+print(df.dtypes.to_string())
+print('Descriptive statistics:')
+print(df.describe().T.to_string())
+print('Missing-value counts:')
+print(df.isna().sum().to_string())
+print(f'Duplicate rows: {int(df.duplicated().sum())}')
+target = df.columns[-1]
+print(f'Confirmed target column: {target}')
+print(f'Target unique values: {sorted(df[target].dropna().unique().tolist())}')
+counts = df[target].value_counts().sort_index()
+percentages = (df[target].value_counts(normalize=True).sort_index() * 100).round(4)
+print('Target class counts:')
+print(counts.to_string())
+print('Target class percentages:')
+print(percentages.to_string())
+print('Zero-value counts for numeric columns:')
+print((df.select_dtypes(include='number') == 0).sum().to_string())
+PY
+
+Dataset path: data/diabetes.csv
+File size: 53438 bytes
+SHA-256: 89e33de71cd5afdcd4fe8a722b60c4d69eb8f9b96446cea9347d735ff2df395e
+Shape: (759, 9)
+Column names: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+First five rows:
+-0.294118  0.487437  0.180328 -0.292929  0.000000  0.001490 -0.531170 -0.033333 0
+-0.882353 -0.145729  0.081967 -0.414141  0.000000 -0.207153 -0.766866 -0.666667 1
+-0.058824  0.839196  0.049180  0.000000  0.000000 -0.305514 -0.492741 -0.633333 0
+-0.882353 -0.105528  0.081967 -0.535354 -0.777778 -0.162444 -0.923997  0.000000 1
+ 0.000000  0.376884 -0.344262 -0.292929 -0.602837  0.284650  0.887276 -0.600000 0
+Data types:
+0    float64
+1    float64
+2    float64
+3    float64
+4    float64
+5    float64
+6    float64
+7    float64
+8      int64
+Descriptive statistics:
+   count      mean       std       min       25%       50%       75%  max
+0  759.0 -0.407657  0.386260 -0.882353 -0.764706 -0.529412  0.000000  1.0
+1  759.0  0.218563  0.306419 -0.557789 -0.005025  0.165829  0.407035  1.0
+2  759.0  0.176505  0.201287 -0.606557  0.016393  0.180328  0.311475  1.0
+3  759.0 -0.289735  0.258480 -0.858586 -0.494949 -0.292929  0.000000  1.0
+4  759.0 -0.323534  0.375544 -0.966903 -0.716312  0.000000  0.000000  1.0
+5  759.0 -0.032245  0.205376 -0.457526 -0.178837 -0.034277  0.087929  1.0
+6  759.0 -0.663253  0.283056 -0.994876 -0.858241 -0.747225 -0.531597  1.0
+7  759.0 -0.516162  0.400794 -0.966667 -0.866667 -0.633333 -0.233333  1.0
+8  759.0  0.653491  0.476171  0.000000  0.000000  1.000000  1.000000  1.0
+Missing-value counts:
+0    0
+1    0
+2    0
+3    0
+4    0
+5    0
+6    0
+7    0
+8    0
+Duplicate rows: 0
+Confirmed target column: 8
+Target unique values: [0, 1]
+Target class counts:
+8
+0    263
+1    496
+Target class percentages:
+8
+0    34.6509
+1    65.3491
+Zero-value counts for numeric columns:
+0    111
+1      5
+2     35
+3    224
+4    371
+5     11
+6      1
+7     63
+8    263
