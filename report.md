@@ -40,3 +40,13 @@ The dataset contains no explicit missing values and no duplicate rows. Its featu
 The provided features were already scaled approximately to `[-1, 1]`, but the five medically invalid zero sentinels are first replaced with missing values. The source label is remapped with `Diabetes = 1 - SourceLabel`, making class 1 the diabetes class. Pregnancies, DiabetesPedigreeFunction, and Age retain their valid zeros.
 
 Using `random_state=9486` and stratification, row indices are split once into 531 training rows, 114 validation rows, and 114 testing rows. A median imputer is fit only on the training features, then used to transform validation and test features. A `StandardScaler` is likewise fit only on the imputed training features and then applied to all three subsets. This creates leakage-free float32 arrays that will be shared by the PyTorch and TensorFlow experiments. The exact split sizes and class counts are recorded in `METRICS.md`; model results are not yet available.
+
+### 2.3 Exploratory Data Analysis
+
+For exploratory analysis, the full dataset is used descriptively rather than for model fitting. Zero is replaced by missing values only in Glucose, BloodPressure, SkinThickness, Insulin, and BMI; valid zeros in the other features are preserved. The Pearson correlations with `Diabetes`, sorted by absolute magnitude, are Glucose (0.491538), BMI (0.315051), Insulin (0.303797), SkinThickness (0.262079), Pregnancies (0.218405), BloodPressure (0.169221), DiabetesPedigreeFunction (0.163246), and Age (0.112565). These are positive, mostly weak-to-moderate linear associations and do not establish causation.
+
+The class distributions overlap across all eight feature plots. The Diabetes=1 group appears shifted toward higher scaled values for Glucose, BMI, Insulin, and Pregnancies, but these are descriptive visual patterns rather than claims of statistical significance. Insulin and SkinThickness have substantial missing-sentinel counts, so their distributions use fewer observations and require caution. The target classes are moderately imbalanced: Diabetes=0 has 496 observations and Diabetes=1 has 263.
+
+![Correlation matrix](figures/correlation_matrix.png)
+
+![Feature distributions](figures/feature_distributions.png)

@@ -88,6 +88,35 @@ Valid zeros are preserved in Pregnancies, DiabetesPedigreeFunction, and Age. Sou
 - Median imputation and `StandardScaler` are fit on training data only.
 - Final processed feature and target arrays are `float32` with no remaining NaNs.
 
+## Exploratory Data Analysis
+
+EDA uses the full dataset descriptively, with zero sentinels masked only in the five affected medical measurement columns. Correlations use pairwise-complete observations.
+
+### Target Class Distribution
+
+| Diabetes class | Count | Percentage |
+| ---: | ---: | ---: |
+| 0 | 496 | 65.3491% |
+| 1 | 263 | 34.6509% |
+
+### Feature-to-Target Correlations
+
+| Feature | Pearson correlation with Diabetes | Non-missing observations |
+| --- | ---: | ---: |
+| Glucose | 0.491538 | 754 |
+| BMI | 0.315051 | 748 |
+| Insulin | 0.303797 | 388 |
+| SkinThickness | 0.262079 | 535 |
+| Pregnancies | 0.218405 | 759 |
+| BloodPressure | 0.169221 | 724 |
+| DiabetesPedigreeFunction | 0.163246 | 759 |
+| Age | 0.112565 | 759 |
+
+### Generated Figures
+
+- `figures/correlation_matrix.png` — 3197 × 2606 pixels
+- `figures/feature_distributions.png` — 4767 × 2578 pixels
+
 # Neural Network Results
 
 Status: Pending

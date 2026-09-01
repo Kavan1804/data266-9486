@@ -198,3 +198,33 @@ Zero-value counts for numeric columns:
 6      1
 7     63
 8    263
+
+STEP 4 — DATASET VISUALIZATIONS AND EDA
+UTC Timestamp: 2026-09-01T17:18:16Z
+Dataset checksum: 89e33de71cd5afdcd4fe8a722b60c4d69eb8f9b96446cea9347d735ff2df395e
+Plot-generation command:
+MPLCONFIGDIR=/tmp/data266-mpl python3 - <<'PY'
+# The command used the EDA plotting code now stored in neural_networks.ipynb:
+# headerless load, semantic column names, Diabetes=1-SourceLabel, sentinel masking,
+# seaborn correlation heatmap, and seaborn 2x4 feature-distribution grid.
+PY
+
+Actual feature-to-target correlation output:
+Glucose                     0.491538
+BMI                         0.315051
+Insulin                     0.303797
+SkinThickness               0.262079
+Pregnancies                 0.218405
+BloodPressure               0.169221
+DiabetesPedigreeFunction    0.163246
+Age                         0.112565
+
+Target class output:
+Diabetes=0: 496 (65.3491%)
+Diabetes=1: 263 (34.6509%)
+
+Figure validation output:
+figures/correlation_matrix.png: format=PNG, dimensions=3197 x 2606, bytes=437685
+figures/feature_distributions.png: format=PNG, dimensions=4767 x 2578, bytes=306111
+Both PNG files were non-empty, valid PNGs, and passed the resolution checks.
+Visual inspection: titles, labels, legends, tick labels, and subplot contents were readable; no blank plots or visible clipping were found.
