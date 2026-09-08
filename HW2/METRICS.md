@@ -56,6 +56,34 @@
 
 ## Part 2 — LangChain RAG
 
+### Implementation and Execution Status
+
+| Item | Status |
+| --- | --- |
+| Implementation | Complete; explicit guarded loader, splitter, embedding, FAISS, retriever, context formatter, prompt, and LLM functions are present. |
+| Execution | Not executed in this repository setup. No retrieval, answer, ranking, success-rate, or failure values are recorded. |
+| Document loader | `langchain_community.document_loaders.WikipediaLoader`; ten exact configured movie titles. |
+| Primary chunking | 500 characters / 50-character overlap. |
+| Alternate chunking | 800 characters / 100-character overlap; exactly the Inception and The Godfather questions. |
+| Embedding model | `sentence-transformers/all-MiniLM-L6-v2` — instantiated only when `run_part2()` is called. |
+| Vector store | FAISS. |
+| LLM | `google/flan-t5-base` through a local Transformers text-to-text-generation pipeline — instantiated only when `run_part2()` is called. |
+| Reproducibility | `SEED=9486`; Transformers `set_seed(9486)` and deterministic (`do_sample=False`) generation. |
+| Manual evaluation | Required after inspection of actual complete retrieved passages; keyword matching alone is not accepted. |
+
+### Required Source Documents
+
+1. Inception
+2. The Godfather
+3. Titanic (1997 film)
+4. The Dark Knight
+5. Pulp Fiction
+6. Forrest Gump
+7. The Matrix
+8. Interstellar
+9. Parasite (2019 film)
+10. Gladiator (2000 film)
+
 | Configuration | Value |
 | --- | --- |
 | Document loader and ten source documents | TBD |

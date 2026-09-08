@@ -28,3 +28,15 @@ Inputs: Expected read-only CSV locations are `../IMDB Dataset.csv`, `../../IMDB 
 Outputs/artifacts: No Part 1 result files generated because the pretrained model was not loaded and training was not run.
 Warnings/limitations: The notebook never downloads the approximately 1.6 GB Google News model. Gensim is configured with seed 9486 and one worker, but training may still vary across library versions and hardware.
 Validation: Notebook JSON and source structure pending static validation; no numerical output claimed.
+
+STEP 3 — PART 2 IMPLEMENTATION SCAFFOLD
+UTC Timestamp: [not executed]
+Status: Completed implementation; Wikipedia retrieval and local-model execution intentionally deferred.
+Environment: Not evaluated; no packages installed or changed.
+Device: Not evaluated. Future configuration selects CUDA when available, otherwise CPU.
+Seed: 9486 configured through centralized setup and Transformers `set_seed(9486)`; generation uses `do_sample=False`.
+Command or notebook cells: Added guarded `WikipediaLoader` loading for ten exact titles, JSON document caching, 500/50 and 800/100 chunking, all-MiniLM-L6-v2 embeddings, FAISS, explicit retriever/context formatter/PromptTemplate/google-flan-t5-base generation, alternate chunk comparison, and manual-evaluation/failure-analysis functions.
+Inputs: Live Wikipedia pages and Hugging Face model weights are requested only by a later call to `run_part2()` in an approved environment.
+Outputs/artifacts: No Part 2 artifacts generated. Future actual outputs are `cached_documents.json`, `chunk_manifest.csv`, `retrieval_results.json`, `retrieval_evaluation.csv`, `chunking_comparison.csv`, and `rag_configuration.json` under `artifacts/part2/`.
+Warnings/limitations: Wikipedia content and retrieval rankings can change over time. Manual passage inspection is required before assigning relevance, ranks, success rate, or genuine failure analyses.
+Validation: Notebook JSON and Python source syntax passed static validation; no numerical output claimed.
