@@ -13,3 +13,4 @@ venv/
 *.pb
 *.tfevents
 
+HW2/data/IMDB Dataset.csv
