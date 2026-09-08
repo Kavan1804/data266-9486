@@ -1,0 +1,10 @@
+{
+  "seed": 9486,
+  "dataset_path": "data/IMDB Dataset.csv",
+  "reviews_used": 10000,
+  "window": 5,
+  "min_count": 2,
+  "epochs": 5,
+  "workers": 4,
+  "shared_words_initialized": 26556
+}

@@ -1,0 +1,6 @@
+question,expected_keyword,top3_contains_required_information,rank_of_first_relevant_chunk
+"Who directed Inception, and what is its central plot concept?",christopher nolan,True,1.0
+Who played Don Vito Corleone in The Godfather?,marlon brando,True,1.0
+What ship is central to the story of Titanic?,rms titanic,False,
+Who is the main antagonist in The Dark Knight?,joker,False,
+What major Oscar award did Parasite win?,best picture,True,2.0

@@ -1,0 +1,39 @@
+{
+  "seed": 9486,
+  "movies": [
+    "Inception",
+    "The Godfather",
+    "Titanic (1997 film)",
+    "The Dark Knight",
+    "Pulp Fiction",
+    "Forrest Gump",
+    "The Matrix",
+    "Interstellar",
+    "Parasite (2019 film)",
+    "Gladiator (2000 film)"
+  ],
+  "primary_chunking": [
+    500,
+    50
+  ],
+  "alternate_chunking": [
+    800,
+    100
+  ],
+  "top_k": 3,
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "vectorstore": "FAISS",
+  "llm": "google/flan-t5-base",
+  "questions": [
+    "Who directed Inception, and what is its central plot concept?",
+    "Who played Don Vito Corleone in The Godfather?",
+    "What ship is central to the story of Titanic?",
+    "Who is the main antagonist in The Dark Knight?",
+    "What major Oscar award did Parasite win?"
+  ],
+  "alternate_questions": [
+    "Who directed Inception, and what is its central plot concept?",
+    "Who played Don Vito Corleone in The Godfather?"
+  ],
+  "retrieval_success_rate": 0.6
+}

@@ -1,0 +1,2 @@
+Most shifted: review | similarity=0.609045 | shift=0.390955
+Least shifted: cast | similarity=0.781051 | shift=0.218949

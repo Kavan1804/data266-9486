@@ -1,0 +1,11 @@
+technique,configuration,device,time_seconds,peak_memory_mb,final_loss
+Tensor creation,CPU tensor creation,cpu,0.323885417999918,,
+Tensor creation,GPU tensor creation,cuda,0.012794596999810892,1059.21142578125,
+Weight initialization,PyTorch default initialization,cuda,0.286958040999707,1061.3046875,2.3099021911621094
+Weight initialization,Xavier uniform initialization,cuda,0.06252472399955877,1061.3046875,2.318031072616577
+Activation checkpointing,No checkpointing,cuda,0.13419418500052416,1070.0888671875,2.3034274578094482
+Activation checkpointing,Activation checkpointing,cuda,0.2600495039996531,1071.0888671875,2.3034274578094482
+Gradient accumulation,Standard training,cuda,0.06916001500030688,1062.3046875,2.3099021911621094
+Gradient accumulation,4 x 16 micro-batches,cuda,0.2125169349992575,1062.3046875,2.3289968967437744
+Mixed precision,Full precision,cuda,0.06644146000053297,1062.3046875,2.3099021911621094
+Mixed precision,CUDA mixed precision,cuda,0.31926179499987484,1062.30615234375,2.310821533203125

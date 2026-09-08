@@ -1,0 +1,20 @@
+{
+  "seed": 9486,
+  "pytorch_version": "2.11.0+cu128",
+  "device": "cuda",
+  "cuda_available": true,
+  "input_dim": 128,
+  "hidden_dim": 256,
+  "output_dim": 10,
+  "batch_size": 64,
+  "training_steps": 40,
+  "learning_rate": 0.001,
+  "optimizer": "Adam",
+  "tensor_shape": [
+    4096,
+    512
+  ],
+  "tensor_iterations": 25,
+  "accumulation_steps": 4,
+  "micro_batch_size": 16
+}
