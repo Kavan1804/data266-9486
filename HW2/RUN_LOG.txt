@@ -5,50 +5,62 @@ Personal seed: 9486
 
 Use one entry per meaningful run. Record observed information only; do not add planned or invented results.
 
-STEP [number] — [title]
-UTC Timestamp: [YYYY-MM-DDTHH:MM:SSZ]
-Status: [planned | completed | skipped | failed]
-Environment: [Python, package versions, OS/Colab runtime]
-Device: [CPU/GPU/MPS and model where applicable]
+STEP 1 — COLAB ENVIRONMENT AND PACKAGE SETUP
+UTC Timestamp: 2026-09-08T20:00:00Z (approximate Colab session day)
+Status: completed
+Environment: Google Colab; Python 3.13; packages installed via notebook pip cells (gensim, scikit-learn, matplotlib, pandas, numpy, langchain, langchain-community, langchain-huggingface, langchain-text-splitters, faiss-cpu, wikipedia, sentence-transformers, transformers pinned to 4.57.1, accelerate, beautifulsoup4, lxml, torch 2.11.0+cu128).
+Device: CUDA available; GPU name Tesla T4; LLM device cuda:0.
 Seed: 9486
-Command or notebook cells: [exact command/cells]
-Inputs: [paths, source provenance, bounded subset details]
-Outputs/artifacts: [paths]
-Warnings/limitations: [if any]
-Validation: [checks and observed outcome]
+Command or notebook cells: Personal-parameter cell; reproducibility cell; Part 1–3 install/import cells.
+Inputs: Uploaded/local IMDB CSV at /content/IMDB Dataset.csv; Gensim Google News vectors; Hugging Face flan-t5-base and MiniLM; live Wikipedia HTML via WebBaseLoader.
+Outputs/artifacts: none yet
+Warnings/limitations: HF_TOKEN warning (public models still loaded); USER_AGENT warning for WebBaseLoader.
+Validation: Device print confirmed cuda and Tesla T4.
 
-STEP 2 — PART 1 IMPLEMENTATION SCAFFOLD
-UTC Timestamp: [not executed]
-Status: Completed implementation; experiment execution intentionally deferred.
-Environment: Not evaluated; no packages installed or changed.
-Device: Not evaluated.
-Seed: 9486 configured in notebook functions and centralized reproducibility setup.
-Command or notebook cells: Added local CSV discovery, guarded local-only Google News model loading, IMDB tokenization, fine-tuning and analysis functions, t-SNE export, and actual-result artifact writers.
-Inputs: Expected read-only CSV locations are `../IMDB Dataset.csv`, `../../IMDB Dataset.csv`, and `data/hw2/IMDB Dataset.csv`. Pretrained model must be explicitly supplied locally or already present in an inspected standard Gensim cache.
-Outputs/artifacts: No Part 1 result files generated because the pretrained model was not loaded and training was not run.
-Warnings/limitations: The notebook never downloads the approximately 1.6 GB Google News model. Gensim is configured with seed 9486 and one worker, but training may still vary across library versions and hardware.
-Validation: Notebook JSON and source structure pending static validation; no numerical output claimed.
+STEP 2 — PART 1 EXECUTION (WORD2VEC + IMDB)
+UTC Timestamp: 2026-09-08T20:15:00Z (approximate)
+Status: completed after CSV parser correction
+Environment: same Colab session
+Device: CPU for Gensim training; seed 9486
+Seed: 9486
+Command or notebook cells: Load word2vec-google-news-300; baseline neighbors; read IMDB; tokenize 10,000 reviews; Word2Vec window=5 min_count=2 epochs=5 workers=4; neighbor comparison; vector shift; t-SNE; artifact save.
+Inputs: word2vec-google-news-300 (vocab 3,000,000, dim 300); IMDB 50,000 rows; N_REVIEWS=10000.
+Outputs/artifacts: artifacts/part1/*.csv|json|txt; figures/hw2/part1_embedding_shift_tsne.png
+Warnings/limitations: Initial pandas C-engine read raised ParserError on IMDB CSV; corrected with engine="python". Most shifted=review; least shifted=cast.
+Validation: Printed reviews used=10000; shared words initialized=26556; tables match saved CSVs.
 
-STEP 3 — PART 2 IMPLEMENTATION SCAFFOLD
-UTC Timestamp: [not executed]
-Status: Completed implementation; Wikipedia retrieval and local-model execution intentionally deferred.
-Environment: Not evaluated; no packages installed or changed.
-Device: Not evaluated. Future configuration selects CUDA when available, otherwise CPU.
-Seed: 9486 configured through centralized setup and Transformers `set_seed(9486)`; generation uses `do_sample=False`.
-Command or notebook cells: Added guarded `WikipediaLoader` loading for ten exact titles, JSON document caching, 500/50 and 800/100 chunking, all-MiniLM-L6-v2 embeddings, FAISS, explicit retriever/context formatter/PromptTemplate/google-flan-t5-base generation, alternate chunk comparison, and manual-evaluation/failure-analysis functions.
-Inputs: Live Wikipedia pages and Hugging Face model weights are requested only by a later call to `run_part2()` in an approved environment.
-Outputs/artifacts: No Part 2 artifacts generated. Future actual outputs are `cached_documents.json`, `chunk_manifest.csv`, `retrieval_results.json`, `retrieval_evaluation.csv`, `chunking_comparison.csv`, and `rag_configuration.json` under `artifacts/part2/`.
-Warnings/limitations: Wikipedia content and retrieval rankings can change over time. Manual passage inspection is required before assigning relevance, ranks, success rate, or genuine failure analyses.
-Validation: Notebook JSON and Python source syntax passed static validation; no numerical output claimed.
+STEP 3 — PART 2 EXECUTION (RAG)
+UTC Timestamp: 2026-09-08T20:45:00Z (approximate)
+Status: completed after loader and transformers corrections
+Environment: same Colab session; transformers==4.57.1 after uninstall/reinstall
+Device: cuda:0 for flan-t5-base
+Seed: 9486; set_seed(9486); do_sample=False
+Command or notebook cells: Install/import; attempt WikipediaLoader; switch to WebBaseLoader URLs; split 500/50 (3411 chunks); MiniLM+FAISS; PromptTemplate+retriever; five questions; alternate 800/100 for two questions; retrieval evaluation; artifact save.
+Inputs: Ten official Wikipedia URLs; embedding model sentence-transformers/all-MiniLM-L6-v2; LLM google/flan-t5-base.
+Outputs/artifacts: artifacts/part2/chunk_manifest.csv, retrieval_results.json, retrieval_evaluation.csv, chunking_comparison.csv, rag_configuration.json
+Warnings/limitations: WikipediaLoader JSONDecodeError; WebBaseLoader ingested page chrome producing many low-value chunks; Titanic and Dark Knight retrieval failures on manual inspection.
+Validation: Loaded 10 documents; Retrieval Success Rate 3/5 = 60.00%; answers Christopher Nolan / Marlon Brando / Titanic / Gambol / Best Picture.
 
-STEP 4 — PART 3 IMPLEMENTATION
-UTC Timestamp: [not executed]
-Status: Completed implementation; experiment execution intentionally deferred.
-Environment: Not evaluated; no packages installed, downloaded, or changed.
-Device: The notebook reports PyTorch version, selected device, CUDA availability, and GPU name when available at execution time.
-Seed: 9486 for fixed synthetic data and paired model initializations.
-Command or notebook cells: Added direct cells for CPU/GPU tensor creation, default/Xavier initialization, activation checkpointing, standard/accumulated gradients, CUDA full/mixed precision, final results, plot, and artifact writes.
-Inputs: Fixed synthetic classification data; input dimension 128, hidden dimension 256, output dimension 10, batch size 64, 40 steps, Adam, learning rate 0.001.
-Outputs/artifacts: No Part 3 result files generated. A future run writes `artifacts/part3/optimization_results.csv`, `optimization_configuration.json`, and a final-loss figure when applicable.
-Warnings/limitations: CUDA-specific comparisons are skipped with an explicit message when CUDA is unavailable. CPU memory is recorded as unavailable rather than estimated; CUDA memory uses PyTorch peak allocated memory.
-Validation: Notebook JSON and Python source syntax passed static validation; no numerical output claimed.
+STEP 4 — PART 3 EXECUTION (OPTIMIZATION)
+UTC Timestamp: 2026-09-08T21:15:00Z (approximate)
+Status: completed
+Environment: same Colab session; PyTorch 2.11.0+cu128
+Device: cuda; Tesla T4
+Seed: 9486
+Command or notebook cells: Shared setup; CPU vs GPU tensors; Xavier; checkpointing; gradient accumulation; mixed precision; combined table; loss plot; artifact save.
+Inputs: Fixed synthetic data batch_size=64, steps=40, Adam lr=0.001.
+Outputs/artifacts: artifacts/part3/optimization_results.csv, optimization_configuration.json; figures/hw2/part3_final_loss_comparison.png
+Warnings/limitations: Small model; peak-memory differences modest; CUDA memory allocator may retain prior allocations.
+Validation: All five techniques recorded; mixed precision available and measured.
+
+STEP 5 — LOCAL ARTIFACT SYNC AND REPORT FINALIZATION
+UTC Timestamp: 2026-09-08T20:46:00Z
+Status: completed
+Environment: Local macOS workspace under HW1/HW2/
+Device: N/A (documentation only)
+Seed: 9486
+Command or notebook cells: Updated METRICS.md, RUN_LOG.txt, AI_USE.md, README.md, report.md; generated HW2_Report_9486.pdf from actual artifacts; rendered PDF pages to PNG for visual inspection.
+Inputs: Executed notebook outputs; artifacts/part{1,2,3}/; figures/hw2/
+Outputs/artifacts: HW2/report.md; HW2/HW2_Report_9486.pdf; updated HW2 docs
+Warnings/limitations: Exact Colab wall-clock timestamps were not preserved in the notebook JSON; day and sequence above are reconstructed from the executed session.
+Validation: Numeric tables cross-checked against CSV/JSON artifacts; PDF pages rendered and inspected; no Homework 1 files modified.
