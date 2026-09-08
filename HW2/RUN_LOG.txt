@@ -40,3 +40,15 @@ Inputs: Live Wikipedia pages and Hugging Face model weights are requested only b
 Outputs/artifacts: No Part 2 artifacts generated. Future actual outputs are `cached_documents.json`, `chunk_manifest.csv`, `retrieval_results.json`, `retrieval_evaluation.csv`, `chunking_comparison.csv`, and `rag_configuration.json` under `artifacts/part2/`.
 Warnings/limitations: Wikipedia content and retrieval rankings can change over time. Manual passage inspection is required before assigning relevance, ranks, success rate, or genuine failure analyses.
 Validation: Notebook JSON and Python source syntax passed static validation; no numerical output claimed.
+
+STEP 4 — PART 3 IMPLEMENTATION
+UTC Timestamp: [not executed]
+Status: Completed implementation; experiment execution intentionally deferred.
+Environment: Not evaluated; no packages installed, downloaded, or changed.
+Device: The notebook reports PyTorch version, selected device, CUDA availability, and GPU name when available at execution time.
+Seed: 9486 for fixed synthetic data and paired model initializations.
+Command or notebook cells: Added direct cells for CPU/GPU tensor creation, default/Xavier initialization, activation checkpointing, standard/accumulated gradients, CUDA full/mixed precision, final results, plot, and artifact writes.
+Inputs: Fixed synthetic classification data; input dimension 128, hidden dimension 256, output dimension 10, batch size 64, 40 steps, Adam, learning rate 0.001.
+Outputs/artifacts: No Part 3 result files generated. A future run writes `artifacts/part3/optimization_results.csv`, `optimization_configuration.json`, and a final-loss figure when applicable.
+Warnings/limitations: CUDA-specific comparisons are skipped with an explicit message when CUDA is unavailable. CPU memory is recorded as unavailable rather than estimated; CUDA memory uses PyTorch peak allocated memory.
+Validation: Notebook JSON and Python source syntax passed static validation; no numerical output claimed.

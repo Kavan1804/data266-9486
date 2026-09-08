@@ -113,6 +113,22 @@
 
 ## Part 3 — Optimization Techniques
 
+### Implementation and Execution Status
+
+| Item | Status |
+| --- | --- |
+| Implementation | Complete; direct sequential PyTorch cells cover all five required techniques. |
+| Execution | Not executed in this repository setup. No timing, memory, loss, or performance values are recorded. |
+| Seed | `SEED=9486` for synthetic-data creation and before each paired model comparison. |
+| Shared dataset | Fixed synthetic classification data with input dimension 128, output dimension 10, batch size 64, and 40 training steps. |
+| Shared training settings | Hidden dimension 256, Adam, learning rate 0.001, and fixed effective batch size 64. |
+| Tensor creation | CPU benchmark always runs; GPU comparison runs only when CUDA is available and uses synchronization around timing. |
+| Weight initialization | PyTorch default versus Xavier uniform initialization. |
+| Activation checkpointing | DeepMLP without versus with `torch.utils.checkpoint`. |
+| Gradient accumulation | Standard batch 64 versus four micro-batches of 16 with effective batch 64. |
+| Mixed precision | CUDA-only full precision versus `torch.autocast` with `torch.amp.GradScaler`; no values are fabricated without CUDA. |
+| Results artifacts | Future execution writes `artifacts/part3/optimization_results.csv` and `optimization_configuration.json`. |
+
 | Technique | Baseline / comparison | Device | Time | Memory (where available) | Loss or performance measure | Notes |
 | --- | --- | --- | ---: | ---: | --- | --- |
 | Tensor creation CPU vs. GPU | TBD | TBD | TBD | TBD | TBD | TBD |
