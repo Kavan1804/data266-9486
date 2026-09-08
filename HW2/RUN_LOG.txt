@@ -1,0 +1,30 @@
+DATA 266 Homework 2 — Run Log
+Repository: HW1/
+Assignment directory: HW1/HW2/
+Personal seed: 9486
+
+Use one entry per meaningful run. Record observed information only; do not add planned or invented results.
+
+STEP [number] — [title]
+UTC Timestamp: [YYYY-MM-DDTHH:MM:SSZ]
+Status: [planned | completed | skipped | failed]
+Environment: [Python, package versions, OS/Colab runtime]
+Device: [CPU/GPU/MPS and model where applicable]
+Seed: 9486
+Command or notebook cells: [exact command/cells]
+Inputs: [paths, source provenance, bounded subset details]
+Outputs/artifacts: [paths]
+Warnings/limitations: [if any]
+Validation: [checks and observed outcome]
+
+STEP 2 — PART 1 IMPLEMENTATION SCAFFOLD
+UTC Timestamp: [not executed]
+Status: Completed implementation; experiment execution intentionally deferred.
+Environment: Not evaluated; no packages installed or changed.
+Device: Not evaluated.
+Seed: 9486 configured in notebook functions and centralized reproducibility setup.
+Command or notebook cells: Added local CSV discovery, guarded local-only Google News model loading, IMDB tokenization, fine-tuning and analysis functions, t-SNE export, and actual-result artifact writers.
+Inputs: Expected read-only CSV locations are `../IMDB Dataset.csv`, `../../IMDB Dataset.csv`, and `data/hw2/IMDB Dataset.csv`. Pretrained model must be explicitly supplied locally or already present in an inspected standard Gensim cache.
+Outputs/artifacts: No Part 1 result files generated because the pretrained model was not loaded and training was not run.
+Warnings/limitations: The notebook never downloads the approximately 1.6 GB Google News model. Gensim is configured with seed 9486 and one worker, but training may still vary across library versions and hardware.
+Validation: Notebook JSON and source structure pending static validation; no numerical output claimed.
