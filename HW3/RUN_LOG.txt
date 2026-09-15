@@ -1,0 +1,83 @@
+Step 0 — Repository and Reference Inspection
+UTC Timestamp: 2026-09-14T21:47:00Z (approx.)
+Status: Inspected repo root, HW1/HW2 layout, and confirmed HW3/ already contained the professor-provided
+Prompt_Engineering.ipynb and Demo_3_Attention_Mechanism.ipynb. Located 03-Transformer.pptx (2).pdf in
+~/Downloads for reference. No assignment rubric PDF was found beyond the two demo notebooks and the
+standing Assignment 1 personalization parameters, confirmed with the user before implementing.
+
+Step 1 — HW3.ipynb Part 1 (Prompt Engineering) Implementation
+UTC Timestamp: 2026-09-14T22:20:00Z (approx.)
+Status: Created HW3/HW3.ipynb with the personal-parameters/seed cell (SID4=9486, SEED=9486, SLICE=486,
+HP_ID=0, CLS_A=6, CLS_B=0) followed by the six required prompting techniques (Zero-Shot, Few-Shot,
+Chain-of-Thought, Zero-Shot CoT, Meta-Prompting, Tree of Thoughts), two named prompt examples each,
+reusing the set_params()/get_completion() LangChain + ChatGoogleGenerativeAI pattern from
+Prompt_Engineering.ipynb, plus a closing comparison table. Validated with nbformat.validate() and
+ast.parse() on every code cell; not executed at this step (no GOOGLE_API_KEY / Colab available locally).
+
+Step 2 — HW3.ipynb Part 2 (Self-Attention and Causal Masking) Implementation
+UTC Timestamp: 2026-09-14T22:55:00Z (approx.)
+Status: Appended 27 cells implementing single-head scaled dot-product self-attention from scratch on the
+assignment's fixed dataset text, following Demo_3_Attention_Mechanism.ipynb: word-level tokenization,
+vocab/stoi/itos, next-token (autoregressive) targets, make_causal_mask, scaled_dot_product_attention,
+SingleHeadSelfAttentionLM (nn.Embedding + 3x nn.Linear for Q/K/V + nn.Linear Wo + nn.Linear lm_head, no
+nn.MultiheadAttention/nn.Transformer/HF classes/positional encoding/multi-head), training loop, and
+verification assertions. Markdown cells added for all seven required topics (tokenization, embeddings,
+Q/K/V, scaling by sqrt(d_k), softmax weights, next-token prediction, causal masking).
+
+Before finalizing hyperparameters, tried lr in {0.005, 0.01, 0.02} for 600 epochs (d_model=64, d_k=64,
+SEED=9486) to find stable convergence on the 46-token / 39-word-vocab dataset:
+  lr=0.005 -> final losses oscillate (0.29-0.75 range over last 10 epochs)
+  lr=0.01  -> converges smoothly and stays flat at loss ~0.031
+  lr=0.02  -> oscillates around loss ~0.61
+Selected lr=0.01, epochs=600 for the notebook based on this result.
+
+Step 3 — Local Execution via nbclient
+UTC Timestamp: 2026-09-15T06:11:20Z
+Status: First execution attempt used MPLBACKEND=Agg in the environment, which suppressed ipykernel's
+automatic inline figure capture — the two plot_attention() cells produced only a
+"FigureCanvasAgg is non-interactive" warning and no image output. Identified as an environment
+configuration issue (not a notebook bug); confirmed via a minimal nbclient test that ipykernel captures
+matplotlib figures as image/png outputs automatically when MPLBACKEND is left unset.
+
+UTC Timestamp: 2026-09-15T06:12:23Z
+Command: NotebookClient(...).execute() via nbclient 0.10.2, kernel_name="python3"
+         (/opt/anaconda3/bin/python, torch 2.14.0, numpy 2.3.5, matplotlib 3.10.6)
+Executed cells (of 56 total): [0, 1, 2] + [29..55] — the personal-parameters/seed cell and all of Part 2.
+Skipped cells: [3..28] — all of Part 1 (Prompt Engineering), left unexecuted because no GOOGLE_API_KEY /
+Colab environment is available in this session. This is a missing-credentials limitation, not an
+implementation error; those cells were left clearly marked in the notebook as requiring Colab execution.
+
+Console output (Part 2, cell order):
+  SID4 = 9486, SEED = 9486, SLICE = 486, HP_ID = 0, CLS_A = 6, CLS_B = 0
+  Using device: cpu
+  Num tokens: 46
+  Vocab size: 39
+  Causal mask (T=5) verified lower triangular: OK
+  Epoch  100 | Loss: 0.0326
+  Epoch  200 | Loss: 0.0310
+  Epoch  300 | Loss: 0.0309
+  Epoch  400 | Loss: 0.0309
+  Epoch  500 | Loss: 0.0309
+  Epoch  600 | Loss: 0.0309
+  Unmasked attention shape: (1, 46, 46)
+  Masked attention shape: (1, 46, 46)
+  [unmasked heatmap rendered — image/png output embedded in notebook]
+  [masked heatmap rendered — image/png output embedded in notebook]
+  Shape assertion passed: (1, 46, 46)
+  Row-sum assertion passed (min/max): 0.9999998807907104 1.000000238418579
+  Causal mask lower-triangular assertion passed
+  Total attention mass above diagonal (should be ~0): 0.0
+  Max single future-position weight (should be ~0): 0.0
+  Causal masking assertion passed: zero weight on all future-token positions
+
+UTC Timestamp: 2026-09-15T06:12:29Z
+Status: Execution completed with no errors on any executed cell. All four required verification
+assertions (attention shape, per-row softmax sum, causal-mask lower-triangular structure, zero weight on
+future positions) passed against the actual trained model's output. Executed notebook (with outputs,
+including the two attention heatmap images) saved to HW3/HW3.ipynb. Heatmap images additionally exported
+to HW3/figures/part2_unmasked_attention.png and HW3/figures/part2_masked_attention.png.
+
+Final Status: Part 2 (self-attention/causal masking) fully implemented, executed, and verified locally.
+Part 1 (prompt engineering) fully implemented and validated for syntax/structure, but not executed —
+requires the user to run it in Google Colab with a configured GOOGLE_API_KEY secret. No errors encountered
+in any cell that was run.
