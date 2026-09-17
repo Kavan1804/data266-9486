@@ -1,0 +1,54 @@
+DATA 266 HW2.5 — Run Log
+Repository: data266-9486/
+Assignment directory: HW2.5/
+Personal seed: 9486
+
+Use one entry per meaningful run, copying the ENTRY TEMPLATE below. Record
+observed information only; do not add planned, estimated, or invented
+results. Every GPU UUID, latency, TFLOPS, bandwidth, memory, temperature, and
+throughput value that appears in reports/METRICS.md must also appear here,
+in the entry for the run that produced it.
+
+STEP 0 — REPOSITORY SCAFFOLD CREATION
+UTC Timestamp: 2026-09-17T00:00:00Z (approximate)
+Status: completed
+Environment: Local development machine (no NVIDIA GPU present); repository structure,
+  src/ modules, notebook, scripts, and report/provenance templates created and reviewed
+  against the HW1/HW2/HW3 repository conventions already in this repo.
+Device: N/A (no CUDA device on this machine; documentation and code authoring only)
+Command or notebook cells: N/A
+Inputs: Assignment instructions for DATA 266 HW2.5.
+Outputs/artifacts: HW2.5/ directory tree, src/*.py, notebooks/HW2.5_GPU_Benchmark.ipynb,
+  scripts/*.sh, reports/METRICS.md and this file, provenance/*.md, README.md, AI_USE.md.
+Warnings/limitations: No GPU benchmark was executed at this step. All results/ subfolders
+  are empty except for placeholder directory structure; every GPU-dependent value in
+  reports/METRICS.md is marked "To be measured." Outbound network access to nvidia.com
+  was unavailable in this environment, so the vendor-documented RTX 4090 specification
+  constants in src/system_info.py could not be re-fetched from the live NVIDIA page at
+  this step and must be spot-checked on the workstation before Part A/B/C figures are
+  treated as final.
+Validation: py_compile run on every src/*.py file; notebook JSON validated for
+  well-formed nbformat v4 structure; no CUDA-dependent code was executed.
+
+=====================================================================
+ENTRY TEMPLATE — copy this block for every real run on the RTX 4090 workstation
+=====================================================================
+STEP <n> — <PART LETTER/NAME, e.g. "PART A — GPU INFO CAPTURE">
+Date and time (local + UTC):
+Command executed:
+GPU name:
+GPU UUID:
+Driver version:
+CUDA version:
+PyTorch version:
+Benchmark section: <A/B/C/D/E>
+Configuration: <matrix sizes / precisions / sequence lengths / duration, as applicable>
+Repetitions or duration:
+Output file(s):
+Status: <completed / completed with failures / failed>
+Notes or failure message: <copy any exception text verbatim; do not paraphrase away
+  the actual error>
+=====================================================================
+
+(Append real STEP entries below this line as the assignment is executed on the
+RTX 4090 workstation.)
