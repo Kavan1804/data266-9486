@@ -82,5 +82,35 @@ Validation: py_compile run on every modified src/*.py file; get_vendor_specs_for
   guessing); src.plotting --all re-confirmed to fail gracefully with no results/ data
   present. No CUDA-dependent code was executed.
 
+STEP 0c — CONSOLIDATED INTO A SINGLE NOTEBOOK (NO SEPARATE .py FILES)
+UTC Timestamp: 2026-09-18T01:00:00Z (approximate)
+Status: completed
+Environment: Local development machine (no NVIDIA GPU present); documentation and code
+  authoring only.
+Device: N/A
+Command or notebook cells: N/A
+Inputs: Request to keep this repository to a single .ipynb file with no separate Python
+  modules or shell scripts.
+Outputs/artifacts: Deleted src/*.py (system_info.py, precision_benchmarks.py,
+  bandwidth_benchmarks.py, attention_benchmarks.py, thermal_benchmark.py, plotting.py) and
+  scripts/*.sh (capture_gpu_info.sh, run_benchmarks.sh, run_thermal_test.sh); merged all of
+  their logic into one self-contained notebook, HW2.5.ipynb, at the top level of HW2.5/
+  (replacing notebooks/HW2.5_GPU_Benchmark.ipynb, which only orchestrated the now-deleted
+  modules). The GPU vendor-spec registry (KNOWN_GPU_VENDOR_SPECS + auto-detection) was
+  simplified to a single editable VENDOR_SPECS dict in the notebook's Part A section,
+  pre-filled for the RTX 4060, since a single notebook does not need a multi-card lookup
+  layer. README.md, AI_USE.md, and reports/METRICS.md updated to reference HW2.5.ipynb
+  instead of the removed src/scripts files.
+Warnings/limitations: No GPU benchmark was executed at this step. Same outstanding
+  verification need as STEP 0b: the RTX 4060's TF32/FP16/BF16 theoretical peak TFLOPS in
+  VENDOR_SPECS were derived, not read off a single vendor table.
+Validation: Every one of the notebook's 16 code cells parsed cleanly with ast.parse();
+  confirmed no leftover references to the deleted src/ modules; the non-CUDA-dependent
+  logic (roofline ridge point/classification, OOM-boundary bracketing, numpy.polyfit
+  quadratic memory fit, fused/naive speedup calculation, and the thermal
+  throttle-detection heuristic) was extracted and re-tested against synthetic data outside
+  the notebook, reproducing the same results as the pre-consolidation modules. No
+  CUDA-dependent code was executed.
+
 (Append real STEP entries below this line as the assignment is executed on the
 GPU workstation.)
