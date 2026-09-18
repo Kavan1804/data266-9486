@@ -33,35 +33,29 @@ Safe to run without a GPU: it clones the repo and lets you read the notebook, bu
 ```bash
 git clone <this-repository-url>
 cd data266-9486/HW2.5
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt   # torch install here will be CPU-only; that's fine for review
 jupyter notebook HW2.5.ipynb
 ```
 
+The notebook's first cell (`%pip install -q torch numpy pandas matplotlib`) installs everything it needs — there is no separate `requirements.txt`/`pip install -r` step. Running that cell here installs a CPU-only `torch`, which is fine for review.
+
 ## Running the Assignment — GPU Workstation ONLY
 
-Everything below requires an NVIDIA GPU, the NVIDIA driver, and CUDA-enabled PyTorch. Do not attempt it on the development machine.
+Everything below requires an NVIDIA GPU and driver. Do not attempt it on the development machine.
 
-### 1. Clone and set up the environment on the workstation
+### 1. Clone the repository on the workstation
 
 ```bash
 git clone <this-repository-url>
 cd data266-9486/HW2.5
-python3 -m venv .venv
-source .venv/bin/activate
-pip install torch --index-url https://download.pytorch.org/whl/cu121   # match the workstation's CUDA version
-pip install -r requirements.txt
 ```
 
 ### 2. Verify the GPU is visible
 
 ```bash
 nvidia-smi --query-gpu=name,uuid,driver_version --format=csv,noheader
-python3 -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"
 ```
 
-Both commands must report your GPU (e.g. "NVIDIA GeForce RTX 4090") before continuing.
+This must report your GPU (e.g. "NVIDIA GeForce RTX 4090") before continuing.
 
 ### 3. Run the notebook top to bottom
 
@@ -71,6 +65,7 @@ jupyter notebook HW2.5.ipynb
 
 Run every cell in order:
 
+- The **first cell** (`%pip install -q torch numpy pandas matplotlib`) installs everything the notebook needs — no separate environment setup step.
 - **Part A** cells capture `nvidia-smi -q` and measured hardware facts into `results/system_info/`. Edit the `VENDOR_SPECS` dict in the cell right after to match whatever card `measured_hardware_info['name']` actually reports (it's pre-filled for an RTX 4090), citing NVIDIA's official spec page.
 - **Part B–D** cells run automatically and save CSVs under `results/` plus figures under `figures/`.
 - **Part E**'s sustained-load cell blocks for ~20 minutes — let it run to completion for the real submission, then the following cells analyze and plot the log.
@@ -102,8 +97,7 @@ Do not create the `hw2-5` tag until the benchmarks have actually been executed o
 ```
 HW2.5/
 ├── README.md
-├── requirements.txt
-├── HW2.5.ipynb              # every Part A-F cell, self-contained
+├── HW2.5.ipynb              # every Part A-F cell, self-contained; first cell installs dependencies
 ├── results/                 # system_info/, precision/, bandwidth/, attention/, thermal/ — empty until executed
 ├── figures/                 # generated PNGs — empty until executed
 ├── reports/METRICS.md, RUN_LOG.txt
