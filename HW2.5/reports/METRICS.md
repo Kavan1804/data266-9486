@@ -194,11 +194,14 @@ To be filled in from `results/thermal/thermal_analysis.json` after execution. Do
 | Field | Value |
 | --- | --- |
 | Throttling occurred? | To be measured |
-| Temperature/power ceiling associated with throttling | To be measured |
+| Temperature ceiling at throttle onset (`temperature_c_at_throttle_onset`) | To be measured |
+| Power ceiling at throttle onset (`power_draw_w_at_throttle_onset`) | To be measured |
 | Throttle onset time (s, or "none") | To be measured |
 | Peak throughput, first 30 s (matmuls/s) | To be measured |
 | Steady-state throughput, final 5 min (matmuls/s) | To be measured |
 | Steady-state as % of peak throughput | To be measured |
+
+Note: `temperature_c_at_throttle_onset`/`power_draw_w_at_throttle_onset` are the sensor readings at the detected onset sample -- the ceiling the assignment asks about -- not the run's overall maximum temperature/power (also available in `thermal_analysis.json` as `max_temperature_c_observed`/`max_power_draw_w_observed` for context).
 
 ## Part F — Traceability
 

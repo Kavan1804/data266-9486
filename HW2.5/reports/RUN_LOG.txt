@@ -203,5 +203,31 @@ Validation: Simulated find_oom_boundary() offline against a fake OOM threshold n
   file. Every one of the notebook's 18 code cells re-parsed cleanly with ast.parse()
   (excluding the one %pip magic cell) after these edits.
 
+STEP 0g — REPORT THROTTLE-ONSET TEMPERATURE/POWER, NOT RUN-WIDE MAXIMUM
+UTC Timestamp: 2026-09-18T05:00:00Z (approximate)
+Status: completed
+Environment: Local development machine (no NVIDIA GPU present); documentation and code
+  authoring only.
+Device: N/A
+Command or notebook cells: N/A
+Inputs: Final line-by-line re-check of the assignment text against HW2.5.ipynb. Part E
+  asks to "Identify whether throttling occurred, at what temperature or power ceiling,
+  and how many seconds into the run" -- i.e. the sensor reading at the moment throttling
+  began, not the run's overall maximum temperature/power.
+Outputs/artifacts: analyze_thermal_log() in HW2.5.ipynb now captures temperature_c and
+  power_draw_w from the exact sample where throttle_onset_s is first detected, saved as
+  temperature_c_at_throttle_onset / power_draw_w_at_throttle_onset in
+  results/thermal/thermal_analysis.json (both "none" if no throttling is detected). The
+  prior fields (max_temperature_c_observed / max_power_draw_w_observed, the run-wide
+  maxima) are kept for context but no longer stand in for the onset-ceiling answer.
+  reports/METRICS.md's Thermal Findings table updated to ask for these two onset-specific
+  fields instead of one combined "ceiling" row.
+Warnings/limitations: No GPU benchmark was executed at this step.
+Validation: Simulated analyze_thermal_log()'s throttle-detection loop offline against a
+  synthetic log with a clear cold-to-throttled transition at t=40s (sm_clock drops,
+  temperature rises to 82C, power to 445W at that exact sample) -- confirmed it reports
+  temperature=82.0 and power=445.0 at onset, not the run's later/overall maximum. The
+  notebook's 18 code cells (17 real + 1 %pip magic) still parse/validate cleanly.
+
 (Append real STEP entries below this line as the assignment is executed on the
 GPU workstation.)
