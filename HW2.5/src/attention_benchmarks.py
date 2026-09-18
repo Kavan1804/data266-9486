@@ -10,9 +10,10 @@ Fixed configuration (documented here, not re-derived per run):
   * batch size B = 1
   * number of attention heads = 1
   * head dimension d = 64
-  * precision = bfloat16 (native Tensor Core support on the RTX 4090, and more
-    numerically forgiving than float16 for the un-scaled score matrix the
-    naive path materializes at long sequence lengths)
+  * precision = bfloat16 (native Tensor Core support across the whole Ada /
+    RTX 40-series lineup, RTX 4090 down to RTX 4060, and more numerically
+    forgiving than float16 for the un-scaled score matrix the naive path
+    materializes at long sequence lengths)
   * inference mode: all forward passes run under `torch.inference_mode()`,
     so no autograd graph or gradient buffers are allocated.
 
@@ -22,9 +23,12 @@ caught per sequence length so a failure at one length does not abort the
 sweep. After the fixed grid, the boundary between the largest succeeding and
 smallest failing length is refined with a bounded bisection search using
 additional probe points -- the exact single sequence length at which memory
-runs out is never claimed, only the bracket in which it falls.
+runs out is never claimed, only the bracket in which it falls. On a
+smaller-VRAM card (e.g. an 8 GB RTX 4060 versus a 24 GB RTX 4090) the naive
+implementation's OOM boundary will simply land at a shorter sequence length --
+the benchmark itself does not assume a particular GPU or VRAM size.
 
-Run on the RTX 4090 workstation:
+Run on the GPU workstation:
 
     python3 -m src.attention_benchmarks
 """
@@ -297,8 +301,8 @@ def run_all(output_csv: Path | None = None) -> None:
 
     if not torch.cuda.is_available():
         raise RuntimeError(
-            "CUDA is not available. Run this benchmark on the RTX 4090 GPU lab "
-            "workstation, not on the development machine."
+            "CUDA is not available. Run this benchmark on the GPU workstation, "
+            "not on the development machine."
         )
 
     output_csv = output_csv or (RESULTS_DIR / "attention_benchmark_results.csv")

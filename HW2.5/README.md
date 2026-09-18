@@ -13,7 +13,7 @@
 
 ## Scope
 
-HW2.5 benchmarks a single NVIDIA GeForce RTX 4090 in the GPU lab workstation:
+HW2.5 benchmarks a single NVIDIA GPU on a workstation. The assignment was originally scoped around a lab RTX 4090, but this repository targets an **RTX 4060** (8 GB) instead — every module auto-detects the connected GPU via `nvidia-smi` and looks up the matching vendor-documented specs (see `KNOWN_GPU_VENDOR_SPECS` in `src/system_info.py`, which also still supports the RTX 4090 if you ever run this on that card):
 
 - **Part A** — onboarding and provenance: reservation/GPU-hour records, full `nvidia-smi -q` capture, and separating measured hardware facts from vendor-documented specifications.
 - **Part B** — dense matmul throughput (FP32/TF32/FP16/BF16) at N = 1024, 4096, 8192, 16384, achieved TFLOPS and percent of theoretical peak, plus an FP8 availability probe.
@@ -22,7 +22,7 @@ HW2.5 benchmarks a single NVIDIA GeForce RTX 4090 in the GPU lab workstation:
 - **Part E** — a 20-minute sustained load with clock/temperature/power logging every 5 seconds, for throttling analysis.
 - **Part F** — the required summary table (`reports/METRICS.md`) and experiment log (`reports/RUN_LOG.txt`).
 
-This repository was assembled on a Mac with no NVIDIA GPU. Every GPU-dependent result is left empty or explicitly marked "to be measured on the RTX 4090 workstation" until the code below is actually executed there — no benchmark numbers, GPU UUIDs, or thermal conclusions in this repository are invented.
+This repository was assembled on a Mac with no NVIDIA GPU. Every GPU-dependent result is left empty or explicitly marked "to be measured on the GPU workstation" until the code below is actually executed there — no benchmark numbers, GPU UUIDs, or thermal conclusions in this repository are invented.
 
 ## One-Time Setup (development machine, e.g., your Mac)
 
@@ -36,9 +36,9 @@ source .venv/bin/activate
 pip install -r requirements.txt   # torch install here will be CPU-only; that's fine for review
 ```
 
-## Running the Assignment — RTX 4090 GPU Lab Workstation ONLY
+## Running the Assignment — GPU Workstation ONLY
 
-The commands in this section require an NVIDIA RTX 4090, the NVIDIA driver, and CUDA-enabled PyTorch. Do not attempt them on the development machine.
+The commands in this section require an NVIDIA GPU (this run targets an RTX 4060; the RTX 4090 is also supported), the NVIDIA driver, and CUDA-enabled PyTorch. Do not attempt them on the development machine.
 
 ### 1. Clone and set up the environment on the workstation
 
@@ -51,14 +51,14 @@ pip install torch --index-url https://download.pytorch.org/whl/cu121   # match t
 pip install -r requirements.txt
 ```
 
-### 2. Verify the RTX 4090 is visible
+### 2. Verify the GPU is visible
 
 ```bash
 nvidia-smi --query-gpu=name,uuid,driver_version --format=csv,noheader
 python3 -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"
 ```
 
-Both commands must report the RTX 4090 before continuing.
+Both commands must report your GPU (e.g. "NVIDIA GeForce RTX 4060") before continuing. `src/system_info.get_active_vendor_specs()` reads this same name to pick the correct vendor spec entry automatically — if it reports a card that is not yet in `KNOWN_GPU_VENDOR_SPECS` (currently RTX 4090 and RTX 4060), add an entry there before running Parts B/C.
 
 ### 3. Part A — capture `nvidia-smi -q` and hardware info
 
@@ -107,13 +107,13 @@ Run from wherever you finished updating the reports (workstation or after syncin
 
 ```bash
 git add HW2.5/
-git commit -m "Add executed RTX 4090 results for HW2.5"
+git commit -m "Add executed RTX 4060 results for HW2.5"
 git push
 git tag hw2-5
 git push origin hw2-5
 ```
 
-Do not create the `hw2-5` tag until the benchmarks have actually been executed on the RTX 4090 workstation and the reports reflect real measured results.
+Do not create the `hw2-5` tag until the benchmarks have actually been executed on the GPU workstation and the reports reflect real measured results.
 
 ## Repository Structure
 
@@ -134,8 +134,8 @@ HW2.5/
 ## Reproducibility and Honesty Notes
 
 - Every CSV/JSON row produced by `src/` carries the real GPU UUID returned by `nvidia-smi` at run time; it is never hardcoded.
-- Vendor-documented RTX 4090 specifications (architecture, memory type/bandwidth, tensor-core generation, supported reduced precisions, theoretical peak TFLOPS per precision) live in one place, `VENDOR_SPECS_RTX_4090` in `src/system_info.py`, clearly separated from anything measured. That dictionary's citation and verification note explain how it was sourced and what should be double-checked on the workstation (which has internet access, unlike the environment this repository was assembled in).
-- No benchmark result, GPU UUID, temperature, power draw, or OOM boundary in this repository is invented. Anything GPU-dependent is either absent or explicitly marked "to be measured on the RTX 4090 workstation" until the scripts above are actually run there.
+- Vendor-documented GPU specifications (architecture, memory type/bandwidth, tensor-core generation, supported reduced precisions, theoretical peak TFLOPS per precision) live in one place per supported card, `KNOWN_GPU_VENDOR_SPECS` in `src/system_info.py` (RTX 4090 and RTX 4060), clearly separated from anything measured. `get_active_vendor_specs()` auto-detects which card is attached and every benchmark module reads from it, so "% of theoretical peak" always compares against the right card's numbers. Each entry's citation and verification note explain how it was sourced and what should be double-checked on the workstation (which has internet access, unlike the environment this repository was assembled/updated in) — the RTX 4060 entry's Tensor Core figures in particular were derived rather than read off a single vendor table, and need the closest look.
+- No benchmark result, GPU UUID, temperature, power draw, or OOM boundary in this repository is invented. Anything GPU-dependent is either absent or explicitly marked "to be measured on the GPU workstation" until the scripts above are actually run there.
 
 ## Files Intentionally Excluded from Git
 

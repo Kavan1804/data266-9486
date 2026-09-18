@@ -11,11 +11,16 @@ Every measurement:
   * reports latency and achieved TFLOPS using the standard dense matmul FLOP
     count (2 * N^3, one multiply and one add per output-element partial
     product);
-  * reports achieved TFLOPS as a percentage of the RTX 4090's vendor-documented
-    theoretical peak for that precision (see src/system_info.py);
-  * is tagged with the real GPU UUID queried from the driver at run time.
+  * reports achieved TFLOPS as a percentage of the connected GPU's
+    vendor-documented theoretical peak for that precision, auto-detected via
+    `src.system_info.get_active_vendor_specs()` (currently supports the RTX
+    4090 and RTX 4060 -- see `KNOWN_GPU_VENDOR_SPECS` in `src/system_info.py`);
+  * is tagged with the real GPU UUID queried from the driver at run time;
+  * catches a CUDA out-of-memory error per (N, precision) combination instead
+    of aborting the whole sweep, which matters most on smaller-VRAM cards
+    (e.g. an 8 GB RTX 4060) at N = 16384.
 
-Run on the RTX 4090 workstation:
+Run on the GPU workstation:
 
     python3 -m src.precision_benchmarks
 """
@@ -28,7 +33,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
-from src.system_info import VENDOR_SPECS_RTX_4090, get_gpu_uuid
+from src.system_info import get_active_vendor_specs, get_gpu_uuid
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_OUTPUT_CSV = REPO_ROOT / "results" / "precision" / "precision_benchmark_results.csv"
@@ -54,12 +59,14 @@ class PrecisionResult:
     matrix_n: int
     warmup_iters: int
     repetitions: int
+    status: str  # "success" or "oom"
     mean_latency_ms: float
     min_latency_ms: float
     max_latency_ms: float
     achieved_tflops: float
     theoretical_peak_tflops: float
     pct_of_theoretical_peak: float
+    error_message: str = ""
     flop_formula: str = "2 * N^3 (one multiply-add pair per output-element partial product)"
 
 
@@ -85,67 +92,91 @@ def _dtype_for(precision: str, torch):
     }[precision]
 
 
-def benchmark_matmul(n: int, precision: str, gpu_uuid: str, gpu_name: str) -> PrecisionResult:
+def benchmark_matmul(n: int, precision: str, gpu_uuid: str, gpu_name: str, vendor_specs: dict) -> PrecisionResult:
     import torch  # noqa: PLC0415
 
     if not torch.cuda.is_available():
         raise RuntimeError(
-            "CUDA is not available. This benchmark must be run on the RTX 4090 "
-            "GPU lab workstation."
+            "CUDA is not available. This benchmark must be run on the GPU workstation."
         )
 
     _configure_backend(precision, torch)
     dtype = _dtype_for(precision, torch)
     reps = REPS_BY_SIZE[n]
     warmup = WARMUP_BY_SIZE[n]
+    peak_tflops = vendor_specs["theoretical_peak_tflops_dense"][precision]
 
     device = torch.device("cuda")
-    a = torch.randn(n, n, device=device, dtype=dtype)
-    b = torch.randn(n, n, device=device, dtype=dtype)
-
-    for _ in range(warmup):
-        _ = a @ b
-    torch.cuda.synchronize()
-
-    latencies_ms = []
-    for _ in range(reps):
-        torch.cuda.synchronize()
-        start = time.perf_counter()
-        _ = a @ b
-        torch.cuda.synchronize()
-        latencies_ms.append((time.perf_counter() - start) * 1000.0)
-
-    mean_latency_ms = sum(latencies_ms) / len(latencies_ms)
-    flops = 2 * (n ** 3)
-    achieved_tflops = flops / (mean_latency_ms / 1000.0) / 1e12
-    peak_tflops = VENDOR_SPECS_RTX_4090["theoretical_peak_tflops_dense"][precision]
-    pct_of_peak = (achieved_tflops / peak_tflops) * 100.0 if peak_tflops else float("nan")
-
-    del a, b
     torch.cuda.empty_cache()
 
-    return PrecisionResult(
-        timestamp_utc=datetime.now(timezone.utc).isoformat(),
-        gpu_uuid=gpu_uuid,
-        gpu_name=gpu_name,
-        precision=precision,
-        dtype=str(dtype),
-        matrix_n=n,
-        warmup_iters=warmup,
-        repetitions=reps,
-        mean_latency_ms=mean_latency_ms,
-        min_latency_ms=min(latencies_ms),
-        max_latency_ms=max(latencies_ms),
-        achieved_tflops=achieved_tflops,
-        theoretical_peak_tflops=peak_tflops,
-        pct_of_theoretical_peak=pct_of_peak,
-    )
+    try:
+        a = torch.randn(n, n, device=device, dtype=dtype)
+        b = torch.randn(n, n, device=device, dtype=dtype)
+
+        for _ in range(warmup):
+            _ = a @ b
+        torch.cuda.synchronize()
+
+        latencies_ms = []
+        for _ in range(reps):
+            torch.cuda.synchronize()
+            start = time.perf_counter()
+            _ = a @ b
+            torch.cuda.synchronize()
+            latencies_ms.append((time.perf_counter() - start) * 1000.0)
+
+        mean_latency_ms = sum(latencies_ms) / len(latencies_ms)
+        flops = 2 * (n ** 3)
+        achieved_tflops = flops / (mean_latency_ms / 1000.0) / 1e12
+        pct_of_peak = (achieved_tflops / peak_tflops) * 100.0 if peak_tflops else float("nan")
+
+        result = PrecisionResult(
+            timestamp_utc=datetime.now(timezone.utc).isoformat(),
+            gpu_uuid=gpu_uuid,
+            gpu_name=gpu_name,
+            precision=precision,
+            dtype=str(dtype),
+            matrix_n=n,
+            warmup_iters=warmup,
+            repetitions=reps,
+            status="success",
+            mean_latency_ms=mean_latency_ms,
+            min_latency_ms=min(latencies_ms),
+            max_latency_ms=max(latencies_ms),
+            achieved_tflops=achieved_tflops,
+            theoretical_peak_tflops=peak_tflops,
+            pct_of_theoretical_peak=pct_of_peak,
+        )
+    except torch.cuda.OutOfMemoryError as exc:  # type: ignore[attr-defined]
+        result = PrecisionResult(
+            timestamp_utc=datetime.now(timezone.utc).isoformat(),
+            gpu_uuid=gpu_uuid,
+            gpu_name=gpu_name,
+            precision=precision,
+            dtype=str(dtype),
+            matrix_n=n,
+            warmup_iters=warmup,
+            repetitions=reps,
+            status="oom",
+            mean_latency_ms=float("nan"),
+            min_latency_ms=float("nan"),
+            max_latency_ms=float("nan"),
+            achieved_tflops=float("nan"),
+            theoretical_peak_tflops=peak_tflops,
+            pct_of_theoretical_peak=float("nan"),
+            error_message=f"{type(exc).__name__}: {exc}",
+        )
+    finally:
+        torch.cuda.empty_cache()
+
+    return result
 
 
 def attempt_lower_precision_probe(n: int = 4096, reps: int = 20, warmup: int = 5) -> dict:
     """Part B (additional lower precision) — probe FP8 support in the installed stack.
 
-    The RTX 4090's 4th-generation Tensor Cores support FP8 (E4M3/E5M2), but
+    The RTX 40-series' 4th-generation Tensor Cores (RTX 4090, RTX 4060, etc.)
+    support FP8 (E4M3/E5M2), but
     PyTorch exposes FP8 GEMM support only through `torch._scaled_mm`, which is
     version- and build-dependent. This function attempts a real FP8 matmul and
     returns either genuine measurements or the exact unavailability/failure
@@ -203,7 +234,7 @@ def attempt_lower_precision_probe(n: int = 4096, reps: int = 20, warmup: int = 5
                 "achieved_tflops": achieved_tflops,
                 "note": (
                     "Theoretical FP8 peak TFLOPS is intentionally not included in "
-                    "VENDOR_SPECS_RTX_4090, so no percent-of-peak figure is computed "
+                    "KNOWN_GPU_VENDOR_SPECS, so no percent-of-peak figure is computed "
                     "for this exploratory precision."
                 ),
             }
@@ -224,25 +255,30 @@ def run_all(output_csv: Path = DEFAULT_OUTPUT_CSV, fp8_log: Path = DEFAULT_FP8_L
 
     if not torch.cuda.is_available():
         raise RuntimeError(
-            "CUDA is not available. Run this benchmark on the RTX 4090 GPU lab "
-            "workstation, not on the development machine."
+            "CUDA is not available. Run this benchmark on the GPU workstation, "
+            "not on the development machine."
         )
 
     gpu_uuid = get_gpu_uuid()
     gpu_name = torch.cuda.get_device_name(0)
+    vendor_specs = get_active_vendor_specs()
+    print(f"Detected GPU: {gpu_name}  (vendor specs matched: {vendor_specs['gpu_name']})")
 
     output_csv.parent.mkdir(parents=True, exist_ok=True)
     rows = []
     for n in MATRIX_SIZES:
         for precision in PRECISIONS:
             print(f"Running N={n} precision={precision} ...")
-            result = benchmark_matmul(n, precision, gpu_uuid, gpu_name)
+            result = benchmark_matmul(n, precision, gpu_uuid, gpu_name, vendor_specs)
             rows.append(result)
-            print(
-                f"  latency={result.mean_latency_ms:.3f} ms  "
-                f"tflops={result.achieved_tflops:.2f}  "
-                f"pct_peak={result.pct_of_theoretical_peak:.1f}%"
-            )
+            if result.status == "success":
+                print(
+                    f"  latency={result.mean_latency_ms:.3f} ms  "
+                    f"tflops={result.achieved_tflops:.2f}  "
+                    f"pct_peak={result.pct_of_theoretical_peak:.1f}%"
+                )
+            else:
+                print(f"  OOM at N={n} precision={precision}: {result.error_message}")
 
     with output_csv.open("w", newline="") as fh:
         writer = csv.DictWriter(fh, fieldnames=list(asdict(rows[0]).keys()))

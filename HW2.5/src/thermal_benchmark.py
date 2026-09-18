@@ -6,8 +6,8 @@ clock, memory clock, temperature, power draw, GPU utilization, and the real
 GPU UUID. Samples are appended to a CSV and flushed to disk immediately, so
 the log survives an interruption instead of being lost.
 
-This script is meant to be run directly from the command line on the RTX
-4090 workstation, e.g.:
+This script is meant to be run directly from the command line on the GPU
+workstation (RTX 4090 or RTX 4060), e.g.:
 
     python3 -m src.thermal_benchmark --duration-seconds 1200 --interval-seconds 5 \\
         --output results/thermal/thermal_log.csv
@@ -142,8 +142,8 @@ def run_sustained_load(
 
     if not torch.cuda.is_available():
         raise RuntimeError(
-            "CUDA is not available. Run the thermal benchmark on the RTX 4090 "
-            "GPU lab workstation, not on the development machine."
+            "CUDA is not available. Run the thermal benchmark on the GPU "
+            "workstation, not on the development machine."
         )
 
     output_csv.parent.mkdir(parents=True, exist_ok=True)

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Part E — sustained load and thermal behaviour. Runs for ~20 minutes by
-# default. Run this on the RTX 4090 GPU lab workstation; the CSV log is
+# default. Run this on the GPU workstation (RTX 4090 or RTX 4060); the CSV log is
 # flushed continuously, so an interruption (Ctrl-C) still leaves a usable
 # partial log.
 #

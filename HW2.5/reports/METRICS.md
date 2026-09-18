@@ -32,10 +32,12 @@ Every value in this table must be traceable to a UUID-labelled result in `report
 | Item | Status |
 | --- | --- |
 | Implementation | Complete: `src/system_info.py`, `scripts/capture_gpu_info.sh` |
-| Execution | Pending; requires the RTX 4090 GPU lab workstation |
+| Execution | Pending; requires the GPU workstation (target card: RTX 4060) |
 | `nvidia-smi -q` capture | To be measured — `results/system_info/nvidia_smi_full_query.txt` |
 
 ### Hardware Information
+
+Vendor-documented values below assume the target RTX 4060; `src/system_info.get_active_vendor_specs()` auto-detects the connected GPU at run time and reads from the matching entry in `KNOWN_GPU_VENDOR_SPECS`, so these rows will use RTX 4090 numbers instead if this is ever run on that card.
 
 | Field | Value | Source |
 | --- | --- | --- |
@@ -43,16 +45,16 @@ Every value in this table must be traceable to a UUID-labelled result in `report
 | GPU UUID | To be measured | `nvidia-smi` (measured) |
 | Driver version | To be measured | `nvidia-smi` (measured) |
 | CUDA version | To be measured | `torch.version.cuda` (measured) |
-| VRAM capacity | To be measured (spec: 24 GB GDDR6X) | Measured value from `nvidia-smi`; spec from vendor documentation |
-| Reported power limit | To be measured (spec: 450 W reference board) | Measured value from `nvidia-smi`; spec from vendor documentation |
-| Architecture | Ada Lovelace (AD102) | Vendor documentation |
-| Memory type | GDDR6X | Vendor documentation |
-| Memory bandwidth | 1008 GB/s (spec) | Vendor documentation |
+| VRAM capacity | To be measured (spec: 8 GB GDDR6) | Measured value from `nvidia-smi`; spec from vendor documentation |
+| Reported power limit | To be measured (spec: 115 W reference board) | Measured value from `nvidia-smi`; spec from vendor documentation |
+| Architecture | Ada Lovelace (AD107) | Vendor documentation |
+| Memory type | GDDR6 | Vendor documentation |
+| Memory bandwidth | 272 GB/s (spec) | Vendor documentation |
 | Tensor-core generation | 4th generation (Ada) | Vendor documentation |
 | Reduced precisions supported by tensor cores | FP16, BF16, TF32, INT8, INT4, FP8 | Vendor documentation |
-| Vendor documentation citation | https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4090/ | — |
+| Vendor documentation citation | https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/ | — |
 
-Vendor-documented figures above come from `VENDOR_SPECS_RTX_4090` in `src/system_info.py`. They were not re-verified against a live NVIDIA page at repository-creation time because outbound network access was unavailable in that environment — confirm them on the workstation (which has internet access) before treating this table as final, and update the citation/verification note in `src/system_info.py` if any figure needs correction.
+Vendor-documented figures above come from the `"RTX 4060"` entry of `KNOWN_GPU_VENDOR_SPECS` in `src/system_info.py`. FP32 is NVIDIA's published figure; TF32/FP16/BF16 theoretical peak TFLOPS were derived (see the comment above that entry in the source) rather than read off a single vendor table. None of these were re-verified against a live NVIDIA page at repository-update time because outbound network access was unavailable in that environment — confirm all of them, especially the derived Tensor Core figures, on the workstation (which has internet access) before treating this table as final, and update the citation/verification note in `src/system_info.py` if any figure needs correction.
 
 ## Part B — Precision and Achieved Throughput
 
@@ -61,7 +63,7 @@ Vendor-documented figures above come from `VENDOR_SPECS_RTX_4090` in `src/system
 | Item | Status |
 | --- | --- |
 | Implementation | Complete: `src/precision_benchmarks.py` |
-| Execution | Pending; requires the RTX 4090 GPU lab workstation |
+| Execution | Pending; requires the GPU workstation (target card: RTX 4060) |
 | Matrix sizes | 1024, 4096, 8192, 16384 |
 | Precisions | FP32, TF32, FP16, BF16 |
 | Repetitions/warm-up | Recorded per row in `results/precision/precision_benchmark_results.csv` (see `REPS_BY_SIZE`/`WARMUP_BY_SIZE` in the source) |
@@ -103,8 +105,8 @@ To be filled in from `results/precision/fp8_availability_probe.json`.
 | Item | Status |
 | --- | --- |
 | Implementation | Complete: `src/bandwidth_benchmarks.py` |
-| Execution | Pending; requires the RTX 4090 GPU lab workstation |
-| Memory-bound operation | Elementwise addition, `N = 400,000,000` float32 elements |
+| Execution | Pending; requires the GPU workstation (target card: RTX 4060) |
+| Memory-bound operation | Elementwise addition, target `N = 200,000,000` float32 elements (adaptively halved and retried down to `N = 12,500,000` on a CUDA out-of-memory error; actual size used is recorded per row) |
 | Compute-bound operation | Square FP32 matmul, `N = 8192` |
 | Output file | `results/bandwidth/bandwidth_benchmark_results.csv` |
 
@@ -125,7 +127,7 @@ Roofline ridge point (theoretical peak FP32 FLOPS / theoretical peak bandwidth) 
 | Item | Status |
 | --- | --- |
 | Implementation | Complete: `src/attention_benchmarks.py` |
-| Execution | Pending; requires the RTX 4090 GPU lab workstation |
+| Execution | Pending; requires the GPU workstation (target card: RTX 4060) |
 | Configuration | Batch size 1, 1 attention head, head dimension 64, dtype bfloat16, `torch.inference_mode()` |
 | Sequence lengths (grid) | 512, 1024, 2048, 4096, 8192, 16384, plus up to 4 boundary-refinement probes per implementation |
 | Naive implementation | From-scratch scaled dot-product attention that materializes the full `[seq_len, seq_len]` score/probability matrix |
@@ -178,7 +180,7 @@ The fused scaled-dot-product-attention backend (Flash/memory-efficient attention
 | Item | Status |
 | --- | --- |
 | Implementation | Complete: `src/thermal_benchmark.py`, `scripts/run_thermal_test.sh` |
-| Execution | Pending; requires the RTX 4090 GPU lab workstation, ~20 minutes |
+| Execution | Pending; requires the GPU workstation (target card: RTX 4060), ~20 minutes |
 | Sampling interval | 5 seconds |
 | Fields logged per sample | elapsed time, GPU clock, memory clock, temperature, power draw, GPU utilization, GPU UUID, cumulative matmuls, interval throughput |
 | Output file | `results/thermal/thermal_log.csv` (flushed continuously) |
