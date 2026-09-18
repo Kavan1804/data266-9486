@@ -160,5 +160,48 @@ Validation: Confirmed the new first cell is the only cell containing a `%pip`/`!
   remaining "requirements.txt" references outside README.md's own explanation that it no
   longer exists.
 
+STEP 0f — FIXED PART D OOM-BOUNDARY GAP; ADDED AUTO-APPENDED RAW LOG
+UTC Timestamp: 2026-09-18T04:00:00Z (approximate)
+Status: completed
+Environment: Local development machine (no NVIDIA GPU present); documentation and code
+  authoring only.
+Device: N/A
+Command or notebook cells: N/A
+Inputs: A completed classmate submission (RUN_LOG.txt, thermal CSV, nvidia-smi -q capture,
+  and executed notebook) was provided for comparison, on an actual RTX 4090 (24564 MiB
+  total FB memory per the shared nvidia-smi -q). Its data showed naive attention
+  succeeding through the full required 512-16384 grid (peak memory only ~1.02 GiB at
+  S=16384) and only failing once extended past S=81920 (last success) / S=90112 (first
+  failure).
+Outputs/artifacts: Found and fixed a real gap in HW2.5.ipynb's Part D: the previous
+  boundary-refinement logic only bisected when the required 512-16384 grid already
+  contained both a success and a failure, which never happens on a 24 GB card since the
+  whole grid succeeds trivially -- so the naive/fused OOM boundary (a required Table
+  HW2.5.1 cell) would never actually be found. Replaced it with find_oom_boundary(), which
+  extends the search geometrically (doubling from the largest grid success, up to 12 steps
+  or a 120-second-per-probe time budget) until a failure appears, then bisects the bracket
+  to a width of ~1024 (verified offline against a synthetic OOM threshold modeled on the
+  classmate's actual ~85k-token failure point -- see Validation). Also broadened the OOM
+  catch in Parts B, C, and D from `except torch.cuda.OutOfMemoryError` to a `RuntimeError`
+  check on the message text, since OutOfMemoryError is only a RuntimeError subclass on
+  newer PyTorch and older builds can raise a plain RuntimeError instead. Separately added a
+  log_event() helper (writing to the new results/run_log_raw.txt) that auto-appends every
+  Part A-E measurement as a UUID-labelled, timestamped line while the notebook runs, so
+  reports/RUN_LOG.txt's STEP entries can be written from real saved data afterward instead
+  of depending on manually copying values out of printed cell outputs.
+Warnings/limitations: No GPU benchmark was executed at this step; the classmate's data was
+  used only as a reference to design and validate the extension-search algorithm's
+  parameters (step count, time budget, bisection granularity), not copied into this
+  notebook's code.
+Validation: Simulated find_oom_boundary() offline against a fake OOM threshold near the
+  classmate's observed ~85k-token failure point -- it correctly extended from the required
+  grid, found the (65536 success, 131072 failure) bracket, and bisected it down to a
+  1024-wide bracket in 6 refinement probes. Also simulated a "never OOMs" case (mimicking
+  the classmate's fused-attention behavior, which never failed within their explored
+  range) and confirmed the search terminates cleanly via the step cap rather than looping
+  forever or fabricating a boundary. Confirmed log_event() appends correctly to a temp
+  file. Every one of the notebook's 18 code cells re-parsed cleanly with ast.parse()
+  (excluding the one %pip magic cell) after these edits.
+
 (Append real STEP entries below this line as the assignment is executed on the
 GPU workstation.)

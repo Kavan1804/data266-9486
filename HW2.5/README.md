@@ -72,7 +72,7 @@ Run every cell in order:
 
 ### 4. Update the reports
 
-From the values the notebook printed and saved under `results/`:
+The notebook auto-appends every measurement, UUID-labelled and timestamped, to `results/run_log_raw.txt` as it runs — use that as your source of truth alongside the values printed in each cell and saved under `results/`:
 
 - `reports/METRICS.md` — fill in Table HW2.5.1 and the per-part sections.
 - `reports/RUN_LOG.txt` — append one entry per run using the template already in the file.
