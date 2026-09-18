@@ -129,7 +129,7 @@ Roofline ridge point (theoretical peak FP32 FLOPS / theoretical peak bandwidth) 
 | Implementation | Complete: Part D cells of `HW2.5.ipynb` |
 | Execution | Pending; requires the GPU workstation (target card: RTX 4090) |
 | Configuration | Batch size 1, 1 attention head, head dimension 64, dtype bfloat16, `torch.inference_mode()` |
-| Sequence lengths (grid) | 512, 1024, 2048, 4096, 8192, 16384, plus up to 4 boundary-refinement probes per implementation |
+| Sequence lengths (grid) | 512, 1024, 2048, 4096, 8192, 16384; if the required grid contains no failure (expected on a 24 GB RTX 4090), the notebook automatically extends the search geometrically (doubling, up to 12 extension steps or a 120s-per-probe time budget) until it finds one, then bisects between the bracket (up to 6 refinement probes) |
 | Naive implementation | From-scratch scaled dot-product attention that materializes the full `[seq_len, seq_len]` score/probability matrix |
 | Fused implementation | `torch.nn.functional.scaled_dot_product_attention` restricted to the Flash/memory-efficient backends |
 | Output file | `results/attention/attention_benchmark_results.csv` |
@@ -202,4 +202,4 @@ To be filled in from `results/thermal/thermal_analysis.json` after execution. Do
 
 ## Part F — Traceability
 
-Every "To be measured" value in this file must be filled in with a number that also appears, tagged with the same GPU UUID, timestamp, and command, in a `reports/RUN_LOG.txt` entry.
+Every "To be measured" value in this file must be filled in with a number that also appears, tagged with the same GPU UUID, timestamp, and command, in a `reports/RUN_LOG.txt` entry. `results/run_log_raw.txt` is auto-appended by the notebook (one UUID-labelled, timestamped line per measurement) and is the raw evidence to copy from when writing those `RUN_LOG.txt` entries.
