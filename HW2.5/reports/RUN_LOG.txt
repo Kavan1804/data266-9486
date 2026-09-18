@@ -140,5 +140,25 @@ Validation: Every one of the notebook's 16 code cells re-parsed cleanly with ast
   README.md, AI_USE.md, reports/METRICS.md, and provenance/*.md. No CUDA-dependent code
   was executed.
 
+STEP 0e — DEPENDENCIES MOVED INTO THE NOTEBOOK'S FIRST CELL
+UTC Timestamp: 2026-09-18T03:00:00Z (approximate)
+Status: completed
+Environment: Local development machine (no NVIDIA GPU present); documentation and code
+  authoring only.
+Device: N/A
+Command or notebook cells: N/A
+Inputs: Request to run this notebook on a fresh GPU workstation without a separate
+  `pip install -r requirements.txt` step, since the workstation is being set up new.
+Outputs/artifacts: Deleted requirements.txt; added `%pip install -q torch numpy pandas
+  matplotlib` as the new first code cell of HW2.5.ipynb, immediately after the title
+  markdown. README.md's setup instructions simplified to remove the now-unnecessary venv
+  creation and `pip install -r requirements.txt` steps; the repository-structure diagram
+  no longer lists requirements.txt.
+Warnings/limitations: No GPU benchmark was executed at this step.
+Validation: Confirmed the new first cell is the only cell containing a `%pip`/`!` magic
+  line (every other code cell still parses cleanly with ast.parse()); confirmed no
+  remaining "requirements.txt" references outside README.md's own explanation that it no
+  longer exists.
+
 (Append real STEP entries below this line as the assignment is executed on the
 GPU workstation.)
