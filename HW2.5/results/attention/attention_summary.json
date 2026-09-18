@@ -1,0 +1,75 @@
+{
+  "gpu_uuid": "GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f",
+  "naive_oom_boundary": {
+    "implementation": "naive",
+    "largest_tested_success": 182272,
+    "smallest_tested_failure": 184320
+  },
+  "fused_oom_boundary": {
+    "implementation": "fused",
+    "largest_tested_success": 2097152,
+    "smallest_tested_failure": null
+  },
+  "memory_quadratic_fit_naive": {
+    "status": "fit",
+    "quadratic_coefficient_a": 3.814697265625002e-06,
+    "linear_coefficient_b": 0.00048828124999968233,
+    "intercept_c": 8.125000000017549
+  },
+  "speedups_fused_over_naive": [
+    {
+      "seq_len": 512,
+      "naive_latency_ms": 0.059922100012954616,
+      "fused_latency_ms": 0.1796732999764572,
+      "speedup_naive_over_fused": 0.3335058688230598
+    },
+    {
+      "seq_len": 1024,
+      "naive_latency_ms": 0.06018560002303275,
+      "fused_latency_ms": 0.2135437999640999,
+      "speedup_naive_over_fused": 0.28184194546107594
+    },
+    {
+      "seq_len": 2048,
+      "naive_latency_ms": 0.08136820001709566,
+      "fused_latency_ms": 0.39155259999006375,
+      "speedup_naive_over_fused": 0.20780911688279047
+    },
+    {
+      "seq_len": 4096,
+      "naive_latency_ms": 0.15472129999807294,
+      "fused_latency_ms": 0.5842879000738321,
+      "speedup_naive_over_fused": 0.2648031903082743
+    },
+    {
+      "seq_len": 8192,
+      "naive_latency_ms": 0.9672362000060275,
+      "fused_latency_ms": 1.0825471000089237,
+      "speedup_naive_over_fused": 0.8934818632815646
+    },
+    {
+      "seq_len": 16384,
+      "naive_latency_ms": 3.643435299977682,
+      "fused_latency_ms": 2.7371698000251854,
+      "speedup_naive_over_fused": 1.331095827501881
+    },
+    {
+      "seq_len": 32768,
+      "naive_latency_ms": 15.068345499980751,
+      "fused_latency_ms": 10.299964599994382,
+      "speedup_naive_over_fused": 1.4629511930544858
+    },
+    {
+      "seq_len": 65536,
+      "naive_latency_ms": 70.33708420000266,
+      "fused_latency_ms": 8.988662399997338,
+      "speedup_naive_over_fused": 7.825089103360194
+    },
+    {
+      "seq_len": 131072,
+      "naive_latency_ms": 6327.749681399973,
+      "fused_latency_ms": 34.65074090001963,
+      "speedup_naive_over_fused": 182.61513367514715
+    }
+  ]
+}

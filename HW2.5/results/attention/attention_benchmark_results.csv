@@ -1,0 +1,30 @@
+timestamp_utc,gpu_uuid,implementation,dtype,batch_size,num_heads,head_dim,seq_len,status,error_message,probe_type,mean_latency_ms,peak_memory_mb
+2026-09-18T22:18:34.460508+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,512,success,,grid,0.059922100012954616,9.375
+2026-09-18T22:18:34.511197+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,1024,success,,grid,0.06018560002303275,12.625
+2026-09-18T22:18:34.514083+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,2048,success,,grid,0.08136820001709566,25.125
+2026-09-18T22:18:34.516667+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,4096,success,,grid,0.15472129999807294,74.125
+2026-09-18T22:18:34.521315+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,8192,success,,grid,0.9672362000060275,268.125
+2026-09-18T22:18:34.541367+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,16384,success,,grid,3.643435299977682,1040.125
+2026-09-18T22:18:34.634856+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,32768,success,,extension,15.068345499980751,4120.125
+2026-09-18T22:18:34.931938+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,65536,success,,extension,70.33708420000266,16424.125
+2026-09-18T22:18:36.243249+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,131072,success,,extension,6327.749681399973,65608.125
+2026-09-18T22:20:10.311281+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,262144,oom,"OutOfMemoryError: CUDA out of memory. Tried to allocate 128.00 GiB. GPU 0 has a total capacty of 23.99 GiB of which 22.25 GiB is free. Of the allocated memory 104.12 MiB is allocated by PyTorch, and 11.88 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF",extension,,104.125
+2026-09-18T22:20:44.310637+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,196608,oom,"OutOfMemoryError: CUDA out of memory. Tried to allocate 72.00 GiB. GPU 0 has a total capacty of 23.99 GiB of which 0 bytes is free. Of the allocated memory 72.08 GiB is allocated by PyTorch, and 11.88 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF",boundary_refinement,,73808.125
+2026-09-18T22:21:31.703057+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,163840,success,,boundary_refinement,11054.842303000009,102488.125
+2026-09-18T22:24:13.157851+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,180224,success,,boundary_refinement,13832.698704199971,124000.125
+2026-09-18T22:27:44.336692+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,188416,oom,"OutOfMemoryError: CUDA out of memory. Tried to allocate 66.12 GiB. GPU 0 has a total capacty of 23.99 GiB of which 0 bytes is free. Of the allocated memory 66.20 GiB is allocated by PyTorch, and 11.88 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF",boundary_refinement,,67792.125
+2026-09-18T22:28:30.033853+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,184320,oom,"OutOfMemoryError: CUDA out of memory. Tried to allocate 63.28 GiB. GPU 0 has a total capacty of 23.99 GiB of which 0 bytes is free. Of the allocated memory 63.36 GiB is allocated by PyTorch, and 16.38 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting max_split_size_mb to avoid fragmentation.  See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF",boundary_refinement,,64875.625
+2026-09-18T22:29:16.737120+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,naive,bfloat16,1,1,64,182272,success,,boundary_refinement,14129.441197100028,126833.125
+2026-09-18T22:32:42.003092+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,fused,bfloat16,1,1,64,512,success,,grid,0.1796732999764572,8.375
+2026-09-18T22:32:42.083362+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,fused,bfloat16,1,1,64,1024,success,,grid,0.2135437999640999,8.625
+2026-09-18T22:32:42.087761+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,fused,bfloat16,1,1,64,2048,success,,grid,0.39155259999006375,9.125
+2026-09-18T22:32:42.094191+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,fused,bfloat16,1,1,64,4096,success,,grid,0.5842879000738321,10.125
+2026-09-18T22:32:42.103547+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,fused,bfloat16,1,1,64,8192,success,,grid,1.0825471000089237,12.125
+2026-09-18T22:32:42.123843+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,fused,bfloat16,1,1,64,16384,success,,grid,2.7371698000251854,16.125
+2026-09-18T22:32:42.185146+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,fused,bfloat16,1,1,64,32768,success,,extension,10.299964599994382,24.125
+2026-09-18T22:32:42.321762+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,fused,bfloat16,1,1,64,65536,success,,extension,8.988662399997338,40.125
+2026-09-18T22:32:42.441151+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,fused,bfloat16,1,1,64,131072,success,,extension,34.65074090001963,72.125
+2026-09-18T22:32:42.894642+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,fused,bfloat16,1,1,64,262144,success,,extension,140.28773979998732,136.125
+2026-09-18T22:32:44.717245+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,fused,bfloat16,1,1,64,524288,success,,extension,555.7605241999909,264.125
+2026-09-18T22:32:51.950232+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,fused,bfloat16,1,1,64,1048576,success,,extension,2266.664729800005,520.125
+2026-09-18T22:33:21.417069+00:00,GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f,fused,bfloat16,1,1,64,2097152,success,,extension,9823.610123200004,1032.125
