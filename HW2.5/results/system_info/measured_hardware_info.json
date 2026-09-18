@@ -1,0 +1,12 @@
+{
+  "uuid": "GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f",
+  "name": "NVIDIA GeForce RTX 4090",
+  "driver_version": "610.60",
+  "memory.total": "24564",
+  "power.limit": "450.00",
+  "power.max_limit": "450.00",
+  "compute_cap": "8.9",
+  "captured_at_utc": "2026-09-18T22:18:27.256780+00:00",
+  "torch_version": "2.1.2",
+  "torch_cuda_version": "12.1"
+}

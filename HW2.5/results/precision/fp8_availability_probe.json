@@ -1,0 +1,9 @@
+{
+  "timestamp_utc": "2026-09-18T22:18:33.462403+00:00",
+  "gpu_uuid": "GPU-00b80185-a51c-ac5b-84b1-c291bcf5025f",
+  "precision_attempted": "fp8_e4m3",
+  "api_attempted": "torch._scaled_mm",
+  "status": "unavailable",
+  "error_type": "RuntimeError",
+  "error_message": "CUDA error: CUBLAS_STATUS_NOT_SUPPORTED when calling `cublasLtMatmulAlgoGetHeuristic( ltHandle, computeDesc.descriptor(), Adesc.descriptor(), Bdesc.descriptor(), Cdesc.descriptor(), Ddesc.descriptor(), preference.descriptor(), 1, &heuristicResult, &returnedResult)`"
+}

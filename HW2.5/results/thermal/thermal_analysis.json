@@ -1,0 +1,14 @@
+{
+  "total_logged_duration_s": 1207.408,
+  "num_samples": 240,
+  "peak_sm_clock_mhz_first_30s": 2400.0,
+  "max_temperature_c_observed": 76.0,
+  "max_power_draw_w_observed": 451.49,
+  "throttling_detected": false,
+  "throttle_onset_time_s": "none",
+  "temperature_c_at_throttle_onset": "none",
+  "power_draw_w_at_throttle_onset": "none",
+  "peak_throughput_matmuls_per_s_first_30s": 339.8452535476421,
+  "steady_state_throughput_matmuls_per_s_last_5min": 136.56635147226854,
+  "steady_state_pct_of_peak_throughput": 40.18486356559446
+}
