@@ -31,13 +31,13 @@ Every value in this table must be traceable to a UUID-labelled result in `report
 
 | Item | Status |
 | --- | --- |
-| Implementation | Complete: `src/system_info.py`, `scripts/capture_gpu_info.sh` |
+| Implementation | Complete: Part A cells of `HW2.5.ipynb` |
 | Execution | Pending; requires the GPU workstation (target card: RTX 4060) |
 | `nvidia-smi -q` capture | To be measured — `results/system_info/nvidia_smi_full_query.txt` |
 
 ### Hardware Information
 
-Vendor-documented values below assume the target RTX 4060; `src/system_info.get_active_vendor_specs()` auto-detects the connected GPU at run time and reads from the matching entry in `KNOWN_GPU_VENDOR_SPECS`, so these rows will use RTX 4090 numbers instead if this is ever run on that card.
+Vendor-documented values below assume the target RTX 4060, pre-filled in the `VENDOR_SPECS` dict in `HW2.5.ipynb`'s Part A section; edit that dict by hand and update this table if this is ever run on a different card (e.g. the assignment's specified RTX 4090/RTX 5090 lab machine).
 
 | Field | Value | Source |
 | --- | --- | --- |
@@ -54,7 +54,7 @@ Vendor-documented values below assume the target RTX 4060; `src/system_info.get_
 | Reduced precisions supported by tensor cores | FP16, BF16, TF32, INT8, INT4, FP8 | Vendor documentation |
 | Vendor documentation citation | https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/ | — |
 
-Vendor-documented figures above come from the `"RTX 4060"` entry of `KNOWN_GPU_VENDOR_SPECS` in `src/system_info.py`. FP32 is NVIDIA's published figure; TF32/FP16/BF16 theoretical peak TFLOPS were derived (see the comment above that entry in the source) rather than read off a single vendor table. None of these were re-verified against a live NVIDIA page at repository-update time because outbound network access was unavailable in that environment — confirm all of them, especially the derived Tensor Core figures, on the workstation (which has internet access) before treating this table as final, and update the citation/verification note in `src/system_info.py` if any figure needs correction.
+Vendor-documented figures above come from the `VENDOR_SPECS` dict in `HW2.5.ipynb`'s Part A section. FP32 is NVIDIA's published figure; TF32/FP16/BF16 theoretical peak TFLOPS were derived (see the comment above that cell) rather than read off a single vendor table. None of these were re-verified against a live NVIDIA page at authoring time because outbound network access was unavailable in that environment — confirm all of them, especially the derived Tensor Core figures, on the workstation (which has internet access) before treating this table as final, and update `VENDOR_SPECS` in the notebook if any figure needs correction.
 
 ## Part B — Precision and Achieved Throughput
 
@@ -62,7 +62,7 @@ Vendor-documented figures above come from the `"RTX 4060"` entry of `KNOWN_GPU_V
 
 | Item | Status |
 | --- | --- |
-| Implementation | Complete: `src/precision_benchmarks.py` |
+| Implementation | Complete: Part B cells of `HW2.5.ipynb` |
 | Execution | Pending; requires the GPU workstation (target card: RTX 4060) |
 | Matrix sizes | 1024, 4096, 8192, 16384 |
 | Precisions | FP32, TF32, FP16, BF16 |
@@ -104,7 +104,7 @@ To be filled in from `results/precision/fp8_availability_probe.json`.
 
 | Item | Status |
 | --- | --- |
-| Implementation | Complete: `src/bandwidth_benchmarks.py` |
+| Implementation | Complete: Part C cells of `HW2.5.ipynb` |
 | Execution | Pending; requires the GPU workstation (target card: RTX 4060) |
 | Memory-bound operation | Elementwise addition, target `N = 200,000,000` float32 elements (adaptively halved and retried down to `N = 12,500,000` on a CUDA out-of-memory error; actual size used is recorded per row) |
 | Compute-bound operation | Square FP32 matmul, `N = 8192` |
@@ -118,7 +118,7 @@ To be filled in from `results/bandwidth/bandwidth_benchmark_results.csv`.
 | --- | --- | ---: | ---: | ---: | ---: | --- | --- |
 | To be measured | | | | | | | |
 
-Roofline ridge point (theoretical peak FP32 FLOPS / theoretical peak bandwidth) is computed in `src/bandwidth_benchmarks._roofline_ridge_point()` from the same vendor-documented constants used in Part A/B.
+Roofline ridge point (theoretical peak FP32 FLOPS / theoretical peak bandwidth) is computed in the `roofline_ridge_point()` function in `HW2.5.ipynb`'s Part C section, from the same `VENDOR_SPECS` constants used in Part A/B.
 
 ## Part D — Cost of Attention
 
@@ -126,7 +126,7 @@ Roofline ridge point (theoretical peak FP32 FLOPS / theoretical peak bandwidth) 
 
 | Item | Status |
 | --- | --- |
-| Implementation | Complete: `src/attention_benchmarks.py` |
+| Implementation | Complete: Part D cells of `HW2.5.ipynb` |
 | Execution | Pending; requires the GPU workstation (target card: RTX 4060) |
 | Configuration | Batch size 1, 1 attention head, head dimension 64, dtype bfloat16, `torch.inference_mode()` |
 | Sequence lengths (grid) | 512, 1024, 2048, 4096, 8192, 16384, plus up to 4 boundary-refinement probes per implementation |
@@ -153,7 +153,7 @@ To be filled in from `results/attention/attention_benchmark_results.csv`.
 
 ### Measured Memory Curve Fit (naive implementation)
 
-`peak_memory_mb ≈ a·seq_len² + b·seq_len + c`, fit with `numpy.polyfit` in `src/attention_benchmarks.fit_memory_curve`.
+`peak_memory_mb ≈ a·seq_len² + b·seq_len + c`, fit with `numpy.polyfit` in the analysis cell right after the Part D benchmark loop in `HW2.5.ipynb`.
 
 | Coefficient | Value |
 | --- | ---: |
@@ -179,7 +179,7 @@ The fused scaled-dot-product-attention backend (Flash/memory-efficient attention
 
 | Item | Status |
 | --- | --- |
-| Implementation | Complete: `src/thermal_benchmark.py`, `scripts/run_thermal_test.sh` |
+| Implementation | Complete: Part E cells of `HW2.5.ipynb` |
 | Execution | Pending; requires the GPU workstation (target card: RTX 4060), ~20 minutes |
 | Sampling interval | 5 seconds |
 | Fields logged per sample | elapsed time, GPU clock, memory clock, temperature, power draw, GPU utilization, GPU UUID, cumulative matmuls, interval throughput |
