@@ -13,7 +13,7 @@
 
 ## Scope
 
-Everything for this assignment lives in one notebook, **`HW2.5.ipynb`** — no separate `.py` modules or shell scripts. The assignment specifies a GPU Lab RTX 5090 or RTX 4090 workstation; this run targets a personal **RTX 4060** (8 GB) instead. The vendor-spec cell near the top of the notebook is a single dictionary you edit by hand to match whichever card you actually use.
+Everything for this assignment lives in one notebook, **`HW2.5.ipynb`** — no separate `.py` modules or shell scripts. This run targets the assignment's specified GPU Lab **RTX 4090** workstation. The vendor-spec cell near the top of the notebook is a single dictionary you edit by hand to match whichever card you actually use (e.g. an RTX 5090).
 
 The notebook covers:
 
@@ -61,7 +61,7 @@ nvidia-smi --query-gpu=name,uuid,driver_version --format=csv,noheader
 python3 -c "import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))"
 ```
 
-Both commands must report your GPU (e.g. "NVIDIA GeForce RTX 4060") before continuing.
+Both commands must report your GPU (e.g. "NVIDIA GeForce RTX 4090") before continuing.
 
 ### 3. Run the notebook top to bottom
 
@@ -71,7 +71,7 @@ jupyter notebook HW2.5.ipynb
 
 Run every cell in order:
 
-- **Part A** cells capture `nvidia-smi -q` and measured hardware facts into `results/system_info/`. Edit the `VENDOR_SPECS` dict in the cell right after to match whatever card `measured_hardware_info['name']` actually reports (it's pre-filled for an RTX 4060), citing NVIDIA's official spec page.
+- **Part A** cells capture `nvidia-smi -q` and measured hardware facts into `results/system_info/`. Edit the `VENDOR_SPECS` dict in the cell right after to match whatever card `measured_hardware_info['name']` actually reports (it's pre-filled for an RTX 4090), citing NVIDIA's official spec page.
 - **Part B–D** cells run automatically and save CSVs under `results/` plus figures under `figures/`.
 - **Part E**'s sustained-load cell blocks for ~20 minutes — let it run to completion for the real submission, then the following cells analyze and plot the log.
 
@@ -89,7 +89,7 @@ Run from wherever you finished updating the reports (workstation or after syncin
 
 ```bash
 git add HW2.5/
-git commit -m "Add executed RTX 4060 results for HW2.5"
+git commit -m "Add executed RTX 4090 results for HW2.5"
 git push
 git tag hw2-5
 git push origin hw2-5
@@ -114,7 +114,7 @@ HW2.5/
 ## Reproducibility and Honesty Notes
 
 - Every CSV/JSON row the notebook produces carries the real GPU UUID returned by `nvidia-smi` at run time; it is never hardcoded.
-- Vendor-documented GPU specifications (architecture, memory type/bandwidth, tensor-core generation, supported reduced precisions, theoretical peak TFLOPS per precision) live in one editable `VENDOR_SPECS` dict in the notebook's Part A section, clearly separated from anything measured. Its citation explains how it was sourced — the pre-filled RTX 4060 figures were not re-verified against a live NVIDIA page because outbound network access was unavailable while authoring this notebook, and the TF32/FP16/BF16 figures in particular were derived rather than read off a single vendor table. Confirm them on the workstation (which has internet access) before treating Part B's "% of theoretical peak" column as final.
+- Vendor-documented GPU specifications (architecture, memory type/bandwidth, tensor-core generation, supported reduced precisions, theoretical peak TFLOPS per precision) live in one editable `VENDOR_SPECS` dict in the notebook's Part A section, clearly separated from anything measured. Its citation explains how it was sourced — the pre-filled RTX 4090 figures were not re-verified against a live NVIDIA page because outbound network access was unavailable while authoring this notebook. Confirm them on the workstation (which has internet access) before treating Part B's "% of theoretical peak" column as final.
 - No benchmark result, GPU UUID, temperature, power draw, or OOM boundary in this repository is invented. Anything GPU-dependent is either absent or explicitly marked "to be measured on the GPU workstation" until the notebook is actually run there.
 
 ## Files Intentionally Excluded from Git

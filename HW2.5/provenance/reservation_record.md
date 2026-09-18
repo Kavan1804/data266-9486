@@ -1,10 +1,8 @@
 # GPU Workstation Reservation Record
 
-Target GPU: RTX 4060 (personal workstation; no lab reservation system). Fill
-in every field from the actual session. Do not estimate or invent any value
-below; leave a field blank with a note if it is genuinely unknown, and mark
-reservation-system fields "N/A (personal machine)" if there is no booking
-system to record.
+Target GPU: RTX 4090 GPU Lab workstation. Fill in every field from the
+actual reservation and session. Do not estimate or invent any value below;
+leave a field blank with a note if it is genuinely unknown.
 
 | Field | Value |
 | --- | --- |
@@ -12,7 +10,7 @@ system to record.
 | Workstation identifier / hostname | To be filled in on the GPU workstation |
 | GPU model (reported by `nvidia-smi`) | To be filled in |
 | GPU UUID (reported by `nvidia-smi`) | To be filled in |
-| Reservation system / booking reference | N/A (personal machine), or fill in if applicable |
+| Reservation system / booking reference | To be filled in |
 | Reservation start (date, time, timezone) | To be filled in |
 | Reservation end (date, time, timezone) | To be filled in |
 | Actual session start (date, time, timezone) | To be filled in |

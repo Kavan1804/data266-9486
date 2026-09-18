@@ -112,5 +112,33 @@ Validation: Every one of the notebook's 16 code cells parsed cleanly with ast.pa
   the notebook, reproducing the same results as the pre-consolidation modules. No
   CUDA-dependent code was executed.
 
+STEP 0d — TARGET GPU CHANGED BACK FROM RTX 4060 TO RTX 4090
+UTC Timestamp: 2026-09-18T02:00:00Z (approximate)
+Status: completed
+Environment: Local development machine (no NVIDIA GPU present); documentation and code
+  authoring only.
+Device: N/A
+Command or notebook cells: N/A
+Inputs: Decision to run this assignment on the assignment's specified RTX 4090 GPU Lab
+  workstation instead of a personal RTX 4060.
+Outputs/artifacts: VENDOR_SPECS dict in HW2.5.ipynb's Part A section replaced with RTX
+  4090 reference-card figures (Ada Lovelace AD102, 24 GB GDDR6X, 1008 GB/s, 450 W,
+  theoretical peak TFLOPS fp32=82.6/tf32=82.6/fp16=330.3/bf16=165.2, NVIDIA RTX 4090
+  spec-page citation); Part C's elementwise-add target tensor size restored to
+  400,000,000 float32 elements (previously reduced for the RTX 4060's 8 GB budget), still
+  with the adaptive halve-and-retry-on-OOM safeguard left in place. README.md, AI_USE.md,
+  reports/METRICS.md, provenance/reservation_record.md, and provenance/gpu_hours.md
+  updated to describe the RTX 4090 as the target card and reservation-based lab
+  workstation.
+Warnings/limitations: No GPU benchmark was executed at this step. The RTX 4090 figures in
+  VENDOR_SPECS reproduce NVIDIA's commonly cited reference-card specifications but were
+  not re-fetched from a live NVIDIA page because outbound network access to nvidia.com
+  was unavailable in this environment -- spot-check them on the workstation before
+  finalizing reports/METRICS.md.
+Validation: Every one of the notebook's 16 code cells re-parsed cleanly with ast.parse()
+  after the edit; confirmed zero remaining "4060" references across HW2.5.ipynb,
+  README.md, AI_USE.md, reports/METRICS.md, and provenance/*.md. No CUDA-dependent code
+  was executed.
+
 (Append real STEP entries below this line as the assignment is executed on the
 GPU workstation.)
