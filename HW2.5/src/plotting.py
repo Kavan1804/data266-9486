@@ -2,7 +2,7 @@
 
 Each function reads a results CSV produced by the corresponding benchmark
 module and renders one figure. If the CSV does not exist yet or is empty
-(i.e., the benchmark has not been run on the RTX 4090 workstation yet), the
+(i.e., the benchmark has not been run on the GPU workstation yet), the
 function prints a clear message and returns without writing a figure --
 it never fabricates a plot from placeholder numbers.
 
@@ -30,7 +30,7 @@ def _read_csv_rows(csv_path: Path) -> list[dict]:
 
     if not csv_path.exists():
         print(f"[plotting] {csv_path} does not exist yet. Run the benchmark on the "
-              f"RTX 4090 workstation first; skipping this figure.")
+              f"GPU workstation first; skipping this figure.")
         return []
     with csv_path.open(newline="") as fh:
         rows = list(csv.DictReader(fh))

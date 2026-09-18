@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Parts B, C, D — run the precision, bandwidth, and attention benchmarks and
-# generate their figures. Run this on the RTX 4090 GPU lab workstation, after
+# generate their figures. Run this on the GPU workstation (RTX 4090 or RTX 4060), after
 # scripts/capture_gpu_info.sh has already recorded the hardware/UUID.
 #
 # Usage (from the HW2.5/ directory, on the GPU workstation):

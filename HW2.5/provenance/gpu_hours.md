@@ -1,4 +1,4 @@
-# RTX 4090 GPU-Hours Used
+# GPU-Hours Used (RTX 4060)
 
 Record actual wall-clock GPU time used per session. Sum the "Duration (hours)"
 column for the assignment total. Do not estimate; compute duration from the

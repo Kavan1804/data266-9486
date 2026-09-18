@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Part A — capture nvidia-smi -q and measured hardware info on the RTX 4090
-# GPU lab workstation. Run this FIRST, before any other script in this repo.
+# Part A — capture nvidia-smi -q and measured hardware info on the GPU
+# workstation (RTX 4090 or RTX 4060). Run this FIRST, before any other script
+# in this repo.
 #
 # Usage (from the HW2.5/ directory, on the GPU workstation):
 #   ./scripts/capture_gpu_info.sh

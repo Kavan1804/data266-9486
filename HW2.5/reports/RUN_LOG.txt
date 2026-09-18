@@ -23,15 +23,17 @@ Outputs/artifacts: HW2.5/ directory tree, src/*.py, notebooks/HW2.5_GPU_Benchmar
 Warnings/limitations: No GPU benchmark was executed at this step. All results/ subfolders
   are empty except for placeholder directory structure; every GPU-dependent value in
   reports/METRICS.md is marked "To be measured." Outbound network access to nvidia.com
-  was unavailable in this environment, so the vendor-documented RTX 4090 specification
-  constants in src/system_info.py could not be re-fetched from the live NVIDIA page at
-  this step and must be spot-checked on the workstation before Part A/B/C figures are
-  treated as final.
+  was unavailable in this environment, so the vendor-documented GPU specification
+  constants in src/system_info.py (RTX 4090 and RTX 4060 entries in KNOWN_GPU_VENDOR_SPECS)
+  could not be re-fetched from the live NVIDIA page at this step and must be spot-checked
+  on the workstation before Part A/B/C figures are treated as final. The RTX 4060's
+  Tensor Core TFLOPS figures in particular were derived rather than read off a vendor
+  table and need the closest scrutiny.
 Validation: py_compile run on every src/*.py file; notebook JSON validated for
   well-formed nbformat v4 structure; no CUDA-dependent code was executed.
 
 =====================================================================
-ENTRY TEMPLATE — copy this block for every real run on the RTX 4090 workstation
+ENTRY TEMPLATE — copy this block for every real run on the GPU workstation
 =====================================================================
 STEP <n> — <PART LETTER/NAME, e.g. "PART A — GPU INFO CAPTURE">
 Date and time (local + UTC):
@@ -50,5 +52,35 @@ Notes or failure message: <copy any exception text verbatim; do not paraphrase a
   the actual error>
 =====================================================================
 
+STEP 0b — TARGET GPU CHANGED FROM RTX 4090 TO RTX 4060
+UTC Timestamp: 2026-09-18T00:00:00Z (approximate)
+Status: completed
+Environment: Local development machine (no NVIDIA GPU present); documentation and code
+  authoring only.
+Device: N/A
+Command or notebook cells: N/A
+Inputs: Decision to run this assignment on a personal RTX 4060 (8 GB) instead of the
+  originally scoped RTX 4090 GPU lab workstation.
+Outputs/artifacts: src/system_info.py restructured so vendor specs are keyed by GPU
+  (KNOWN_GPU_VENDOR_SPECS: RTX 4090 and RTX 4060 entries) and auto-detected at run time
+  via get_active_vendor_specs(); src/precision_benchmarks.py and
+  src/bandwidth_benchmarks.py updated to read the auto-detected specs instead of a
+  hardcoded RTX 4090 constant, and both now catch CUDA out-of-memory errors per test
+  (recording status="oom") instead of aborting, since 8 GB leaves much less headroom
+  than 24 GB; the elementwise-add benchmark's target tensor size was also reduced and
+  made adaptive (halves and retries on OOM down to a floor, recording the size actually
+  used). README.md, AI_USE.md, reports/METRICS.md, and this file updated to describe the
+  RTX 4060 as the target card while keeping RTX 4090 support intact.
+Warnings/limitations: No GPU benchmark was executed at this step. The RTX 4060 entry's
+  TF32/FP16/BF16 theoretical peak TFLOPS were derived from NVIDIA's published FP32 figure
+  and RTX 4090 Tensor Core ratios, not read directly off a single vendor table -- these
+  are the values most in need of verification against the live NVIDIA RTX 4060
+  specification page before reports/METRICS.md is finalized.
+Validation: py_compile run on every modified src/*.py file; get_vendor_specs_for_gpu()
+  matching logic unit-tested against synthetic GPU name strings (RTX 4090, RTX 4060,
+  RTX 4060 Laptop GPU, and an unsupported RTX 3080 correctly raising an error instead of
+  guessing); src.plotting --all re-confirmed to fail gracefully with no results/ data
+  present. No CUDA-dependent code was executed.
+
 (Append real STEP entries below this line as the assignment is executed on the
-RTX 4090 workstation.)
+GPU workstation.)
