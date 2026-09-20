@@ -1,46 +1,46 @@
-Step 0 — Repository and Reference Inspection
+Step 0: Repository and Reference Inspection
 UTC Timestamp: 2026-09-20T01:10:00Z (approx.)
-Status: Inspected HW1/HW2/HW3 layout and conventions (personal-parameters block, Markdown
-style, AI_USE.md format, findings.pdf built with ReportLab) and confirmed HW4/ already
-contained the professor-provided Demo_4_Mini_GPT.ipynb (single-head, single-block, greedy-only
-demo) and shakespeare.txt (1,738 characters, the Romeo/Juliet balcony-scene excerpt given for
-Week 4). No other dataset was downloaded or substituted.
+Status: Inspected HW1, HW2, and HW3 to see how they were laid out (personal parameters block,
+markdown style, AI_USE.md format, findings.pdf built with ReportLab), and confirmed HW4 already
+had the professor provided Demo_4_Mini_GPT.ipynb (a single head, single block, greedy only demo)
+and shakespeare.txt (1,738 characters, the Romeo and Juliet balcony scene excerpt given for
+Week 4). No other dataset was downloaded or swapped in.
 
-Step 1 — HW4_Mini_GPT.ipynb Build
+Step 1: HW4_Mini_GPT.ipynb Build
 UTC Timestamp: 2026-09-20T01:20:00Z (approx.)
-Status: Generated HW4_Mini_GPT.ipynb via a notebook-building script (nbformat), extending the
-demo to the assignment's requirements: personal-parameters cell (SID4=9486, SEED=9486,
-SLICE=486, HP_ID=0, CLS_A=6, CLS_B=0), character-level tokenization of shakespeare.txt,
-seq_len=128 sliding-window CharDataset, manually implemented MultiHeadSelfAttention (4 heads,
-separate Q/K/V nn.Linear projections, causal mask via masked_fill — no nn.MultiheadAttention),
-DecoderBlock (attention + residual + LayerNorm + Linear→GELU→Linear feed-forward + residual +
-LayerNorm), and MiniGPT (token + positional nn.Embedding, 4 decoder blocks, final LayerNorm,
-vocabulary nn.Linear head). No nn.Transformer, nn.MultiheadAttention, or HuggingFace transformer
-classes were used anywhere.
+Status: Generated HW4_Mini_GPT.ipynb with a notebook building script, extending the demo to meet
+the assignment's requirements: a personal parameters cell (SID4=9486, SEED=9486, SLICE=486,
+HP_ID=0, CLS_A=6, CLS_B=0), character level tokenization of shakespeare.txt, a seq_len=128
+sliding window CharDataset, a manually implemented MultiHeadSelfAttention (4 heads, separate
+Q/K/V nn.Linear projections, a causal mask applied with masked_fill, no nn.MultiheadAttention),
+a DecoderBlock (attention, residual, LayerNorm, a Linear to GELU to Linear feed forward network,
+another residual, another LayerNorm), and a MiniGPT model (token and positional nn.Embedding,
+4 decoder blocks, a final LayerNorm, a vocabulary nn.Linear head). No nn.Transformer,
+nn.MultiheadAttention, or HuggingFace transformer classes are used anywhere in the notebook.
 
-Command: python3 build_notebook.py (executed from within HW4/, writing HW4_Mini_GPT.ipynb)
+Command: python3 build_notebook.py (run from inside HW4, writing HW4_Mini_GPT.ipynb)
 
-Error encountered and fixed (script build, before any notebook execution):
+Error encountered and fixed, during the build script, before any notebook execution:
   File "build_notebook.py", line 200
       training target is "the character that actually comes next."""")
                                                                     ^
   SyntaxError: unterminated string literal (detected at line 200)
-Cause: a Markdown cell's triple-quoted Python string ended with a literal `."` immediately
-before the closing `"""`, producing four quote characters in a row, which Python parsed as an
-unterminated string. Fixed by rewording the sentence so it no longer ends on a quote character
-directly against the closing triple-quote. Re-ran the build script with no further errors.
+Cause: a markdown cell's triple quoted string ended with a quotation mark right before the
+closing triple quote, so Python read four quote characters in a row as an unterminated string.
+Fixed by rewording that sentence so it doesn't end on a quote mark next to the closing triple
+quote. The build script ran cleanly after that.
 
-Step 2 — First Full Execution (clean kernel)
-UTC Timestamp: 2026-09-20T01:51:41Z (approx., file mtimes below)
+Step 2: First Full Execution, Clean Kernel, Local CPU
+UTC Timestamp: 2026-09-20T01:51:41Z (approx., based on file save times)
 Command: NotebookClient(nb, timeout=600, kernel_name="python3").execute()
-         (nbclient 0.10.2, nbformat 5.10.4, /opt/anaconda3/bin/python3 3.13.9,
-          torch 2.14.0, numpy 2.3.5, matplotlib 3.10.6)
-Device selected: cpu (torch.cuda.is_available() was False in this environment; the notebook's
-device selection is automatic — CUDA when available, CPU fallback otherwise — and was not
-hand-forced to CPU).
-Status: Executed all cells top to bottom with no manual intervention. No errors.
+Environment: nbclient 0.10.2, nbformat 5.10.4, /opt/anaconda3/bin/python3 3.13.9,
+torch 2.14.0, numpy 2.3.5, matplotlib 3.10.6
+Device selected: cpu, since torch.cuda.is_available() was False on this machine. The notebook
+picks the device automatically (CUDA when available, CPU otherwise) and was not hand forced to
+CPU.
+Status: Ran top to bottom with no manual steps in between and no errors.
 
-Console output (in cell order):
+Console output, in cell order:
   SID4  = 9486
   SEED  = 9486
   SLICE = 486
@@ -66,44 +66,102 @@ Console output (in cell order):
   Epoch 4/6 | avg loss: 2.0952
   Epoch 5/6 | avg loss: 1.9809
   Epoch 6/6 | avg loss: 1.8303
-  [training-loss plot rendered and saved to figures/training_loss.png]
-  [greedy / temperature (0.5, 1.0, 1.5) / top-k (5, 20) samples generated from prompt "ROMEO:" —
-   see HW4_Mini_GPT.ipynb and findings.pdf for full text]
-Saved: HW4_Mini_GPT.ipynb (outputs intact), figures/training_loss.png
+  (training loss plot rendered and saved to figures/training_loss.png)
+  (greedy, temperature at 0.5/1.0/1.5, and top-k at 5/20 samples generated from the prompt
+   "ROMEO:", full text in HW4_Mini_GPT.ipynb and findings.pdf)
+Saved: HW4_Mini_GPT.ipynb with outputs intact, figures/training_loss.png
 
-Step 3 — Analysis Rewrite
+Step 3: Analysis Rewrite
 UTC Timestamp: 2026-09-20T01:56:00Z (approx.)
-Status: The Part 5 analysis and Final Observations Markdown cells were rewritten after reading
-the actual Step 2 output — the first draft (written before execution) had assumed the model
-would largely memorize the short training excerpt, but the real samples were visibly
-undertrained (greedy decoding looped on "nor nor nathe" / "nor name" rather than reproducing
-training text). No code cells were changed in this step.
+Status: Rewrote the Part 5 analysis and the final observations markdown after actually reading
+the Step 2 output. The first draft, written before the notebook had run, assumed the model would
+mostly memorize the short training excerpt. The real samples were clearly undertrained instead,
+with greedy decoding looping on things like "nor nor nathe" and "nor name" rather than
+reproducing the training text. No code cells changed in this step.
 
-Step 4 — Second Full Execution (clean kernel, reproducibility check)
+Step 4: Second Full Execution, Clean Kernel, Local CPU (reproducibility check)
 UTC Timestamp: 2026-09-20T01:58:00Z (approx.)
-Command: same as Step 2, re-run against the notebook after the Step 3 Markdown-only edit and
-after moving the loss-plot save path to figures/training_loss.png.
-Status: Executed all cells top to bottom with no manual intervention. No errors. Every printed
-value (parameter count, per-epoch losses, all six generated samples) was byte-for-byte identical
-to Step 2, confirming SEED=9486 makes weight initialization, DataLoader shuffling, and sampling
-reproducible across separate clean-kernel runs on the same hardware/software.
-Saved: HW4_Mini_GPT.ipynb (outputs intact, dated 2026-09-19 18:51:47 -07:00 by file mtime),
-figures/training_loss.png (dated 2026-09-19 18:51:41 -07:00), findings.pdf built from these
-results (dated 2026-09-19 18:53:04 -07:00).
+Command: same as Step 2, run again after the Step 3 markdown edit and after moving the loss
+plot's save path to figures/training_loss.png.
+Status: Ran top to bottom with no manual steps and no errors. Every printed value, the parameter
+count, each epoch's loss, and all six generated samples, matched Step 2 exactly, which confirms
+that SEED=9486 makes weight initialization, data loader shuffling, and sampling reproducible
+across separate clean kernel runs on the same machine.
+Saved: HW4_Mini_GPT.ipynb with outputs intact, figures/training_loss.png, and findings.pdf built
+from these results.
 
-Step 5 — Checkpoint Cell Added (not yet executed)
+Step 5: Checkpoint Cell Added, Not Yet Executed
 UTC Timestamp: 2026-09-20T02:15:00Z (approx.)
-Status: Added a Markdown + code cell after the training loop that saves the trained model's
-state_dict to checkpoints/mini_gpt_seed_9486.pt (torch.save(model.state_dict(), checkpoint_path)
-with checkpoint_path = f"checkpoints/mini_gpt_seed_{SEED}.pt"). This cell was inserted after
-Step 4's execution and has not been run — no checkpoint file exists yet. It will be produced
-automatically the next time the notebook is executed top to bottom.
+Status: Added a markdown cell and a code cell right after the training loop that saves the
+trained model's weights to checkpoints/mini_gpt_seed_9486.pt with torch.save. This was added
+after Step 4's run and was not executed at the time, so no checkpoint file existed yet locally.
 
-Final Status: HW4_Mini_GPT.ipynb ran top to bottom with no errors in both Step 2 and Step 4 (CPU,
-local environment). All numbers currently in HW4_Mini_GPT.ipynb, findings.pdf, and METRICS.md
-come from the Step 4 run. Per instruction, the notebook was NOT re-executed after Step 5's
-checkpoint cell was added — the notebook is intended to be run next on Google Colab with a GPU
-runtime (torch.cuda.is_available() will select "cuda" automatically there; no code change is
-needed for that). This RUN_LOG.txt, METRICS.md, and findings.pdf should be updated with the
-Colab GPU run's console output, timings, and any errors before final submission, since
-Section 0.3 requires RUN_LOG.txt to reflect the run that produced the reported numbers.
+Step 6: Execution on Google Colab, GPU
+UTC Timestamp: 2026-09-20T02:22:36Z (approx., based on the pulled notebook's file save time)
+Environment: Google Colab, GPU runtime. Device selected: cuda.
+Status: The user ran the notebook themselves on Colab and pulled the executed notebook back into
+this repository. It ran top to bottom with no errors.
+
+Console output, in cell order:
+  SID4  = 9486
+  SEED  = 9486
+  SLICE = 486
+  HP_ID = 0
+  CLS_A = 6
+  CLS_B = 0
+  Device: cuda
+  Total characters: 1738
+  Vocabulary size: 49
+  Number of training windows: 1609
+  Softmax row-sum min/max: 0.9999998211860657 1.0000001192092896
+  Total attention weight on future positions: 0.0
+  Causal mask verified: rows sum to 1 and zero weight is placed on future positions.
+  Total parameter count : 822,321
+  Hidden dimension      : 128
+  Number of heads       : 4
+  Head dimension         : 32
+  Number of decoder blocks: 4
+  Output shape: (32, 128, 49)
+  Epoch 1/6 | avg loss: 2.9655
+  Epoch 2/6 | avg loss: 2.3758
+  Epoch 3/6 | avg loss: 2.1977
+  Epoch 4/6 | avg loss: 2.0952
+  Epoch 5/6 | avg loss: 1.9809
+  Epoch 6/6 | avg loss: 1.8303
+  Saved model checkpoint to checkpoints/mini_gpt_seed_9486.pt
+  (training loss plot rendered inline, extracted from the notebook and saved to
+   figures/training_loss.png)
+  (greedy, temperature at 0.5/1.0/1.5, and top-k at 5/20 samples generated from the prompt
+   "ROMEO:", full text in HW4_Mini_GPT.ipynb and findings.pdf)
+
+Two things worth calling out about this run, following section 0.2's request to identify any
+source of non-determinism:
+
+First, the per epoch training losses came back identical to four decimal places to the earlier
+CPU run, even though the attention row sum check shows a tiny difference in the eighth decimal
+place (0.9999998211860657 on GPU versus 0.9999998807907104 on CPU), so the two runs are not
+bit for bit identical under the hood. With a model this small and only 300 total training steps,
+those tiny floating point differences never grew large enough to move the rounded loss values.
+
+Second, greedy decoding produced the exact same text on both CPU and GPU, but the temperature
+and top-k samples did not. Greedy uses argmax, which has no randomness in it, so as long as the
+model's top choice at each step is a clear winner rather than a close call, the CPU and GPU
+results agree. Temperature and top-k sampling both call torch.multinomial, which draws from the
+CUDA random generator when the logits tensor lives on the GPU and from the CPU generator
+otherwise. Those are two different random streams, so the same SEED value does not produce the
+same random draws across devices, only within one device. That is the identified source of the
+difference. I did not try to force identical sampling across CPU and GPU, since the assignment
+only asks for reproducibility on a given piece of hardware, which both Step 4 (CPU, run twice)
+and this Colab run each satisfy on their own.
+
+One gap: the checkpoint file itself, checkpoints/mini_gpt_seed_9486.pt, was written on the Colab
+instance's local disk during this run but was not part of what got pulled back into this
+repository, since Colab's local filesystem is not synced to git. That file will need to be
+downloaded from Colab and added to the repo separately, or the notebook re-run somewhere that
+does sync, before final submission.
+
+Final Status: HW4_Mini_GPT.ipynb has now run top to bottom without errors three separate times:
+twice locally on CPU (Step 2 and Step 4, identical to each other) and once on Google Colab with
+a GPU (Step 6). RUN_LOG.txt, METRICS.md, findings.pdf, and figures/training_loss.png were all
+updated after Step 6 to reflect the GPU run's numbers and samples, since those are the results
+being submitted. The notebook itself was not modified or re-run as part of that update.
