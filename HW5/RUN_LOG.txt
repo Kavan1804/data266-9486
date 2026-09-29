@@ -1,0 +1,269 @@
+Step 0: Repository and Reference Inspection
+UTC Timestamp: 2026-09-29T01:00:00Z (approx.)
+Status: Looked through HW1 through HW4 to match their layout (personal parameters cell, markdown
+tone, AI_USE.md format, METRICS.md tables, RUN_LOG.txt steps, findings.pdf built with ReportLab),
+and read the professor's Demo_5_LoRA.ipynb (Mistral-7B, 8-bit quantization, LoRA on q_proj and
+v_proj, English Quotes dataset, Trainer with DataCollatorForLanguageModeling, sampling-based
+generation). Demo_5_LoRA.ipynb was not modified. The dataset used is neil-code/dialogsum-test,
+which has train 1,999, validation 499, and test 499 rows, with columns id, dialogue, summary, and
+topic.
+
+Step 1: Local Environment Probe
+UTC Timestamp: 2026-09-29T01:10:00Z (approx.)
+Environment: Apple M1, 8 GB RAM, Python 3.13.9 in a separate virtual environment with
+torch 2.14.0, transformers 5.17.0, peft 0.21.0, datasets 5.0.1.
+Status: A short probe script confirmed:
+  - flan-t5-small's linear layer names are k, lm_head, o, q, v, wi_0, wi_1, wo, so the demo's
+    q_proj/v_proj targets do not exist in T5 and LoRA has to target q and v instead.
+  - LoRA r=4 on q and v gives 172,032 trainable parameters out of 77,133,184 (0.2230%).
+  - Seq2SeqTrainer in transformers 5.x takes processing_class= rather than tokenizer=.
+  - Dialogue token lengths: median 202, 95th percentile 421, 99th percentile about 561.
+    Summary token lengths: median 36, 99th percentile about 91. This is why max source length
+    is 512 and max target length is 128.
+  - Training speed at batch size 8: about 3.9 s/step on CPU, and about 77 s/step on Apple MPS
+    (much slower, likely due to memory pressure on 8 GB). All local runs below therefore used
+    CPU. The notebook passes use_cpu=(device == "cpu") to the Trainer so it does not
+    automatically pick MPS on a Mac, which makes no difference on Colab.
+
+Step 2: HW5_LoRA_Fine_Tuning.ipynb Build
+UTC Timestamp: 2026-09-29T01:25:00Z (approx.)
+Status: Generated the notebook with a build script, following the demo's flow (load model, add
+LoRA, print trainable parameters, train, save adapter, reload and merge, run inference) but
+adapted to seq2seq summarization: AutoModelForSeq2SeqLM, a preprocess_dialogsum function that
+turns each row into input (instruction plus dialogue) and target (summary), tokenize_function
+using text_target for the labels, DataCollatorForSeq2Seq with label_pad_token_id=-100,
+Seq2SeqTrainer, TaskType.SEQ_2_SEQ_LM, fp32 with no quantization, and greedy generation
+(do_sample=False, num_beams=1, max_new_tokens=100). No Hugging Face login is needed. The
+observation markdown for Tasks 6 and 7 was left as placeholders until real outputs existed.
+
+Step 3: First Full Execution, Clean Kernel, Local CPU
+UTC Timestamp: 2026-09-29T01:28:00Z to 01:58:00Z (approx.)
+Command: jupyter nbconvert --to notebook --execute (pip cell skipped, packages already in the
+virtual environment)
+Device selected: cpu, since torch.cuda.is_available() was False on this machine.
+Status: Ran top to bottom with no errors. r=4 final training loss 1.6292 (817.9 s), r=16 final
+training loss 1.6007 (833.6 s). Both adapters saved separately.
+
+Error found in the output (no exception was raised):
+  Evaluation dialogues: test indices [486, 487] -> ['test_162_1', 'test_162_2']
+Both evaluation examples printed the same dialogue (Ernie starting a band) and got identical
+generated summaries. The DialogSum test split stores each dialogue in consecutive rows, once per
+reference summary (test_162_1, test_162_2, test_162_3), so SLICE + 1 is the same conversation.
+The test split only has 167 unique dialogues in 499 rows.
+
+Step 4: Evaluation Dialogue Fix, Markdown Draft, Second Local Execution
+UTC Timestamp: 2026-09-29T01:59:00Z to 02:30:00Z (approx.)
+Status: Changed the selection so the first evaluation dialogue is test[SLICE] and the second is
+the next test row with a different dialogue, and added an assertion that the two differ.
+Training does not depend on this selection, so I first generated the new Example 2 outputs from
+the saved Step 3 adapters and wrote the Task 6, Task 7, and Final Observations markdown from those
+local CPU outputs. Then I ran the whole notebook again from a clean kernel.
+Output of the second run:
+  Evaluation dialogues: test indices [486, 489] -> ['test_162_1', 'test_163_1']
+  No overlap between the training subset and the evaluation dialogues.
+  r=4 final training loss 1.6292 (825.6 s), r=16 final training loss 1.6007 (901.6 s)
+Every loss value and generated summary matched Step 3 exactly, so SEED=9486 makes the run
+reproducible across separate kernels on the same machine.
+Saved: HW5_LoRA_Fine_Tuning.ipynb without outputs, committed as aa14309.
+
+Step 5: First Colab Attempt, torchao ImportError
+UTC Timestamp: 2026-09-29T02:15:00Z (approx.)
+Environment: Google Colab, Tesla T4.
+Status: Failed at the first build_lora_model call:
+  ImportError: Found an incompatible version of torchao. Found version 0.10.0, but only versions
+  above 0.16.0 are supported
+Cause: Colab ships torchao 0.10.0, and the current peft release checks the torchao version when
+creating LoRA layers, even though this notebook never uses torchao.
+Fix: Added "!pip uninstall -y -q torchao" to the install cell, plus a short note in the setup
+markdown, committed as 3c444a6.
+
+Step 6: Second Colab Run, torchao Worked Around Mid-Session (superseded)
+UTC Timestamp: 2026-09-29T02:27:16Z (time of the "Created using Colab" commit 7d9b16f)
+Environment: Google Colab, Tesla T4, torch 2.11.0+cu128, transformers 5.16.1.
+Status: Ran to the end with no errors, but this was not a clean run:
+  - It was saved from the notebook version before the Step 5 fix, so the install cell did not
+    uninstall torchao. Instead, a cell was added in Colab right before the r=4 LoRA model was
+    built that ran "!pip uninstall -y torchao" and
+    "!pip install -q -U peft transformers accelerate datasets sentencepiece". The Colab save
+    replaced the 3c444a6 changes.
+  - It was not a fresh runtime. Execution counts started at 15, count 28 was missing, and the
+    library upgrade happened after transformers had already been imported.
+Results: r=4 final training loss 1.6318, r=16 final training loss 1.6015. The generated
+summaries were word for word the same as the clean run in Step 10.
+
+Step 7: Markdown Update to Match the Colab Outputs
+UTC Timestamp: 2026-09-29T02:35:00Z (approx.)
+Status: The Task 6 "What Changed", Task 7 "Effect of Rank", and Final Observations markdown had
+been written from the local CPU outputs (Step 4), so they no longer matched the Colab outputs.
+For example, they said r=4 and r=16 were nearly identical on Example 1, which was only true on
+CPU. I rewrote those three cells from the Step 6 outputs.
+
+Step 8: Notebook Prepared for a Clean Run
+UTC Timestamp: 2026-09-29T03:02:54Z (commit 490ca32)
+Status: Put the torchao uninstall back into the install cell, before peft is ever imported,
+with a note in the setup markdown. Removed the mid-notebook install cell from Step 6. Updated
+the Task 6 observation strings (they live in a code cell) to match the Colab r=4 outputs, since
+the Example 2 output now mentions the theater. Cleared all outputs.
+
+Step 9: Third Colab Run, Reused Runtime (superseded)
+UTC Timestamp: 2026-09-29T03:07:22Z (commit 0e38223)
+Status: One uninterrupted Run all of the Step 8 notebook with no errors, but in the same
+runtime as before. Execution counts ran 44 to 70, and the install cell printed
+"WARNING: Skipping torchao as it is not installed", which shows torchao had already been
+removed in the earlier session. Outputs matched Step 6 (r=4 final loss 1.6318, r=16 1.6015,
+identical summaries). Because the runtime was not fresh, I ran it once more.
+
+Step 10: Clean Execution on Google Colab, GPU (the submitted run)
+UTC Timestamp: 2026-09-29T03:13:47Z (commit 9d85498)
+Environment: Google Colab, Tesla T4, fresh runtime (Disconnect and delete runtime, then
+Run all). torch 2.11.0+cu128, transformers 5.16.1. Device selected: cuda.
+Status: Ran top to bottom in a single Run all with no errors and no manual steps. Execution
+counts go 1 through 27 with no gaps. The install cell produced no "Skipping torchao" warning,
+meaning Colab's preinstalled torchao was present and removed before peft was imported.
+
+Console output, in cell order (warnings and progress bars omitted):
+  SID4  = 9486
+  SEED  = 9486
+  SLICE = 486
+  HP_ID = 0
+  CLS_A = 6
+  CLS_B = 0
+  Using GPU: Tesla T4
+  torch       : 2.11.0+cu128
+  transformers: 5.16.1
+  train      rows =  1999 | columns = ['id', 'dialogue', 'summary', 'topic']
+  validation rows =   499 | columns = ['id', 'dialogue', 'summary', 'topic']
+  test       rows =   499 | columns = ['id', 'dialogue', 'summary', 'topic']
+  Evaluation dialogues: test indices [486, 489] -> ['test_162_1', 'test_163_1']
+  Training subset size: 1000
+  No overlap between the training subset and the evaluation dialogues.
+  Processed sample 1 (id: train_1804): input_ids length 163, labels length 27
+  Processed sample 2 (id: train_918): input_ids length 386, labels length 64
+  Loaded: google/flan-t5-small
+  Parameters: 76,961,152
+  Generation settings: {'max_new_tokens': 100, 'do_sample': False, 'num_beams': 1}
+  Linear layer names in flan-t5-small: ['k', 'lm_head', 'o', 'q', 'v', 'wi_0', 'wi_1', 'wo']
+  'q' found in 24 attention layers
+  'v' found in 24 attention layers
+
+  --- LoRA r=4 (lora_alpha=16, lora_dropout=0.1) ---
+  Total parameters     : 77,133,184
+  Trainable parameters : 172,032
+  Trainable percentage : 0.2230%
+  Training configuration: 1000 examples, 2 epochs, batch size 8, 250 steps,
+  learning rate 0.001, seed 9486, device cuda
+  step   25 | epoch 0.20 | loss 2.1567
+  step   50 | epoch 0.40 | loss 1.6888
+  step   75 | epoch 0.60 | loss 1.5910
+  step  100 | epoch 0.80 | loss 1.5677
+  step  125 | epoch 1.00 | loss 1.6214
+  step  150 | epoch 1.20 | loss 1.5611
+  step  175 | epoch 1.40 | loss 1.5971
+  step  200 | epoch 1.60 | loss 1.5550
+  step  225 | epoch 1.80 | loss 1.4628
+  step  250 | epoch 2.00 | loss 1.5171
+  Final training loss (average over the run): 1.6319
+  Training runtime: 66.8 s
+  Saved adapter to outputs/dialogsum_lora_r4 (adapter_model.safetensors 684.8 KB)
+
+  --- LoRA r=16 (lora_alpha=32, lora_dropout=0.1) ---
+  Total parameters     : 77,649,280
+  Trainable parameters : 688,128
+  Trainable percentage : 0.8862%
+  step   25 | epoch 0.20 | loss 2.0876
+  step   50 | epoch 0.40 | loss 1.6578
+  step   75 | epoch 0.60 | loss 1.5660
+  step  100 | epoch 0.80 | loss 1.5505
+  step  125 | epoch 1.00 | loss 1.6044
+  step  150 | epoch 1.20 | loss 1.5348
+  step  175 | epoch 1.40 | loss 1.5654
+  step  200 | epoch 1.60 | loss 1.5265
+  step  225 | epoch 1.80 | loss 1.4365
+  step  250 | epoch 2.00 | loss 1.4858
+  Final training loss (average over the run): 1.6015
+  Training runtime: 64.6 s
+  Saved adapter to outputs/dialogsum_lora_r16
+
+  outputs/dialogsum_lora_r4      r=4   lora_alpha=16  target_modules=['q', 'v'] weights=684.8 KB
+  outputs/dialogsum_lora_r16     r=16  lora_alpha=32  target_modules=['q', 'v'] weights=2701.1 KB
+
+Generated summaries (greedy decoding, same settings for every model):
+
+  Example 1 (test index 486, id test_162_1)
+    Dialogue:
+      #Person1#: Ernie, I'm really excited about starting this band together. We're going to be
+      the two coolest students on campus.
+      #Person2#: I know! It's gonna be great. But what kind of music do you think we should play?
+      #Person1#: That's a good question. You know I love hip hop, so maybe we can play some
+      Vanilla Ice songs.
+      #Person2#: Hmm. . . Vanilla Ice? I know his most famous song, ' Ice Ice Baby, ' but I don't
+      know his other songs.
+      #Person1#: That's OK. You can buy his songs on iTunes and listen to them.
+    Reference: #Person1# and Ernie plan to start a band and they decide to play hip hop music.
+    Baseline:  What's the name of the band?
+    LoRA r=4:  Ernie and Ernie are excited about starting the band together. They're going to be
+               the two coolest students on campus. They're going to play some Vanilla Ice songs.
+    LoRA r=16: Ernie and Ernie are excited about starting the band together. Ernie and Ernie are
+               excited about the music they should play.
+
+  Example 2 (test index 489, id test_163_1)
+    Dialogue:
+      #Person1#: Are you enjoying your trip to New Orleans?
+      #Person2#: Oh, yes. I really like it here.
+      #Person1#: Would you like to do something tonight?
+      #Person2#: Sure. I'd love to.
+      #Person1#: Let's see. Have you been to a jazz club yet?
+      #Person2#: Yes. I've already been to several clubs here.
+      #Person1#: OK. What about an evening riverboat tour?
+      #Person2#: Uh, actually, I've gone twice this week.
+      #Person1#: So, what do you want to do?
+      #Person2#: Well, I haven't been to the theater in a long time.
+      #Person1#: Oh, OK. I hear there's a terrific show at the Sanger Theater.
+      #Person2#: Great! Let's make a reservation.
+    Reference: #Person1# and #Person2# are discussing where to have fun, and they decide to go to
+               the theater tonight.
+    Baseline:  How about a riverboat tour?
+    LoRA r=4:  #Person2# wants to go to New Orleans to see jazz club. #Person2# hasn't been to the
+               theater in a long time.
+    LoRA r=16: #Person2# and #Person1# are going to New Orleans tonight. #Person2# wants to go to a
+               jazz club and a riverboat tour.
+
+Run-to-run and device-to-device differences:
+  - Across the three Colab runs (Steps 6, 9, and 10), all parameter counts and all six
+    generated summaries were identical. Some losses differed only in the fourth decimal place
+    (for example, r=4 at step 250 was 1.5168 in Step 6 and 1.5171 in Step 10, and the r=4 final
+    loss was 1.6318 vs 1.6319). Some GPU kernels do not add floating point values in a fixed
+    order, so tiny differences like this are expected even with the same SEED.
+  - Compared with the local CPU runs (Steps 3 and 4), the parameter counts, evaluation
+    dialogues, processed samples, and baseline summaries were identical. The baseline uses the
+    unmodified pretrained weights and greedy decoding, so there is no randomness in it.
+  - Training losses were close but not identical: r=4 final loss 1.6319 on GPU vs 1.6292 on
+    CPU, and r=16 1.6015 on GPU vs 1.6007 on CPU.
+  - The r=4 Example 1 output was identical on both devices, but the other three LoRA outputs
+    changed. On CPU, r=16 Example 1 ended with "They'll play some Vanilla Ice songs." and did
+    not repeat itself. r=4 Example 2 was "#Person2# wants to go to New Orleans tonight.
+    #Person2# wants to go to a jazz club and a riverboat tour." and did not mention the theater.
+  - The identified source of the difference: LoRA dropout (p=0.1) draws its masks from the CUDA
+    random generator on the GPU and from the CPU generator locally. Those are two different
+    random streams, so the same SEED gives different dropout masks on each device. On top of
+    that, GPU and CPU kernels add floating point values in different orders. The adapters
+    therefore end up slightly different, and with greedy decoding a small change in one early
+    token can change the rest of the sentence. The run is reproducible on a given device (Step 4
+    matched Step 3 exactly, and the Colab summaries matched across all three runs), just not
+    word for word across devices.
+
+Step 11: Final Markdown Check
+UTC Timestamp: 2026-09-29T03:20:00Z (approx.)
+Status: Checked every markdown observation against the Step 10 outputs. The only thing that
+changed was the r=4 final loss quoted in "Effect of Rank" (1.6318 -> 1.6319), which I updated
+as a one-line edit to the notebook's JSON without re-running anything. Everything else still
+matches: the summaries, the parameter counts, the claim that r=16 had a lower loss at every
+logged step, and the step 25 and step 250 loss values quoted in Final Observations.
+
+Final Status: HW5_LoRA_Fine_Tuning.ipynb ran top to bottom without errors twice locally on CPU
+(Steps 3 and 4, identical to each other) and, in its final form, once on Google Colab with a T4
+GPU in a fresh runtime (Step 10). METRICS.md, README.md, findings.pdf, and this RUN_LOG.txt use
+the Step 10 numbers and outputs, since those are the results being submitted. Both adapters
+(outputs/dialogsum_lora_r4 and outputs/dialogsum_lora_r16) were written to the Colab instance's
+local disk and are not part of this repository, since Colab's local filesystem is not synced to
+git.
