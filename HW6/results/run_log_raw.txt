@@ -1,0 +1,140 @@
+[2026-10-06T05:48:15Z] device: cuda | Tesla T4
+[2026-10-06T05:48:15Z] torch 2.11.0+cu130 | torchvision 0.26.0+cu130
+[2026-10-06T05:50:43Z] STL-10 loaded in 148.3s
+[2026-10-06T05:50:43Z] train: 5000 | test: 8000 | unlabeled: 100000
+[2026-10-06T05:50:43Z] one image: Image (96, 96) RGB | raw array shape per split: (3, 96, 96) (3, 96, 96) (3, 96, 96)
+[2026-10-06T05:50:43Z] train labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[2026-10-06T05:50:43Z] test labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[2026-10-06T05:50:43Z] unlabeled labels: [-1]
+[2026-10-06T05:50:45Z] STL-10 mean: (0.4467, 0.4398, 0.4066) | std: (0.2603, 0.2566, 0.2713)
+[2026-10-06T05:50:52Z] Labeled subset: 500 images, per class [50, 50, 50, 50, 50, 50, 50, 50, 50, 50], fingerprint 2a1412ac754f
+[2026-10-06T05:50:52Z] First 10 labeled indices: [0, 26, 51, 60, 85, 96, 113, 124, 151, 155]
+[2026-10-06T05:50:58Z] ResNet-18 encoder: weights=None | 11,176,512 parameters | output shape (2, 512)
+[2026-10-06T05:50:58Z] Two encoders built with different seeds have identical conv1 weights: False
+[2026-10-06T05:50:58Z] Part A: 11,181,642 trainable parameters | 16 steps per epoch
+[2026-10-06T05:51:08Z] [SUPERVISED epoch 01/15] train_loss 2.1963 | train_acc 0.2040 | test_loss 4.5410 | test_acc 0.1836 | 9.9s
+[2026-10-06T05:51:14Z] [SUPERVISED epoch 02/15] train_loss 1.9772 | train_acc 0.2800 | test_loss 3.7483 | test_acc 0.2226 | 5.7s
+[2026-10-06T05:51:21Z] [SUPERVISED epoch 03/15] train_loss 1.7778 | train_acc 0.3280 | test_loss 2.1168 | test_acc 0.3220 | 6.8s
+[2026-10-06T05:51:26Z] [SUPERVISED epoch 04/15] train_loss 1.6473 | train_acc 0.3780 | test_loss 2.0256 | test_acc 0.3141 | 5.6s
+[2026-10-06T05:51:33Z] [SUPERVISED epoch 05/15] train_loss 1.5964 | train_acc 0.3740 | test_loss 1.6686 | test_acc 0.3756 | 7.0s
+[2026-10-06T05:51:39Z] [SUPERVISED epoch 06/15] train_loss 1.4682 | train_acc 0.4620 | test_loss 2.2980 | test_acc 0.3058 | 5.8s
+[2026-10-06T05:51:46Z] [SUPERVISED epoch 07/15] train_loss 1.4738 | train_acc 0.4560 | test_loss 1.9576 | test_acc 0.3496 | 6.8s
+[2026-10-06T05:51:52Z] [SUPERVISED epoch 08/15] train_loss 1.3947 | train_acc 0.4880 | test_loss 1.6742 | test_acc 0.3902 | 5.7s
+[2026-10-06T05:51:58Z] [SUPERVISED epoch 09/15] train_loss 1.3713 | train_acc 0.4760 | test_loss 1.7844 | test_acc 0.3745 | 6.8s
+[2026-10-06T05:52:04Z] [SUPERVISED epoch 10/15] train_loss 1.3660 | train_acc 0.4740 | test_loss 2.2663 | test_acc 0.3299 | 5.7s
+[2026-10-06T05:52:10Z] [SUPERVISED epoch 11/15] train_loss 1.3087 | train_acc 0.5140 | test_loss 1.8626 | test_acc 0.3750 | 6.4s
+[2026-10-06T05:52:16Z] [SUPERVISED epoch 12/15] train_loss 1.1541 | train_acc 0.5880 | test_loss 1.7356 | test_acc 0.4074 | 5.9s
+[2026-10-06T05:52:22Z] [SUPERVISED epoch 13/15] train_loss 1.1833 | train_acc 0.5640 | test_loss 1.8312 | test_acc 0.3930 | 5.9s
+[2026-10-06T05:52:28Z] [SUPERVISED epoch 14/15] train_loss 1.1691 | train_acc 0.5840 | test_loss 2.1662 | test_acc 0.3524 | 6.3s
+[2026-10-06T05:52:34Z] [SUPERVISED epoch 15/15] train_loss 1.0795 | train_acc 0.6080 | test_loss 2.1619 | test_acc 0.3480 | 5.6s
+[2026-10-06T05:52:40Z] Part A supervised test accuracy: 0.3480 (test loss 2.1619)
+[2026-10-06T05:52:41Z] Saved figure: figures/partA_supervised_curves.png
+[2026-10-06T05:52:41Z] Saved checkpoints/partA_supervised_encoder_seed_9486.pt
+[2026-10-06T05:52:41Z] Rotation dataset: 100000 unlabeled images | 391 steps per epoch
+[2026-10-06T05:54:20Z] [ROT SSL epoch 01/15] mean_loss 1.1396 | mean_acc 0.4523 | 98.1s
+[2026-10-06T05:55:58Z] [ROT SSL epoch 02/15] mean_loss 0.9833 | mean_acc 0.5280 | 98.3s
+[2026-10-06T05:57:38Z] [ROT SSL epoch 03/15] mean_loss 0.9190 | mean_acc 0.5533 | 99.6s
+[2026-10-06T05:59:18Z] [ROT SSL epoch 04/15] mean_loss 0.8830 | mean_acc 0.5671 | 100.4s
+[2026-10-06T06:00:58Z] [ROT SSL epoch 05/15] mean_loss 0.8583 | mean_acc 0.5766 | 99.3s
+[2026-10-06T06:02:37Z] [ROT SSL epoch 06/15] mean_loss 0.8350 | mean_acc 0.5854 | 99.8s
+[2026-10-06T06:04:16Z] [ROT SSL epoch 07/15] mean_loss 0.8165 | mean_acc 0.5922 | 98.1s
+[2026-10-06T06:05:54Z] [ROT SSL epoch 08/15] mean_loss 0.8026 | mean_acc 0.5988 | 98.0s
+[2026-10-06T06:07:32Z] [ROT SSL epoch 09/15] mean_loss 0.7877 | mean_acc 0.6045 | 98.0s
+[2026-10-06T06:09:10Z] [ROT SSL epoch 10/15] mean_loss 0.7756 | mean_acc 0.6106 | 98.7s
+[2026-10-06T06:10:48Z] [ROT SSL epoch 11/15] mean_loss 0.7676 | mean_acc 0.6112 | 97.5s
+[2026-10-06T06:12:26Z] [ROT SSL epoch 12/15] mean_loss 0.7529 | mean_acc 0.6179 | 98.2s
+[2026-10-06T06:14:03Z] [ROT SSL epoch 13/15] mean_loss 0.7464 | mean_acc 0.6198 | 97.3s
+[2026-10-06T06:15:40Z] [ROT SSL epoch 14/15] mean_loss 0.7370 | mean_acc 0.6220 | 97.1s
+[2026-10-06T06:17:18Z] [ROT SSL epoch 15/15] mean_loss 0.7292 | mean_acc 0.6258 | 98.1s
+[2026-10-06T06:17:18Z] Rotation label counts over all of training (0/90/180/270): [374790, 375061, 375330, 374819]
+[2026-10-06T06:17:19Z] Saved figure: figures/partB_rotation_pretraining.png
+[2026-10-06T06:17:19Z] Saved checkpoints/partB_rotation_encoder_seed_9486.pt
+[2026-10-06T06:17:19Z] Part B linear probe: trainable parameters 5,130 (head only) | frozen encoder parameters 11,176,512
+[2026-10-06T06:17:25Z] [ROT LINEAR epoch 01/20] train_loss 2.2741 | train_acc 0.1500 | test_loss 2.2694 | test_acc 0.1501 | 5.7s
+[2026-10-06T06:17:31Z] [ROT LINEAR epoch 02/20] train_loss 2.1361 | train_acc 0.2400 | test_loss 2.0605 | test_acc 0.2661 | 6.7s
+[2026-10-06T06:17:37Z] [ROT LINEAR epoch 03/20] train_loss 2.0060 | train_acc 0.3080 | test_loss 1.9834 | test_acc 0.3427 | 5.5s
+[2026-10-06T06:17:44Z] [ROT LINEAR epoch 04/20] train_loss 1.9379 | train_acc 0.3160 | test_loss 1.9554 | test_acc 0.2983 | 6.8s
+[2026-10-06T06:17:49Z] [ROT LINEAR epoch 05/20] train_loss 1.8995 | train_acc 0.3240 | test_loss 1.8915 | test_acc 0.3495 | 5.7s
+[2026-10-06T06:17:56Z] [ROT LINEAR epoch 06/20] train_loss 1.8337 | train_acc 0.3400 | test_loss 1.8682 | test_acc 0.3615 | 7.0s
+[2026-10-06T06:18:02Z] [ROT LINEAR epoch 07/20] train_loss 1.8065 | train_acc 0.3620 | test_loss 1.8391 | test_acc 0.3364 | 5.7s
+[2026-10-06T06:18:09Z] [ROT LINEAR epoch 08/20] train_loss 1.7482 | train_acc 0.3820 | test_loss 1.7904 | test_acc 0.3835 | 6.8s
+[2026-10-06T06:18:15Z] [ROT LINEAR epoch 09/20] train_loss 1.7331 | train_acc 0.3900 | test_loss 1.7744 | test_acc 0.3871 | 5.7s
+[2026-10-06T06:18:21Z] [ROT LINEAR epoch 10/20] train_loss 1.7260 | train_acc 0.3860 | test_loss 1.7555 | test_acc 0.3599 | 6.7s
+[2026-10-06T06:18:27Z] [ROT LINEAR epoch 11/20] train_loss 1.7018 | train_acc 0.3960 | test_loss 1.7540 | test_acc 0.3896 | 5.8s
+[2026-10-06T06:18:34Z] [ROT LINEAR epoch 12/20] train_loss 1.6882 | train_acc 0.3860 | test_loss 1.7205 | test_acc 0.4020 | 6.4s
+[2026-10-06T06:18:39Z] [ROT LINEAR epoch 13/20] train_loss 1.6454 | train_acc 0.4200 | test_loss 1.7228 | test_acc 0.3929 | 5.8s
+[2026-10-06T06:18:45Z] [ROT LINEAR epoch 14/20] train_loss 1.6509 | train_acc 0.3940 | test_loss 1.6828 | test_acc 0.4140 | 5.9s
+[2026-10-06T06:18:52Z] [ROT LINEAR epoch 15/20] train_loss 1.6211 | train_acc 0.4160 | test_loss 1.7170 | test_acc 0.3800 | 6.4s
+[2026-10-06T06:18:57Z] [ROT LINEAR epoch 16/20] train_loss 1.6181 | train_acc 0.4040 | test_loss 1.6834 | test_acc 0.4130 | 5.8s
+[2026-10-06T06:19:04Z] [ROT LINEAR epoch 17/20] train_loss 1.5969 | train_acc 0.4400 | test_loss 1.6703 | test_acc 0.4178 | 6.8s
+[2026-10-06T06:19:10Z] [ROT LINEAR epoch 18/20] train_loss 1.5992 | train_acc 0.4460 | test_loss 1.6565 | test_acc 0.4098 | 5.7s
+[2026-10-06T06:19:17Z] [ROT LINEAR epoch 19/20] train_loss 1.5835 | train_acc 0.4180 | test_loss 1.7004 | test_acc 0.3965 | 6.9s
+[2026-10-06T06:19:23Z] [ROT LINEAR epoch 20/20] train_loss 1.5568 | train_acc 0.4500 | test_loss 1.6311 | test_acc 0.4258 | 5.7s
+[2026-10-06T06:19:23Z] [Part B] encoder tensors checked: 120 | changed: 0 | encoder params with requires_grad=True: 0
+[2026-10-06T06:19:29Z] Part B rotation SSL linear-evaluation test accuracy: 0.4258 (test loss 1.6311)
+[2026-10-06T06:19:29Z] Saved figure: figures/partB_linear_eval_curves.png
+[2026-10-06T06:19:29Z] SimCLR subset: 20000 unlabeled images | first 10 indices [6, 10, 14, 19, 25, 34, 35, 38, 51, 61]
+[2026-10-06T06:19:29Z] SimCLR dataset: 20000 images | batch 256 | 78 steps per epoch
+[2026-10-06T06:20:57Z] [SimCLR epoch 01/20] mean_loss 4.2217 | 82.9s
+[2026-10-06T06:22:23Z] [SimCLR epoch 02/20] mean_loss 2.9920 | 86.5s
+[2026-10-06T06:23:48Z] [SimCLR epoch 03/20] mean_loss 2.7387 | 84.4s
+[2026-10-06T06:25:13Z] [SimCLR epoch 04/20] mean_loss 2.6097 | 85.4s
+[2026-10-06T06:26:37Z] [SimCLR epoch 05/20] mean_loss 2.5245 | 83.9s
+[2026-10-06T06:28:02Z] [SimCLR epoch 06/20] mean_loss 2.4742 | 85.5s
+[2026-10-06T06:29:28Z] [SimCLR epoch 07/20] mean_loss 2.4285 | 85.8s
+[2026-10-06T06:30:53Z] [SimCLR epoch 08/20] mean_loss 2.3834 | 85.1s
+[2026-10-06T06:32:19Z] [SimCLR epoch 09/20] mean_loss 2.3500 | 85.2s
+[2026-10-06T06:33:43Z] [SimCLR epoch 10/20] mean_loss 2.3319 | 84.7s
+[2026-10-06T06:35:09Z] [SimCLR epoch 11/20] mean_loss 2.3095 | 85.6s
+[2026-10-06T06:36:34Z] [SimCLR epoch 12/20] mean_loss 2.2964 | 85.4s
+[2026-10-06T06:37:58Z] [SimCLR epoch 13/20] mean_loss 2.2736 | 84.1s
+[2026-10-06T06:39:22Z] [SimCLR epoch 14/20] mean_loss 2.2486 | 84.0s
+[2026-10-06T06:40:48Z] [SimCLR epoch 15/20] mean_loss 2.2377 | 85.4s
+[2026-10-06T06:42:11Z] [SimCLR epoch 16/20] mean_loss 2.2213 | 83.7s
+[2026-10-06T06:43:35Z] [SimCLR epoch 17/20] mean_loss 2.2103 | 84.1s
+[2026-10-06T06:45:01Z] [SimCLR epoch 18/20] mean_loss 2.1965 | 85.7s
+[2026-10-06T06:46:25Z] [SimCLR epoch 19/20] mean_loss 2.1896 | 83.9s
+[2026-10-06T06:47:49Z] [SimCLR epoch 20/20] mean_loss 2.1757 | 83.5s
+[2026-10-06T06:47:49Z] Saved figure: figures/partC_simclr_pretraining_loss.png
+[2026-10-06T06:47:49Z] Saved checkpoints/partC_simclr_encoder_seed_9486.pt
+[2026-10-06T06:47:49Z] Part C linear probe: trainable parameters 5,130 (head only) | frozen encoder parameters 11,176,512
+[2026-10-06T06:47:56Z] [SimCLR LINEAR epoch 01/20] train_loss 2.1496 | train_acc 0.2060 | test_loss 1.7470 | test_acc 0.3675 | 6.9s
+[2026-10-06T06:48:02Z] [SimCLR LINEAR epoch 02/20] train_loss 1.5983 | train_acc 0.4380 | test_loss 1.5312 | test_acc 0.4496 | 5.7s
+[2026-10-06T06:48:08Z] [SimCLR LINEAR epoch 03/20] train_loss 1.3896 | train_acc 0.5180 | test_loss 1.4459 | test_acc 0.4856 | 6.8s
+[2026-10-06T06:48:14Z] [SimCLR LINEAR epoch 04/20] train_loss 1.2805 | train_acc 0.5460 | test_loss 1.4281 | test_acc 0.4838 | 5.6s
+[2026-10-06T06:48:21Z] [SimCLR LINEAR epoch 05/20] train_loss 1.2345 | train_acc 0.5520 | test_loss 1.4076 | test_acc 0.4923 | 6.8s
+[2026-10-06T06:48:26Z] [SimCLR LINEAR epoch 06/20] train_loss 1.1770 | train_acc 0.5940 | test_loss 1.4225 | test_acc 0.4940 | 5.6s
+[2026-10-06T06:48:33Z] [SimCLR LINEAR epoch 07/20] train_loss 1.1538 | train_acc 0.5820 | test_loss 1.3874 | test_acc 0.4979 | 6.8s
+[2026-10-06T06:48:39Z] [SimCLR LINEAR epoch 08/20] train_loss 1.1172 | train_acc 0.5900 | test_loss 1.3751 | test_acc 0.5040 | 5.6s
+[2026-10-06T06:48:45Z] [SimCLR LINEAR epoch 09/20] train_loss 1.0940 | train_acc 0.6100 | test_loss 1.3838 | test_acc 0.5040 | 6.4s
+[2026-10-06T06:48:51Z] [SimCLR LINEAR epoch 10/20] train_loss 1.0730 | train_acc 0.6280 | test_loss 1.3678 | test_acc 0.5069 | 5.9s
+[2026-10-06T06:48:57Z] [SimCLR LINEAR epoch 11/20] train_loss 1.0317 | train_acc 0.6220 | test_loss 1.3816 | test_acc 0.5056 | 5.9s
+[2026-10-06T06:49:04Z] [SimCLR LINEAR epoch 12/20] train_loss 1.0282 | train_acc 0.6220 | test_loss 1.3854 | test_acc 0.5121 | 6.6s
+[2026-10-06T06:49:09Z] [SimCLR LINEAR epoch 13/20] train_loss 0.9997 | train_acc 0.6400 | test_loss 1.3748 | test_acc 0.5088 | 5.6s
+[2026-10-06T06:49:16Z] [SimCLR LINEAR epoch 14/20] train_loss 1.0048 | train_acc 0.6320 | test_loss 1.4071 | test_acc 0.5071 | 6.7s
+[2026-10-06T06:49:21Z] [SimCLR LINEAR epoch 15/20] train_loss 0.9750 | train_acc 0.6360 | test_loss 1.3791 | test_acc 0.5056 | 5.5s
+[2026-10-06T06:49:28Z] [SimCLR LINEAR epoch 16/20] train_loss 0.9589 | train_acc 0.6380 | test_loss 1.4165 | test_acc 0.5029 | 6.8s
+[2026-10-06T06:49:34Z] [SimCLR LINEAR epoch 17/20] train_loss 0.9561 | train_acc 0.6300 | test_loss 1.3803 | test_acc 0.5114 | 5.7s
+[2026-10-06T06:49:41Z] [SimCLR LINEAR epoch 18/20] train_loss 0.9467 | train_acc 0.6620 | test_loss 1.4009 | test_acc 0.5082 | 6.7s
+[2026-10-06T06:49:46Z] [SimCLR LINEAR epoch 19/20] train_loss 0.9433 | train_acc 0.6500 | test_loss 1.4029 | test_acc 0.5059 | 5.6s
+[2026-10-06T06:49:53Z] [SimCLR LINEAR epoch 20/20] train_loss 0.9350 | train_acc 0.6760 | test_loss 1.4060 | test_acc 0.5045 | 6.8s
+[2026-10-06T06:49:53Z] [Part C] encoder tensors checked: 120 | changed: 0 | encoder params with requires_grad=True: 0
+[2026-10-06T06:49:58Z] Part C SimCLR linear-evaluation test accuracy: 0.5045 (test loss 1.4060)
+[2026-10-06T06:49:58Z] Saved figure: figures/partC_linear_eval_curves.png
+[2026-10-06T06:50:14Z] Supervised test embeddings: (8000, 512) | norm min/max 1.0000/1.0000
+[2026-10-06T06:50:14Z] Rotation SSL test embeddings: (8000, 512) | norm min/max 1.0000/1.0000
+[2026-10-06T06:50:14Z] SimCLR test embeddings: (8000, 512) | norm min/max 1.0000/1.0000
+[2026-10-06T06:50:14Z] Query indices: [498, 491, 486] | classes: ['horse', 'airplane', 'ship']
+[2026-10-06T06:50:15Z] query 498 (horse) | Supervised   | neighbors [7688, 4564, 7555, 2007, 3895] | classes ['monkey', 'horse', 'horse', 'bird', 'horse'] | cos [0.98, 0.978, 0.978, 0.977, 0.973] | same class 3/5
+[2026-10-06T06:50:15Z] query 498 (horse) | Rotation SSL | neighbors [4347, 771, 7822, 6734, 5539] | classes ['horse', 'dog', 'horse', 'deer', 'horse'] | cos [0.996, 0.993, 0.993, 0.993, 0.993] | same class 3/5
+[2026-10-06T06:50:15Z] query 498 (horse) | SimCLR       | neighbors [4679, 7601, 1107, 1925, 6315] | classes ['horse', 'horse', 'horse', 'horse', 'horse'] | cos [0.911, 0.908, 0.903, 0.901, 0.899] | same class 5/5
+[2026-10-06T06:50:16Z] Saved figure: figures/partD_nearest_neighbors_query1.png
+[2026-10-06T06:50:16Z] query 491 (airplane) | Supervised   | neighbors [712, 4614, 6569, 4550, 7065] | classes ['airplane', 'airplane', 'airplane', 'airplane', 'airplane'] | cos [0.998, 0.995, 0.995, 0.994, 0.994] | same class 5/5
+[2026-10-06T06:50:16Z] query 491 (airplane) | Rotation SSL | neighbors [4614, 7735, 535, 6918, 1162] | classes ['airplane', 'airplane', 'airplane', 'airplane', 'airplane'] | cos [0.99, 0.987, 0.984, 0.983, 0.982] | same class 5/5
+[2026-10-06T06:50:16Z] query 491 (airplane) | SimCLR       | neighbors [4453, 4501, 6275, 712, 1252] | classes ['airplane', 'airplane', 'airplane', 'airplane', 'airplane'] | cos [0.986, 0.984, 0.984, 0.981, 0.979] | same class 5/5
+[2026-10-06T06:50:18Z] Saved figure: figures/partD_nearest_neighbors_query2.png
+[2026-10-06T06:50:18Z] query 486 (ship) | Supervised   | neighbors [5694, 3631, 4194, 7155, 419] | classes ['ship', 'ship', 'car', 'car', 'truck'] | cos [0.98, 0.973, 0.973, 0.971, 0.971] | same class 2/5
+[2026-10-06T06:50:18Z] query 486 (ship) | Rotation SSL | neighbors [6245, 35, 1959, 6766, 3666] | classes ['car', 'car', 'truck', 'truck', 'truck'] | cos [0.995, 0.995, 0.995, 0.995, 0.995] | same class 0/5
+[2026-10-06T06:50:18Z] query 486 (ship) | SimCLR       | neighbors [903, 6105, 6929, 2738, 3631] | classes ['ship', 'car', 'airplane', 'ship', 'ship'] | cos [0.919, 0.908, 0.905, 0.88, 0.876] | same class 3/5
+[2026-10-06T06:50:19Z] Saved figure: figures/partD_nearest_neighbors_query3.png
+[2026-10-06T06:50:19Z] Saved results/hw6_metrics.json | run times (s): {'partA_supervised': 95.9, 'partB_rotation_pretraining': 1476.5, 'partB_linear_eval': 123.5, 'partC_simclr_pretraining': 1694.8, 'partC_linear_eval': 124.0}
