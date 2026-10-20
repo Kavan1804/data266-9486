@@ -1,0 +1,61 @@
+[2026-10-20T05:24:04Z] device: cpu | CPU only
+[2026-10-20T05:24:04Z] torch 2.14.1 | torchvision 0.29.1 | numpy 2.5.4
+[2026-10-20T05:24:05Z] FashionMNIST ready in 0.1s | train 54000 | val 6000 | test 10000
+[2026-10-20T05:24:05Z] classes: ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+[2026-10-20T05:24:05Z] one image: shape (784,), dtype torch.float32, min 0.000, max 1.000, label 9 (Ankle boot)
+[2026-10-20T05:24:05Z] one batch: images (256, 784), labels (256,), pixel range [0.000, 1.000]
+[2026-10-20T05:24:05Z] training-split images per class: [5407, 5389, 5411, 5385, 5444, 5406, 5390, 5393, 5375, 5400]
+[2026-10-20T05:24:05Z] display test indices (one per class, starting at SLICE): [488, 487, 497, 490, 491, 502, 512, 494, 486, 493]
+[2026-10-20T05:24:05Z] batches per epoch: train 211 | val 24 | test 40
+[2026-10-20T05:24:05Z] FC-AE parameters: 419,120
+[2026-10-20T05:24:05Z] FC-AE shape check: input (4, 784) -> latent (4, 32) -> output (4, 784), output range [0.447, 0.550]
+[2026-10-20T05:24:11Z] [FC-AE epoch 01/20] train_bce 288.3456 | val_bce 242.6648 | 5.8s
+[2026-10-20T05:24:17Z] [FC-AE epoch 02/20] train_bce 237.6771 | val_bce 232.5683 | 5.9s
+[2026-10-20T05:24:23Z] [FC-AE epoch 03/20] train_bce 230.3193 | val_bce 227.6756 | 5.9s
+[2026-10-20T05:24:29Z] [FC-AE epoch 04/20] train_bce 226.4207 | val_bce 224.6094 | 6.3s
+[2026-10-20T05:24:36Z] [FC-AE epoch 05/20] train_bce 223.7972 | val_bce 222.3350 | 6.6s
+[2026-10-20T05:24:41Z] [FC-AE epoch 06/20] train_bce 221.7946 | val_bce 220.7370 | 5.6s
+[2026-10-20T05:24:47Z] [FC-AE epoch 07/20] train_bce 220.3307 | val_bce 219.3879 | 5.5s
+[2026-10-20T05:24:52Z] [FC-AE epoch 08/20] train_bce 219.1723 | val_bce 218.3539 | 5.5s
+[2026-10-20T05:24:58Z] [FC-AE epoch 09/20] train_bce 218.0626 | val_bce 217.5170 | 5.6s
+[2026-10-20T05:25:03Z] [FC-AE epoch 10/20] train_bce 217.2173 | val_bce 216.8386 | 5.6s
+[2026-10-20T05:25:09Z] [FC-AE epoch 11/20] train_bce 216.4399 | val_bce 215.8982 | 5.6s
+[2026-10-20T05:25:15Z] [FC-AE epoch 12/20] train_bce 215.7394 | val_bce 215.2284 | 5.5s
+[2026-10-20T05:25:20Z] [FC-AE epoch 13/20] train_bce 215.1302 | val_bce 214.7057 | 5.6s
+[2026-10-20T05:25:26Z] [FC-AE epoch 14/20] train_bce 214.5858 | val_bce 214.1788 | 5.5s
+[2026-10-20T05:25:31Z] [FC-AE epoch 15/20] train_bce 214.1279 | val_bce 213.8057 | 5.5s
+[2026-10-20T05:25:37Z] [FC-AE epoch 16/20] train_bce 213.7046 | val_bce 213.3914 | 5.6s
+[2026-10-20T05:25:42Z] [FC-AE epoch 17/20] train_bce 213.3002 | val_bce 213.0118 | 5.6s
+[2026-10-20T05:25:48Z] [FC-AE epoch 18/20] train_bce 212.9864 | val_bce 212.6991 | 5.8s
+[2026-10-20T05:25:54Z] [FC-AE epoch 19/20] train_bce 212.6860 | val_bce 212.5012 | 5.6s
+[2026-10-20T05:25:59Z] [FC-AE epoch 20/20] train_bce 212.3813 | val_bce 212.2384 | 5.6s
+[2026-10-20T05:25:59Z] FC-AE training done in 114.3s
+[2026-10-20T05:26:00Z] FC-AE test: BCE per image 214.1978 | MSE per pixel 0.009698
+[2026-10-20T05:26:01Z] VAE parameters: 427,344
+[2026-10-20T05:26:01Z] VAE shape check: input (4, 784) -> mu (4, 32), logvar (4, 32) -> z (4, 32) -> output (4, 784)
+[2026-10-20T05:26:01Z] KL check: KL(N(0,I) || N(0,I)) = -0.0000 | KL(N(1,I) || N(0,I)) = 16.0000 (expected 0 and 16)
+[2026-10-20T05:26:07Z] [VAE epoch 01/20] train recon 303.6442 kl 13.7414 total 317.3855 | val recon 260.2743 kl 16.0131 total 276.2874 | 5.8s
+[2026-10-20T05:26:13Z] [VAE epoch 02/20] train recon 254.3556 kl 15.7891 total 270.1447 | val recon 249.1107 kl 15.4846 total 264.5953 | 5.8s
+[2026-10-20T05:26:18Z] [VAE epoch 03/20] train recon 246.2070 kl 15.7525 total 261.9596 | val recon 243.8153 kl 15.3646 total 259.1799 | 5.7s
+[2026-10-20T05:26:24Z] [VAE epoch 04/20] train recon 241.6102 kl 15.6752 total 257.2854 | val recon 239.3433 kl 15.4421 total 254.7854 | 5.8s
+[2026-10-20T05:26:31Z] [VAE epoch 05/20] train recon 238.3587 kl 15.5421 total 253.9008 | val recon 236.8417 kl 15.4516 total 252.2934 | 6.7s
+[2026-10-20T05:26:38Z] [VAE epoch 06/20] train recon 235.9698 kl 15.5432 total 251.5130 | val recon 234.8428 kl 15.4792 total 250.3221 | 7.1s
+[2026-10-20T05:26:44Z] [VAE epoch 07/20] train recon 234.2178 kl 15.5756 total 249.7934 | val recon 232.9851 kl 15.7142 total 248.6993 | 6.4s
+[2026-10-20T05:26:50Z] [VAE epoch 08/20] train recon 232.8792 kl 15.6141 total 248.4933 | val recon 231.9756 kl 15.6045 total 247.5801 | 6.1s
+[2026-10-20T05:26:56Z] [VAE epoch 09/20] train recon 231.8503 kl 15.6248 total 247.4751 | val recon 230.8254 kl 15.8534 total 246.6788 | 5.9s
+[2026-10-20T05:27:03Z] [VAE epoch 10/20] train recon 230.9970 kl 15.6829 total 246.6798 | val recon 230.7320 kl 15.2335 total 245.9655 | 6.5s
+[2026-10-20T05:27:09Z] [VAE epoch 11/20] train recon 230.3386 kl 15.7353 total 246.0739 | val recon 229.5126 kl 15.9329 total 245.4455 | 6.0s
+[2026-10-20T05:27:15Z] [VAE epoch 12/20] train recon 229.7382 kl 15.7696 total 245.5077 | val recon 229.1725 kl 15.7053 total 244.8777 | 5.8s
+[2026-10-20T05:27:20Z] [VAE epoch 13/20] train recon 229.2547 kl 15.8262 total 245.0808 | val recon 229.6014 kl 15.1269 total 244.7283 | 5.7s
+[2026-10-20T05:27:26Z] [VAE epoch 14/20] train recon 228.7712 kl 15.9149 total 244.6861 | val recon 228.6091 kl 15.6645 total 244.2736 | 5.8s
+[2026-10-20T05:27:32Z] [VAE epoch 15/20] train recon 228.3415 kl 15.9315 total 244.2730 | val recon 227.8889 kl 15.9642 total 243.8532 | 5.8s
+[2026-10-20T05:27:38Z] [VAE epoch 16/20] train recon 228.0418 kl 15.9540 total 243.9958 | val recon 227.4657 kl 16.1340 total 243.5997 | 5.8s
+[2026-10-20T05:27:44Z] [VAE epoch 17/20] train recon 227.6777 kl 16.0036 total 243.6814 | val recon 227.0728 kl 16.2654 total 243.3382 | 6.3s
+[2026-10-20T05:27:50Z] [VAE epoch 18/20] train recon 227.4462 kl 16.0299 total 243.4761 | val recon 227.2911 kl 15.8205 total 243.1116 | 6.2s
+[2026-10-20T05:27:56Z] [VAE epoch 19/20] train recon 227.1761 kl 16.0593 total 243.2354 | val recon 226.6913 kl 16.1680 total 242.8593 | 5.8s
+[2026-10-20T05:28:02Z] [VAE epoch 20/20] train recon 226.9387 kl 16.1034 total 243.0421 | val recon 226.4851 kl 16.5831 total 243.0682 | 5.8s
+[2026-10-20T05:28:02Z] VAE training done in 120.7s
+[2026-10-20T05:28:03Z] VAE test (sampled z): recon BCE 228.3524 | KL 16.5931 | total 244.9455
+[2026-10-20T05:28:03Z] VAE test (z = mu): BCE per image 223.7607 | MSE per pixel 0.013927
+[2026-10-20T05:28:04Z] Prior samples: z (64, 32) ~ N(0, I) -> images (64, 784)
+[2026-10-20T05:28:05Z] Saved results/hw7_metrics.json, checkpoints/fc_ae_seed_9486.pt, checkpoints/vae_seed_9486.pt | run times (s): {'fc_ae_training': 114.3, 'vae_training': 120.7}
