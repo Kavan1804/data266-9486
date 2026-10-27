@@ -93,12 +93,11 @@ tests were rerun from scratch (the times above are from that clean rerun).
 
 ----------------------------------------------------------------------------------------------------
 Step 3: RTX 4090 run [PENDING]
-How it will be run: VS Code on the lab GPU desktop, opening the HW4.5 folder, kernel = the lab
-virtual environment. Run All on HW4a_BERT_vLLM.ipynb first, then on HW4.5_Throughput_Memory.ipynb
-(HW4.5 reads HW4a's results/gpu files). RUN_MODE switches to "gpu" automatically when CUDA is visible.
-Terminal alternative (Linux, from HW4.5/):
-  jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 HW4a_BERT_vLLM.ipynb
-  jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 HW4.5_Throughput_Memory.ipynb
+How it will be run: Colab connected to a local runtime, a Colab Docker image on the lab GPU desktop
+started with --gpus=all. Install vllm and bitsandbytes in the runtime first, then run
+HW4a_BERT_vLLM.ipynb top to bottom, then HW4.5_Throughput_Memory.ipynb in the same runtime (HW4.5
+reads HW4a's results/gpu files). RUN_MODE switches to "gpu" automatically when CUDA is visible. The
+last HW4.5 cell zips results/, figures/, provenance/ and the checkpoint configs and downloads them.
 Start / end time: pending
 Python / PyTorch / CUDA / Transformers / vLLM / bitsandbytes versions: pending (recorded automatically
   in results/gpu/env_hw4a.json and env_hw45.json)
