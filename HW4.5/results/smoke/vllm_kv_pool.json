@@ -1,0 +1,3 @@
+{
+  "status": "[SKIPPED IN SMOKE TEST] vLLM needs a CUDA GPU; it only runs with RUN_MODE='gpu' on the RTX 4090"
+}

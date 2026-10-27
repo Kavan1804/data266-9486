@@ -1,0 +1,31 @@
+
+======================================================================
+2026-10-27T00:22:00Z [SMOKE TEST] HW4.5 notebook started
+2026-10-27T00:22:06Z [SMOKE TEST] Rows used: 486 to 5485 inclusive (5000 of 45615); sha256 matches HW4.a
+2026-10-27T00:22:06Z [SMOKE TEST] Split identical to HW4.a: train 3500, val 750, test 750
+2026-10-27T00:22:09Z [SMOKE TEST] Smoke settings: {'train': 48, 'val': 16, 'test': 24}, epochs 2, batch 16, Part A sizes [1, 2, 4], probe 2-8, KV contexts [64, 128]
+2026-10-27T00:22:35Z [SMOKE TEST] Part A batch 1: 1.9 samples/s, epoch 24.8s, 48 steps, peak alloc nan GB
+2026-10-27T00:22:54Z [SMOKE TEST] Part A batch 2: 2.8 samples/s, epoch 17.3s, 24 steps, peak alloc nan GB
+2026-10-27T00:23:08Z [SMOKE TEST] Part A batch 4: 3.8 samples/s, epoch 12.5s, 12 steps, peak alloc nan GB
+2026-10-27T00:23:08Z [SMOKE TEST] Part A reached the configured limit (4) without an OOM
+Traceback (most recent call last):
+  File "/var/folders/14/f0jf3_y13nj59q26gtczd8640000gn/T/ipykernel_29371/989943900.py", line 2, in <module>
+    import bitsandbytes as bnb
+ModuleNotFoundError: No module named 'bitsandbytes'
+
+2026-10-27T00:23:10Z [SMOKE TEST] 8-bit optimizer check: [DEPENDENCY ERROR] ModuleNotFoundError: No module named 'bitsandbytes'
+2026-10-27T00:23:39Z [SMOKE TEST] Baseline (HW4 settings): max physical batch 8 (first OOM None), 4.5 samples/s, peak nan GB, test acc 0.5000
+2026-10-27T00:49:37Z [SMOKE TEST] Mixed precision (bf16 autocast): max physical batch 8 (first OOM None), 0.1 samples/s, peak nan GB, test acc 0.5000
+2026-10-27T00:50:14Z [SMOKE TEST] Gradient checkpointing: max physical batch 8 (first OOM None), 3.7 samples/s, peak nan GB, test acc 0.5000
+2026-10-27T00:50:50Z [SMOKE TEST] Gradient accumulation: max physical batch 8 (first OOM None), 4.7 samples/s, peak nan GB, test acc 0.5833
+2026-10-27T00:50:50Z [SMOKE TEST] 8-bit optimizer (AdamW8bit): not run — [DEPENDENCY ERROR] ModuleNotFoundError: No module named 'bitsandbytes'
+2026-10-27T00:50:50Z [SMOKE TEST] Best-combination rule selected no technique (none met all four conditions, or peak memory is not measurable on CPU); best combination not run
+2026-10-27T00:50:50Z [SMOKE TEST] Part C: Part C skipped (optional) — GPUs detected: 0 []
+2026-10-27T00:50:50Z [SMOKE TEST] Serving: Qwen/Qwen2.5-0.5B-Instruct (float32), 2 prompts reused from HW4.a, max input 82 tokens, 8 new tokens, 1 warm-up calls, 1 timed repeats
+2026-10-27T00:50:54Z [SMOKE TEST] HF pipeline baseline done
+2026-10-27T00:50:54Z [SMOKE TEST] KV cache: 24 layers x 2 KV heads x head dim 64 -> 24576 bytes/token; max positions 32768
+2026-10-27T00:50:55Z [SMOKE TEST] KV contexts tested (HF): [64, 128]
+2026-10-27T00:50:56Z [SMOKE TEST] KV context 64: ok, peak nan GB, 1406 ms
+2026-10-27T00:50:59Z [SMOKE TEST] KV context 128: ok, peak nan GB, 2168 ms
+2026-10-27T00:50:59Z [SMOKE TEST] [SKIPPED IN SMOKE TEST] vLLM needs a CUDA GPU; it only runs with RUN_MODE='gpu' on the RTX 4090
+2026-10-27T00:51:00Z [SMOKE TEST] HW4.5 notebook completed

@@ -1,0 +1,5 @@
+row_id,text,label,pred,pred_prob,true_name,pred_name
+493,"@user Well it rained all day on Eid, then second day was hot but then 3rd day and even aj bi its raining so""",0,1,0.43047902,negative,neutral
+559,BNP opposes Companies Act change: The BNP on Tuesday asked the government to drop the move to change Companies A...,0,1,0.44553444,negative,neutral
+622,"""Not the best start to the 2nd set from Murray, but our print editor is more focused on the fact that apparently both players """"look scruffy""""""",0,1,0.4578803,negative,neutral
+718,@user if Kim Davis converts to Islam she's free by sundown &amp; @ work Tuesday.  Gay Mafia won't have guts to persecute her anymore,0,1,0.5833859,negative,neutral

@@ -1,0 +1,109 @@
+DATA 266 HW4.a + HW4.5 Run Log
+Kavan Siddesh Kumar (SID4 9486)
+
+Each notebook also writes its own timestamped log to results/<mode>/run_log_hw4a.txt and
+results/<mode>/run_log_hw45.txt, with full stack traces for any error. Environment details are in
+results/<mode>/env_hw4a.json and env_hw45.json.
+
+----------------------------------------------------------------------------------------------------
+Step 0: Repository inspection and decisions
+Date: 2026-10-26
+Status: Searched the repo (working tree, all git history, all PDFs) for an HW4.a BERT / Twitter /
+vLLM baseline. None exists: HW4/ is the Mini GPT assignment. Because HW4.a was never done, both
+HW4.a and HW4.5 are built in this folder, as two notebooks:
+  HW4a_BERT_vLLM.ipynb           (HW4.a baseline: BERT fine-tune + vLLM serving benchmark)
+  HW4.5_Throughput_Memory.ipynb  (HW4.5 Parts A-E, reads the HW4.a config/split/results)
+Dataset chosen: TweetEval sentiment (cardiffnlp/tweet_eval, "sentiment", train), pinned to
+revision b3a375baf0f409c77e6bc7aa35102b7b3534f8be. Rows 486-5485 (5,000 rows) have
+772 negative / 2,288 neutral / 1,940 positive. Sentiment140 was rejected because its training
+CSV is ordered by label, so a 5,000-row slice from row 486 would contain only one class.
+Serving model chosen: Qwen/Qwen2.5-0.5B-Instruct (revision 7ae557604adf67be50417f59c2c2f167def9a775).
+Part C: skipped (optional), per the instructor's HW4.5 clarification. Only one RTX 4090 reserved.
+
+----------------------------------------------------------------------------------------------------
+Step 1: Notebook build
+Date: 2026-10-26
+Status: Both notebooks were generated with notebook-building scripts (build_hw4a.py and
+build_hw45.py, kept outside the repo) and then executed.
+
+Real error during setup (before any notebook run), while checking the dataset slice:
+  File ".../httpx2/_decoders.py", line 191, in decode
+      decompressed = self._decompress(data, output_buffer_limit=output_buffer_limit)
+  TypeError: Decompressor.decompress() got an unexpected keyword argument 'output_buffer_limit'
+Cause: huggingface_hub 2.3.0 uses httpx2 2.16.0, which needs a newer brotlicffi than the
+1.1.0.0 inherited from the Anaconda base environment. Fixed by upgrading brotlicffi to 1.2.1.0
+inside the smoke-test virtual environment only (the Anaconda base was not changed). If the lab
+machine shows the same TypeError, run: pip install -U brotlicffi
+
+----------------------------------------------------------------------------------------------------
+Step 2: Local smoke test [SMOKE TEST — not used for any reported result]
+Date: 2026-10-27 (UTC)
+Machine: MacBook (Apple Silicon), CPU only, no CUDA
+Environment: Python 3.13.9, torch 2.14.0 (CPU), transformers 5.21.0, datasets 5.1.0,
+  scikit-learn 1.7.2, matplotlib 3.10.6, pandas 2.3.3, nbconvert 7.16.6
+  (separate venv with --system-site-packages; transformers and datasets installed into it)
+  bitsandbytes: not installed. vllm: not installed.
+Commands (run from HW4.5/):
+  RUN_MODE=smoke python -m nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=3600 HW4a_BERT_vLLM.ipynb
+  RUN_MODE=smoke python -m nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=3600 HW4.5_Throughput_Memory.ipynb
+Times (UTC): HW4a 00:21:03 - 00:21:55. HW4.5 00:21:55 - 00:51:03.
+Result: both notebooks completed top to bottom with no cell errors.
+
+What the smoke test confirmed:
+  - Imports, dataset download and the exact row range (486-5485, 5,000 of 45,615 rows).
+  - Split 3,500 / 750 / 750 saved to results/hw4a_split.json. HW4.5 recomputed the same data
+    hash and the same split.
+  - Tokenizer: 0 of 5,000 tweets are longer than 128 tokens (longest is 89).
+  - Tensor shapes, the forward pass (logits 16 x 3) and the backward pass (all 201 gradient
+    tensors finite).
+  - Training, per-epoch validation, saving and reloading the best checkpoint (max logit
+    difference 0.0), confusion matrix total = test size, per-class metrics, custom inference.
+  - HF pipeline serving: forced generation length verified (8 of 8 tokens), p50 <= p95.
+  - HW4a losses were identical across two separate smoke runs (0.9920 / 0.8533), and the HW4.5
+    baseline reproduced the HW4a test accuracy.
+  - Part A sweep, Part B probe and full runs, the best-combination rule, the ranking, Part C status,
+    the KV-cache loop, figures, tables written from saved CSVs, and the final checklist.
+  - Gradient checkpointing: active, and gradients identical to no checkpointing (max diff 0.0).
+
+Skipped in the smoke test (expected):
+  - vLLM: [SKIPPED IN SMOKE TEST] it needs CUDA. It only runs with RUN_MODE=gpu.
+  - 8-bit optimizer: [DEPENDENCY ERROR] ModuleNotFoundError: No module named 'bitsandbytes'
+    (logged with traceback; marked "not run").
+  - Best combination: not run, because peak memory cannot be measured on CPU, so no technique can
+    pass the "lowers peak memory" rule.
+  - GPU memory columns are NaN on CPU.
+
+Observation: bf16 autocast on this Mac CPU is extremely slow (0.1 samples/s vs 4.5 for FP32; the
+mixed-precision smoke run took about 26 minutes). This is only a CPU emulation effect and says
+nothing about the RTX 4090.
+
+Fixes made after reviewing smoke-test output:
+  1. A stray "459" was printed by the environment cell, and one log line had a doubled
+     "[SMOKE TEST]" label. Cosmetic, fixed.
+  2. The KV-cache sweep would have stopped at 16,384 tokens, because 32,768 + 16 new tokens is
+     over the model's 32,768 positions. The last context is now clamped to 32,752.
+  3. The Part B gradient accumulation text implied the run is equivalent to the baseline. The
+     smoke test gave 0.583 vs 0.500 test accuracy because dropout masks differ between four passes
+     of 8 and one pass of 32. The text now says so (see AI_USE.md).
+  4. Added an explicit "baseline reproduces HW4.a" comparison in Part E.
+  5. RUN_MODE defaulted to "smoke", so "Run All" in VS Code on the GPU desktop would have run the
+     smoke test. If RUN_MODE is not set, it is now "gpu" when CUDA is visible and "smoke" otherwise.
+After the fixes, results/smoke, figures/smoke and checkpoints/smoke were deleted and both smoke
+tests were rerun from scratch (the times above are from that clean rerun).
+
+----------------------------------------------------------------------------------------------------
+Step 3: RTX 4090 run [PENDING]
+How it will be run: VS Code on the lab GPU desktop, opening the HW4.5 folder, kernel = the lab
+virtual environment. Run All on HW4a_BERT_vLLM.ipynb first, then on HW4.5_Throughput_Memory.ipynb
+(HW4.5 reads HW4a's results/gpu files). RUN_MODE switches to "gpu" automatically when CUDA is visible.
+Terminal alternative (Linux, from HW4.5/):
+  jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 HW4a_BERT_vLLM.ipynb
+  jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 HW4.5_Throughput_Memory.ipynb
+Start / end time: pending
+Python / PyTorch / CUDA / Transformers / vLLM / bitsandbytes versions: pending (recorded automatically
+  in results/gpu/env_hw4a.json and env_hw45.json)
+GPU name, VRAM and UUID: pending (nvidia-smi -q and -L captured automatically in provenance/)
+Successful experiments: pending
+Skipped experiments: Part C skipped (optional)
+Errors: pending
+Notebook completed: pending

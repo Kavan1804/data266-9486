@@ -1,0 +1,4 @@
+batch_size,run_label,epoch_s,optimizer_steps,samples_per_s,peak_alloc_gb,peak_reserved_gb,status,error
+1,[SMOKE TEST],24.75146041699918,48,1.939279508817744,,,ok,
+2,[SMOKE TEST],17.326946000015596,24,2.770251606945436,,,ok,
+4,[SMOKE TEST],12.529560416995082,12,3.830940464191613,,,ok,

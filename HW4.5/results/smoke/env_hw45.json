@@ -1,0 +1,22 @@
+{
+  "notebook": "HW4.5_Throughput_Memory.ipynb",
+  "run_mode": "smoke",
+  "run_label": "[SMOKE TEST]",
+  "start_utc": "2026-10-27T00:22:00Z",
+  "python": "3.13.9",
+  "platform": "macOS-14.1.2-arm64-arm-64bit-Mach-O",
+  "torch": "2.14.0",
+  "torch_cuda": null,
+  "cudnn": null,
+  "transformers": "5.21.0",
+  "datasets": "5.1.0",
+  "bitsandbytes": "not installed",
+  "vllm": "not installed",
+  "gpu_count": 0,
+  "gpus": [],
+  "gpu_name": "none (CPU only)",
+  "gpu_vram_gb": null,
+  "bf16_supported": null,
+  "nvidia_smi_L": "not run (no CUDA)",
+  "end_utc": "2026-10-27T00:51:00Z"
+}

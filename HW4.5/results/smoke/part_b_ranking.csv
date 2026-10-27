@@ -1,0 +1,5 @@
+rank,technique,memory_saved_gb,throughput_lost_sps,score_gb_per_sps,note
+-,Mixed precision (bf16 autocast),,4.406398188588309,,peak memory not measurable on CPU
+-,Gradient checkpointing,,0.7904480479336113,,peak memory not measurable on CPU
+-,Gradient accumulation,,-0.21942163445146523,,peak memory not measurable on CPU
+-,8-bit optimizer (AdamW8bit),,,,excluded: not run [DEPENDENCY ERROR] ModuleNotFoundError: No module named 'bitsandbytes'

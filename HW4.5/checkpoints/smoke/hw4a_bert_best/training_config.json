@@ -1,0 +1,52 @@
+{
+  "run_mode": "smoke",
+  "seed": 9486,
+  "slice": 486,
+  "dataset_name": "cardiffnlp/tweet_eval",
+  "dataset_config": "sentiment",
+  "dataset_split": "train",
+  "dataset_revision": "b3a375baf0f409c77e6bc7aa35102b7b3534f8be",
+  "max_rows": 5000,
+  "label_names": [
+    "negative",
+    "neutral",
+    "positive"
+  ],
+  "bert_model": "google-bert/bert-base-uncased",
+  "bert_revision": "86b5e0934494bd15c9632b12f734a8a67f723594",
+  "max_len": 128,
+  "batch_size": 16,
+  "epochs": 2,
+  "lr": 2e-05,
+  "adam_eps": 1e-08,
+  "weight_decay": 0.01,
+  "warmup_steps": 0,
+  "grad_clip": 1.0,
+  "precision": "fp32",
+  "smoke_n": {
+    "train": 48,
+    "val": 16,
+    "test": 24
+  },
+  "serve_model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "serve_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "serve_dtype": "float32",
+  "max_new_tokens": 8,
+  "num_prompts": 2,
+  "serve_batch_sizes": [
+    1,
+    8,
+    32
+  ],
+  "warmup_calls": 1,
+  "timed_repeats": 1,
+  "vllm_gpu_mem_util": 0.85,
+  "prompt_template": "Here is a tweet: \"{tweet}\"\nIn one sentence, explain what the writer is feeling and why.",
+  "best_epoch": 1,
+  "split_sizes_used": {
+    "train": 48,
+    "val": 16,
+    "test": 24
+  },
+  "command": "RUN_MODE=smoke jupyter nbconvert --to notebook --execute --inplace HW4a_BERT_vLLM.ipynb"
+}

@@ -1,0 +1,19 @@
+
+======================================================================
+2026-10-27T00:21:08Z [SMOKE TEST] HW4a notebook started
+2026-10-27T00:21:14Z [SMOKE TEST] Dataset cardiffnlp/tweet_eval/sentiment split=train revision=b3a375baf0f4: 45615 rows available
+2026-10-27T00:21:14Z [SMOKE TEST] Rows used: 486 to 5485 inclusive (5000 rows), sha256=24886c35fad68ff9
+2026-10-27T00:21:14Z [SMOKE TEST] Split matches the saved results/hw4a_split.json
+2026-10-27T00:21:14Z [SMOKE TEST] Split sizes (full): {'train': 3500, 'val': 750, 'test': 750}
+2026-10-27T00:21:14Z [SMOKE TEST] Smoke subset: using only the first {'train': 48, 'val': 16, 'test': 24} ids of each split
+2026-10-27T00:21:15Z [SMOKE TEST] Token lengths with [CLS]/[SEP]: median 30, max 89; 0 of 5000 tweets longer than MAX_LEN=128
+2026-10-27T00:21:15Z [SMOKE TEST] Loaded google-bert/bert-base-uncased with 109,484,547 parameters on cpu
+2026-10-27T00:21:29Z [SMOKE TEST] epoch 1: train_loss 0.9920  val_loss 1.1338  val_acc 0.3125  train 11.9s  val 0.7s
+2026-10-27T00:21:42Z [SMOKE TEST] epoch 2: train_loss 0.8533  val_loss 1.1530  val_acc 0.4375  train 11.7s  val 0.7s
+2026-10-27T00:21:42Z [SMOKE TEST] Training done: 23.6s training, 25.1s including validation, peak allocated nan GB, peak reserved nan GB
+2026-10-27T00:21:43Z [SMOKE TEST] Saved best checkpoint (epoch 1) to checkpoints/smoke/hw4a_bert_best
+2026-10-27T00:21:46Z [SMOKE TEST] Test loss 1.0440, test accuracy 0.5000 on 24 rows; worst class by F1: negative
+2026-10-27T00:21:47Z [SMOKE TEST] 2 prompts, input tokens min 77 / median 79 / max 82
+2026-10-27T00:21:52Z [SMOKE TEST] HF pipeline done. Re-tokenized output lengths: min 8, max 8 (expected about 8); peak allocated nan GB
+2026-10-27T00:21:52Z [SMOKE TEST] [SKIPPED IN SMOKE TEST] vLLM needs a CUDA GPU; it only runs with RUN_MODE='gpu' on the RTX 4090
+2026-10-27T00:21:52Z [SMOKE TEST] HW4a notebook completed

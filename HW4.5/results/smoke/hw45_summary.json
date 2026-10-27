@@ -1,0 +1,25 @@
+{
+  "run_label": "[SMOKE TEST]",
+  "gpu": "none (CPU only)",
+  "best_peak_memory": null,
+  "best_throughput": {
+    "technique": "Gradient accumulation",
+    "samples_per_s": 4.6978375939153585,
+    "test_acc": 0.5833333333333334
+  },
+  "best_wall_clock": {
+    "technique": "Gradient accumulation",
+    "wall_time_incl_eval_s": 21.95547120799893,
+    "test_acc": 0.5833333333333334
+  },
+  "gpu_hours_one_finetune": 0.006372928553052285,
+  "gpu_hours_full_tweeteval_estimate": 5.658622802358067,
+  "part_a_max_batch": 4,
+  "part_a_first_oom": null,
+  "part_a_plateau_batch": 4,
+  "kv_max_context_bs8_hf": 128,
+  "vllm_status": "[SKIPPED IN SMOKE TEST] vLLM needs a CUDA GPU; it only runs with RUN_MODE='gpu' on the RTX 4090",
+  "vllm_kv_pool": {},
+  "part_c": "Part C skipped (optional)",
+  "note": "HW4.5 summary only; not an HW5 baseline"
+}

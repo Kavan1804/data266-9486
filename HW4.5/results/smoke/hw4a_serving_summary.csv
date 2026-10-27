@@ -1,0 +1,2 @@
+config,engine,batch_size,total_requests,total_generated_tokens,timed_wall_s,tokens_per_s,requests_per_s,p50_ms,p95_ms,batching,model,dtype,max_input_tokens,max_new_tokens,warmup_calls,timed_repeats,run_label
+"HF pipeline, batch 1",hf_pipeline,1,2,16,1.630964126001345,9.810148331850437,1.2262685414813046,815.4820630006725,846.0518193911412,none (one request per call),Qwen/Qwen2.5-0.5B-Instruct,float32,82,8,1,1,[SMOKE TEST]

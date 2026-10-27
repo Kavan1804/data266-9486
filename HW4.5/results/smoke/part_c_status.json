@@ -1,0 +1,8 @@
+{
+  "status": "Part C skipped (optional)",
+  "reason": "made optional by the instructor's HW4.5 clarification; only one GPU was reserved and no instructor-designated pairing was used",
+  "gpus_detected": [],
+  "gpu_count": 0,
+  "ddp_run": false,
+  "run_label": "[SMOKE TEST]"
+}

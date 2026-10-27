@@ -1,0 +1,15 @@
+{
+  "template": "Here is a tweet: \"{tweet}\"\nIn one sentence, explain what the writer is feeling and why.",
+  "row_ids": [
+    493,
+    496
+  ],
+  "prompts": [
+    "<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nHere is a tweet: \"@user Well it rained all day on Eid, then second day was hot but then 3rd day and even aj bi its raining so\"\"\nIn one sentence, explain what the writer is feeling and why.<|im_end|>\n<|im_start|>assistant\n",
+    "<|im_start|>system\nYou are Qwen, created by Alibaba Cloud. You are a helpful assistant.<|im_end|>\n<|im_start|>user\nHere is a tweet: \"\"From the Twitter just now from RNDM: \"\"\"\"RNDM has a beef with Pearl Jam Radio on @user channel 22. Tune in Thurs...\"\nIn one sentence, explain what the writer is feeling and why.<|im_end|>\n<|im_start|>assistant\n"
+  ],
+  "prompt_tokens": [
+    77,
+    82
+  ]
+}

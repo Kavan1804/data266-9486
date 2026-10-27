@@ -1,0 +1,6 @@
+# BERT checkpoints are ~440 MB each; keep the config/tokenizer files, not the weights
+checkpoints/**/*.safetensors
+checkpoints/**/*.bin
+.ipynb_checkpoints/
+__pycache__/
+.DS_Store

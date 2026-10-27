@@ -1,0 +1,3 @@
+context_len,batch_size,new_tokens,kv_theory_gb,weights_gb,run_label,status,latency_ms,gen_tokens_per_s,peak_alloc_gb,peak_reserved_gb,peak_above_weights_gb,error
+64,8,4,0.012451171875,,[SMOKE TEST],ok,1406.0671250044834,22.758515173945174,,,,
+128,8,4,0.024169921875,,[SMOKE TEST],ok,2168.4535829990637,14.757060169921939,,,,
