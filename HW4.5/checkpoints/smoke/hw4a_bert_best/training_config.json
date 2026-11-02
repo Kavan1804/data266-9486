@@ -48,5 +48,5 @@
     "val": 16,
     "test": 24
   },
-  "command": "RUN_MODE=smoke jupyter nbconvert --to notebook --execute --inplace HW4a_BERT_vLLM.ipynb"
+  "command": "HW4a_BERT_vLLM.ipynb run top to bottom (Run All) with RUN_MODE=smoke"
 }

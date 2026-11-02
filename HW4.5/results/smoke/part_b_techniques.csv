@@ -1,7 +1,7 @@
 technique,amp,grad_ckpt,optim_8bit,run_label,max_physical_batch,first_oom_batch,probe_note,max_effective_batch,physical_batch,accum_steps,effective_batch,optimizer_steps,train_time_s,mean_epoch_s,wall_time_incl_eval_s,samples_per_s,peak_alloc_gb,peak_reserved_gb,final_val_acc,best_epoch,test_acc,status,error
-Baseline (HW4 settings),False,False,False,[SMOKE TEST],8.0,,hit safety limit,8.0,16.0,1.0,16.0,6.0,21.43615083300392,10.71807541650196,22.942542790988227,4.478415959463893,,,0.5,1.0,0.5,ok,
-Mixed precision (bf16 autocast),True,False,False,[SMOKE TEST],8.0,,hit safety limit,8.0,16.0,1.0,16.0,6.0,1333.0043242500105,666.5021621250053,1350.1635726660024,0.07201777087558404,,,0.5,1.0,0.5,ok,
-Gradient checkpointing,False,True,False,[SMOKE TEST],8.0,,hit safety limit,8.0,16.0,1.0,16.0,6.0,26.030595249991165,13.015297624995583,27.66138691699598,3.687967911530282,,,0.5,1.0,0.5,ok,
-Gradient accumulation,False,False,False,[SMOKE TEST],8.0,,hit safety limit,32.0,4.0,4.0,16.0,6.0,20.43493375001708,10.21746687500854,21.955471207998926,4.6978375939153585,,,0.4375,1.0,0.5833333333333334,ok,
+Baseline (HW4 settings),False,False,False,[SMOKE TEST],8.0,,hit safety limit,8.0,16.0,1.0,16.0,6.0,26.409515957930125,13.204757978965063,27.977833457989618,3.6350533706458776,,,0.5,1.0,0.5,ok,
+Mixed precision (bf16 autocast),True,False,False,[SMOKE TEST],8.0,,hit safety limit,8.0,16.0,1.0,16.0,6.0,1412.0471591670066,706.0235795835033,1431.4520971659804,0.06798639788817834,,,0.5,1.0,0.5,ok,
+Gradient checkpointing,False,True,False,[SMOKE TEST],8.0,,hit safety limit,8.0,16.0,1.0,16.0,6.0,32.20724424987566,16.10362212493783,34.18770458304789,2.9806958724936745,,,0.5,1.0,0.5,ok,
+Gradient accumulation,False,False,False,[SMOKE TEST],8.0,,hit safety limit,32.0,4.0,4.0,16.0,6.0,33.36537891696207,16.682689458481036,35.29685625003185,2.877233920793153,,,0.4375,1.0,0.5833333333333334,ok,
 8-bit optimizer (AdamW8bit),False,False,True,[SMOKE TEST],,,,,,,,,,,,,,,,,,not run,[DEPENDENCY ERROR] ModuleNotFoundError: No module named 'bitsandbytes'
 Best combination,,,,[SMOKE TEST],,,,,,,,,,,,,,,,,,not run,no technique met the selection rule

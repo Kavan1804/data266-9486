@@ -4,8 +4,8 @@
 
 | epoch | train_loss | val_loss | val_acc | epoch_train_s | val_eval_s | train_samples_per_s |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1.0000 | 0.9920 | 1.1338 | 0.3125 | 11.8667 | 0.7209 | 4.0449 |
-| 2.0000 | 0.8533 | 1.1530 | 0.4375 | 11.7235 | 0.7292 | 4.0943 |
+| 1.0000 | 0.9920 | 1.1338 | 0.3125 | 15.3480 | 0.7660 | 3.1274 |
+| 2.0000 | 0.8533 | 1.1530 | 0.4375 | 14.9454 | 0.7329 | 3.2117 |
 
 ## Per-class test metrics
 
@@ -19,4 +19,4 @@
 
 | config | tokens_per_s | p50_ms | p95_ms | requests_per_s | total_requests | total_generated_tokens |
 | --- | --- | --- | --- | --- | --- | --- |
-| HF pipeline, batch 1 | 9.8 | 815.5 | 846.1 | 1.2 | 2 | 16 |
+| HF pipeline, batch 1 | 9.5 | 843.1 | 890.3 | 1.2 | 2 | 16 |

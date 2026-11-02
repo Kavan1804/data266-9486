@@ -1,7 +1,8 @@
 # DATA 266 HW4.a + HW4.5 Metrics
 
-Status: **the RTX 4090 run is pending.** Only the local smoke test has been run so far (a CPU check on
-48/16/24 rows), and none of its numbers are used here. Every cell marked "Pending" will be filled from
+Status: **the GPU run is pending.** Only the local smoke test has been run so far (a CPU check on
+48/16/24 rows), and none of its numbers are used here. The GPU used (RTX 4090 or T4) is filled in from
+`results/gpu/env_hw4a.json` and `env_hw45.json`; every table below is from that one card. Every cell marked "Pending" will be filled from
 `results/gpu/hw4a_tables.md`, `results/gpu/hw45_tables.md` and `results/gpu/hw45_summary.json` after
 the lab run.
 
@@ -55,7 +56,7 @@ HW4.a and HW4.5 use exactly the same rows and split. HW4.5 recomputes both and a
 
 ## HW4.a Results
 
-| Metric | RTX 4090 |
+| Metric | GPU run (card: pending) |
 | --- | --- |
 | Per-epoch train loss / val loss / val accuracy | Pending |
 | Epoch where validation stopped improving | Pending |
@@ -66,7 +67,7 @@ HW4.a and HW4.5 use exactly the same rows and split. HW4.5 recomputes both and a
 
 ### Table HW4.1 — Serving comparison
 
-Model `Qwen/Qwen2.5-0.5B-Instruct`, bf16, 128 prompts, 64 generated tokens per request, 2 warm-up calls, 2 timed repeats.
+Model `Qwen/Qwen2.5-0.5B-Instruct`, bf16 on a card with native bf16 (RTX 4090) or fp16 on a T4 (pending), 128 prompts, 64 generated tokens per request, 2 warm-up calls, 2 timed repeats.
 
 | Configuration | Tokens/sec | p50 latency (ms) | p95 latency (ms) |
 | --- | ---: | ---: | ---: |
@@ -75,7 +76,7 @@ Model `Qwen/Qwen2.5-0.5B-Instruct`, bf16, 128 prompts, 64 generated tokens per r
 | vLLM, batch 8 | Pending | Pending | Pending |
 | vLLM, batch 32 | Pending | Pending | Pending |
 
-## Part A — Batch Scaling (RTX 4090)
+## Part A — Batch Scaling
 
 FP32 HW4 settings. Each batch size gets a fresh model, 3 untimed warm-up steps, then one timed epoch over 3,500 rows. Doubling continues until a real OOM or the 1024 safety limit.
 
@@ -88,17 +89,17 @@ FP32 HW4 settings. Each batch size gets a fresh model, 3 untimed warm-up steps, 
 | Largest batch that ran | Pending |
 | First OOM batch | Pending |
 | Throughput stops improving after | Pending (rule: the next doubling adds less than 5% samples/s) |
-| Second card | N/A — not run, only one RTX 4090 was available |
+| Second card | N/A — not run, only one GPU was available |
 | Max-batch ratio vs VRAM ratio | N/A — needs two cards |
 
-## Part B — Memory Techniques (Table HW4.5.1, RTX 4090)
+## Part B — Memory Techniques (Table HW4.5.1)
 
 Each technique runs on its own at the HW4 batch size (32) for the full 4-epoch fine-tune. Max batch comes from a separate doubling probe (8 up to 4096).
 
 | Technique | Max batch | Throughput (samp/s) | Peak memory (GB) | Eval accuracy |
 | --- | ---: | ---: | ---: | ---: |
 | Baseline (HW4 settings) | Pending | Pending | Pending | Pending |
-| Mixed precision (bf16 autocast) | Pending | Pending | Pending | Pending |
+| Mixed precision (bf16 autocast on RTX 4090, or fp16 autocast + GradScaler on T4) | Pending | Pending | Pending | Pending |
 | Gradient checkpointing | Pending | Pending | Pending | Pending |
 | Gradient accumulation (8 x 4 = effective 32) | Pending | Pending | Pending | Pending |
 | 8-bit optimiser (bitsandbytes AdamW8bit) | Pending | Pending | Pending | Pending |
@@ -116,11 +117,11 @@ that save no memory, or did not run, are not ranked.
 
 ## Part C — Two GPUs
 
-Part C skipped (optional). The instructor's HW4.5 clarification made Part C optional. Only one RTX 4090
-was reserved, so no DDP run, communication overhead, interconnect bandwidth or scaling efficiency was
+Part C skipped (optional). The instructor's HW4.5 clarification made Part C optional. Only one GPU
+was used, so no DDP run, communication overhead, interconnect bandwidth or scaling efficiency was
 measured.
 
-## Part D — Serving on the RTX 4090
+## Part D — Serving
 
 | Configuration | Tokens/sec | Requests/sec | p50 (ms) | p95 (ms) | Total requests | Total tokens | vs HW4.a tokens/sec |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -135,7 +136,7 @@ The second card is N/A (not run).
 
 ### KV Cache vs Context Length (batch 8)
 
-Qwen2.5-0.5B: 24 layers × 2 KV heads × head dim 64, so the KV cache takes 12,288 bytes per token in bf16.
+Qwen2.5-0.5B: 24 layers × 2 KV heads × head dim 64, so the KV cache takes 12,288 bytes per token in bf16 or fp16 (both 2 bytes per value).
 
 | Context | HF peak above weights (GB) | Theoretical KV (GB) | HF latency (ms) | vLLM latency (ms) | Status |
 | ---: | ---: | ---: | ---: | ---: | --- |
@@ -153,7 +154,7 @@ Qwen2.5-0.5B: 24 layers × 2 KV heads × head dim 64, so the KV cache takes 12,2
 | One HW4 fine-tune (4 epochs × 3,500 rows, incl. validation) | Pending: wall-clock seconds ÷ 3600 × 1 GPU |
 | Estimate for the full 45,615-row TweetEval train split (not run) | Pending: 4 × 45,615 ÷ samples/s ÷ 3600 |
 
-## HW4.5 Summary (RTX 4090)
+## HW4.5 Summary
 
 This is the HW4.5 summary only. It is not an HW5 baseline.
 

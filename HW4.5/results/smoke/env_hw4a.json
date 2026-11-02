@@ -2,7 +2,7 @@
   "notebook": "HW4a_BERT_vLLM.ipynb",
   "run_mode": "smoke",
   "run_label": "[SMOKE TEST]",
-  "start_utc": "2026-10-27T00:21:08Z",
+  "start_utc": "2026-11-02T09:10:01Z",
   "python": "3.13.9",
   "platform": "macOS-14.1.2-arm64-arm-64bit-Mach-O",
   "torch": "2.14.0",
@@ -15,6 +15,6 @@
   "gpu_name": "none (CPU only)",
   "gpu_vram_gb": null,
   "nvidia_smi_L": "not run (no CUDA)",
-  "end_utc": "2026-10-27T00:21:52Z",
-  "vllm_status": "[SKIPPED IN SMOKE TEST] vLLM needs a CUDA GPU; it only runs with RUN_MODE='gpu' on the RTX 4090"
+  "end_utc": "2026-11-02T09:10:57Z",
+  "vllm_status": "[SKIPPED IN SMOKE TEST] vLLM needs a CUDA GPU; it only runs with RUN_MODE='gpu' on a CUDA GPU"
 }

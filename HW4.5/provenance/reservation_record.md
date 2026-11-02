@@ -1,6 +1,6 @@
 # GPU Workstation Reservation Record — HW4.5
 
-Target GPU: RTX 4090 GPU Lab workstation. Fill in every field from the actual reservation and session.
+GPU: the card actually used (RTX 4090 lab workstation or a T4). Fill in every field from the actual reservation and session.
 Do not estimate or invent any value; leave a field blank with a note if it is genuinely unknown.
 
 | Field | Value |

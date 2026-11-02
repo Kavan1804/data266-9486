@@ -18,7 +18,7 @@ revision b3a375baf0f409c77e6bc7aa35102b7b3534f8be. Rows 486-5485 (5,000 rows) ha
 772 negative / 2,288 neutral / 1,940 positive. Sentiment140 was rejected because its training
 CSV is ordered by label, so a 5,000-row slice from row 486 would contain only one class.
 Serving model chosen: Qwen/Qwen2.5-0.5B-Instruct (revision 7ae557604adf67be50417f59c2c2f167def9a775).
-Part C: skipped (optional), per the instructor's HW4.5 clarification. Only one RTX 4090 reserved.
+Part C: skipped (optional), per the instructor's HW4.5 clarification. Only one GPU used.
 
 ----------------------------------------------------------------------------------------------------
 Step 1: Notebook build
@@ -75,7 +75,7 @@ Skipped in the smoke test (expected):
 
 Observation: bf16 autocast on this Mac CPU is extremely slow (0.1 samples/s vs 4.5 for FP32; the
 mixed-precision smoke run took about 26 minutes). This is only a CPU emulation effect and says
-nothing about the RTX 4090.
+nothing about the GPU run.
 
 Fixes made after reviewing smoke-test output:
   1. A stray "459" was printed by the environment cell, and one log line had a doubled
@@ -92,7 +92,38 @@ After the fixes, results/smoke, figures/smoke and checkpoints/smoke were deleted
 tests were rerun from scratch (the times above are from that clean rerun).
 
 ----------------------------------------------------------------------------------------------------
-Step 3: RTX 4090 run [PENDING]
+Step 2b: First GPU attempt (HW4a on the lab RTX 4090, Colab local Docker runtime) and fixes
+Date: 2026-10-27 (UTC)
+HW4a ran top to bottom. BERT training and the HF pipeline completed, but vLLM 0.31.0 failed twice:
+  1. 22:54:40Z  RuntimeError: Could not find nvcc and default cuda_home='/usr/local/cuda' doesn't exist
+     Traceback ends in flashinfer/sampling.py top_k_mask_logits -> flashinfer/jit/cpp_ext.py get_cuda_path,
+     called from vLLM's start-up warm-up (warmup_kernels -> sampler -> flashinfer_sample).
+     Cause: FlashInfer 0.7.0.post1 compiles its sampling kernel on first use, and the Colab runtime image
+     has no CUDA compiler. Fix: VLLM_USE_FLASHINFER_SAMPLER=0 before vLLM starts (the benchmark is greedy,
+     so the sampler backend doesn't change what is measured). It got past this error on the next attempt.
+  2. Later attempt: ValueError: Free memory on device cuda:0 (9.28/23.99 GiB) on startup is less than
+     desired GPU memory utilization (0.85, 20.39 GiB).
+     Cause: about 14.7 GiB of the card was already in use by something outside this notebook's own
+     leftovers (most likely the vLLM test cell, or another kernel, still holding memory).
+     Fix: restart the runtime so only one kernel uses the GPU. The vLLM cell now also logs free/total GPU
+     memory right before start-up, so this is visible in the run log.
+Change of plan: the full run will be done on a T4 instead. The notebooks were changed to run on any single
+CUDA GPU, adapting to the card they detect:
+  - Serving dtype: bf16 on cards with native bf16, float16 otherwise (vLLM refuses bf16 on a T4).
+  - Part B mixed precision: bf16 autocast with native bf16; fp16 autocast + torch.amp.GradScaler otherwise.
+  - HW4.5 checks which card HW4a ran on and labels comparisons against HW4a as cross-card if they differ.
+  - The KV-cache sweep records any error (not only OOM) and stops, instead of stopping Run All.
+  - HW4a downloads a zip of its outputs at the end; HW4.5 asks for it in Colab if HW4a's files are missing.
+  - Run labels use the detected card: [RTX 4090 RUN] on a 4090, [GPU RUN — <name>] on anything else.
+Checks after the changes (2026-11-02, Mac CPU):
+  - fp16 + GradScaler path (what a T4 gets) run directly on CPU: full fine-tune, max-batch probe,
+    throughput epoch and fp16 + gradient accumulation all completed. GradScaler is created only for fp16.
+  - Both smoke tests rerun from scratch (HW4a 09:09:55 - 09:11:01Z, HW4.5 09:11:01 - 09:43:00Z): no cell
+    errors, checklist all OK, HW4a losses identical to the earlier smoke run (0.9920 / 0.8533), HW4.5
+    baseline reproduces the HW4a test accuracy (0.5000), both zip cells produced their zips.
+
+----------------------------------------------------------------------------------------------------
+Step 3: GPU run (RTX 4090 or T4) [PENDING]
 How it will be run: Colab connected to a local runtime, a Colab Docker image on the lab GPU desktop
 started with --gpus=all. Install vllm and bitsandbytes in the runtime first, then run
 HW4a_BERT_vLLM.ipynb top to bottom, then HW4.5_Throughput_Memory.ipynb in the same runtime (HW4.5

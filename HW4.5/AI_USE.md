@@ -10,9 +10,9 @@ I made the assignment-specific decisions myself:
 - splitting the work into an HW4.a notebook and an HW4.5 notebook, since I hadn't done HW4.a before,
 - choosing TweetEval sentiment after comparing the class balance of my slice with the alternatives,
 - skipping Part C as allowed by the instructor's clarification,
-- reporting only the one RTX 4090 I actually had, instead of a two-card comparison.
+- reporting only the one GPU I actually used, instead of a two-card comparison.
 
-I run the experiments on the lab RTX 4090, check the outputs against the sanity checks built into the notebooks, and interpret the measured results in the conclusions.
+I run the experiments on a single GPU (the card is recorded in every result file), check the outputs against the sanity checks built into the notebooks, and interpret the measured results in the conclusions.
 
 ## Question 2
 
