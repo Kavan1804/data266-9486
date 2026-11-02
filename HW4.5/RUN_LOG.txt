@@ -101,11 +101,12 @@ HW4a ran top to bottom. BERT training and the HF pipeline completed, but vLLM 0.
      Cause: FlashInfer 0.7.0.post1 compiles its sampling kernel on first use, and the Colab runtime image
      has no CUDA compiler. Fix: VLLM_USE_FLASHINFER_SAMPLER=0 before vLLM starts (the benchmark is greedy,
      so the sampler backend doesn't change what is measured). It got past this error on the next attempt.
-  2. Later attempt: ValueError: Free memory on device cuda:0 (9.28/23.99 GiB) on startup is less than
-     desired GPU memory utilization (0.85, 20.39 GiB).
-     Cause: about 14.7 GiB of the card was already in use by something outside this notebook's own
-     leftovers (most likely the vLLM test cell, or another kernel, still holding memory).
-     Fix: restart the runtime so only one kernel uses the GPU. The vLLM cell now also logs free/total GPU
+  2. 2026-10-28T01:05:13Z  ValueError: Free memory on device cuda:0 (9.28/23.99 GiB) on startup is less
+     than desired GPU memory utilization (0.85, 20.39 GiB).
+     Cause: a test cell added at the top of the notebook in Colab had already started a separate vLLM
+     engine with gpu_memory_utilization=0.5 (about 12 GiB) in the same kernel, so the benchmark's engine
+     could not get its 85%. (That Colab copy of the notebook, with its outputs, is commit 0323ebe.)
+     Fix: no test cell in the run; restart the runtime so only one engine uses the GPU. The vLLM cell now also logs free/total GPU
      memory right before start-up, so this is visible in the run log.
 Change of plan: the full run will be done on a T4 instead. The notebooks were changed to run on any single
 CUDA GPU, adapting to the card they detect:
