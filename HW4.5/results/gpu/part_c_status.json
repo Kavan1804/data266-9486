@@ -1,0 +1,10 @@
+{
+  "status": "Part C skipped (optional)",
+  "reason": "made optional by the instructor's HW4.5 clarification; only one GPU was reserved and no instructor-designated pairing was used",
+  "gpus_detected": [
+    "Tesla T4"
+  ],
+  "gpu_count": 1,
+  "ddp_run": false,
+  "run_label": "[GPU RUN \u2014 Tesla T4]"
+}

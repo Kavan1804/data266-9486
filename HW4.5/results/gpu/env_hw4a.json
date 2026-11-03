@@ -1,0 +1,20 @@
+{
+  "notebook": "HW4a_BERT_vLLM.ipynb",
+  "run_mode": "gpu",
+  "run_label": "[GPU RUN \u2014 Tesla T4]",
+  "start_utc": "2026-11-02T23:27:57Z",
+  "python": "3.13.16",
+  "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+  "torch": "2.14.0+cu130",
+  "torch_cuda": "13.0",
+  "cudnn": 92400,
+  "transformers": "5.20.2",
+  "datasets": "4.8.5",
+  "vllm": "0.33.0",
+  "gpu_count": 1,
+  "gpu_name": "Tesla T4",
+  "gpu_vram_gb": 14.56,
+  "nvidia_smi_L": "GPU 0: Tesla T4 (UUID: GPU-585cb49b-329b-b3d3-3094-9d792639bfd4)",
+  "end_utc": "2026-11-02T23:48:50Z",
+  "vllm_status": "completed"
+}

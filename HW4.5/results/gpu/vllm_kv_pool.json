@@ -1,0 +1,9 @@
+{
+  "status": "completed",
+  "num_gpu_blocks": 57982,
+  "block_size": 16,
+  "pool_tokens": 927712,
+  "pool_gb": 10.6168212890625,
+  "max_model_len": 32768,
+  "max_context_bs8_by_pool": 32768
+}

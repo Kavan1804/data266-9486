@@ -1,0 +1,24 @@
+{
+  "notebook": "HW4.5_Throughput_Memory.ipynb",
+  "run_mode": "gpu",
+  "run_label": "[GPU RUN \u2014 Tesla T4]",
+  "start_utc": "2026-11-03T00:08:29Z",
+  "python": "3.13.16",
+  "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+  "torch": "2.14.0+cu130",
+  "torch_cuda": "13.0",
+  "cudnn": 92400,
+  "transformers": "5.20.2",
+  "datasets": "4.8.5",
+  "bitsandbytes": "0.50.2",
+  "vllm": "0.33.0",
+  "gpu_count": 1,
+  "gpus": [
+    "Tesla T4"
+  ],
+  "gpu_name": "Tesla T4",
+  "gpu_vram_gb": 14.56,
+  "bf16_native": false,
+  "nvidia_smi_L": "GPU 0: Tesla T4 (UUID: GPU-d44fecb0-9de2-0bc4-8f0f-edca5b8c66f2)",
+  "end_utc": "2026-11-03T01:31:24Z"
+}

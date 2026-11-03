@@ -1,0 +1,23 @@
+{
+  "run_label": "[GPU RUN \u2014 Tesla T4]",
+  "device": "cuda",
+  "gpu_name": "Tesla T4",
+  "train_rows": 3500,
+  "val_rows": 750,
+  "test_rows": 750,
+  "epochs": 4,
+  "batch_size": 32,
+  "steps_per_epoch": 110,
+  "optimizer_steps": 440,
+  "train_time_s": 290.12275781200015,
+  "wall_time_incl_val_s": 312.77671323900006,
+  "mean_epoch_train_s": 72.53068945300004,
+  "train_samples_per_s": 48.25543540804205,
+  "peak_allocated_gb": 3.77860164642334,
+  "peak_reserved_gb": 4.048828125,
+  "best_epoch_val_loss": 2,
+  "best_epoch_val_acc": 4,
+  "test_loss": 0.6812452435493469,
+  "test_accuracy": 0.6906666666666667,
+  "worst_class": "negative"
+}

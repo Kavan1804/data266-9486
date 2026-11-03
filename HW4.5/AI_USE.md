@@ -4,7 +4,7 @@
 
 Which parts did you use an assistant for, and which parts did you write or verify yourself?
 
-**Response:** I used Claude (Claude Code) for error debugging, for documentation and Markdown writing (the notebook explanations, `RUN_LOG.txt`, `METRICS.md`, this file and the provenance templates), for organizing the structure of the two notebooks, and for refining code that I reviewed and tested. The assistant drafted the notebook code from the assignment requirements using a notebook-building script, as recorded in `RUN_LOG.txt`. I reviewed that code and checked it with the local smoke test before using it.
+**Response:** I used Claude (Claude Code) for error debugging, for documentation and Markdown writing (the notebook explanations, `RUN_LOG.txt`, `METRICS.md`, this file and the provenance templates), for organizing the structure of the two notebooks, and for refining code that I reviewed and tested. The assistant drafted the notebook code from the assignment requirements using a notebook-building script, as recorded in `RUN_LOG.txt`. I reviewed that code and checked it with the local smoke test before using it. It also helped me debug the two vLLM start-up errors from my first GPU attempt and adapt the notebooks to run on a T4 (fp16 instead of bf16), and it drafted the written answers in `METRICS.md` from my measured results, which I checked against the result files.
 
 I made the assignment-specific decisions myself:
 - splitting the work into an HW4.a notebook and an HW4.5 notebook, since I hadn't done HW4.a before,

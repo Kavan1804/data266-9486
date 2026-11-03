@@ -124,17 +124,41 @@ Checks after the changes (2026-11-02, Mac CPU):
     baseline reproduces the HW4a test accuracy (0.5000), both zip cells produced their zips.
 
 ----------------------------------------------------------------------------------------------------
-Step 3: GPU run (RTX 4090 or T4) [PENDING]
-How it will be run: Colab connected to a local runtime, a Colab Docker image on the lab GPU desktop
-started with --gpus=all. Install vllm and bitsandbytes in the runtime first, then run
-HW4a_BERT_vLLM.ipynb top to bottom, then HW4.5_Throughput_Memory.ipynb in the same runtime (HW4.5
-reads HW4a's results/gpu files). RUN_MODE switches to "gpu" automatically when CUDA is visible. The
-last HW4.5 cell zips results/, figures/, provenance/ and the checkpoint configs and downloads them.
-Start / end time: pending
-Python / PyTorch / CUDA / Transformers / vLLM / bitsandbytes versions: pending (recorded automatically
-  in results/gpu/env_hw4a.json and env_hw45.json)
-GPU name, VRAM and UUID: pending (nvidia-smi -q and -L captured automatically in provenance/)
-Successful experiments: pending
-Skipped experiments: Part C skipped (optional)
-Errors: pending
-Notebook completed: pending
+Step 3: GPU run on a Tesla T4 (Google Colab) [GPU RUN — Tesla T4]
+How it was run: hosted Google Colab with a T4 runtime. In each session I installed the missing packages
+in a temporary cell (vllm, plus bitsandbytes for HW4.5; both sessions ended up on vLLM 0.33.0, per the env
+files) and restarted the runtime, then ran each notebook top to bottom with Run All. Each notebook ran
+in its own Colab session, so HW4.5 restored HW4a's outputs from HW4a_gpu_outputs.zip (section 5 upload).
+The executed notebooks were saved back to GitHub from Colab (commits 4e3d807 and cf6e57f) and the
+output zips were unpacked into results/gpu, figures/gpu, checkpoints/gpu and provenance/.
+
+HW4a:  2026-11-02 23:27:57Z - 23:48:50Z (20.9 min), GPU UUID GPU-585cb49b-329b-b3d3-3094-9d792639bfd4
+HW4.5: 2026-11-03 00:08:29Z - 01:31:24Z (82.9 min), GPU UUID GPU-d44fecb0-9de2-0bc4-8f0f-edca5b8c66f2
+  (two different physical T4s; HW4.5's same-card check compares the GPU model name, which matched)
+Versions: Python 3.13.16, PyTorch 2.14.0+cu130 (CUDA 13.0), driver 580.82.07, transformers 5.20.2,
+  vLLM 0.33.0, bitsandbytes 0.50.2 (HW4.5; not installed in the HW4a session, which doesn't use it)
+GPU: Tesla T4, 14.56 GiB, no native bf16, so serving ran in float16 and mixed precision used fp16
+  autocast + GradScaler. 1 GPU detected.
+Data check: rows 486-5485, sha256 24886c35fad68ff9... in both notebooks, the same as the smoke test;
+  results/hw4a_split.json from the T4 run is byte-identical to the one in the repo.
+
+Successful experiments:
+  HW4a: fine-tune (best epoch 2 by val loss, test accuracy 0.6907, peak 3.78 GB, 290.1 s training),
+    confusion matrix and per-class metrics, save/reload check, custom inference, HF pipeline serving
+    (64 of 64 tokens forced), vLLM serving at batch 1/8/32 (status completed).
+  HW4.5: baseline reproduced HW4a (test accuracy 0.6907 vs 0.6907, 47.8 vs 48.3 samples/s, peak 3.78 GB
+    vs 3.78 GB); Part A sweep to a real OOM at batch 256; Part B all five configurations plus the best
+    combination (rule selected mixed precision + gradient accumulation + 8-bit optimizer); ranking;
+    HF serving rerun; HF KV sweep (OOM at 32,752 at batch 8); vLLM serving rerun and vLLM KV sweep up to
+    32,752; figures, tables and summary; final checklist all OK.
+Skipped experiments: Part C skipped (optional). Second-card comparisons in Parts A and D: not run, one GPU.
+Errors: none in either run log (0 [ERROR] lines). The two OOMs above are the intended memory-wall
+  measurements, recorded as status "OOM", not failures.
+Warnings seen (not errors):
+  - vLLM: "Cannot use FA version 2 ... only supported on devices with compute capability >= 8"; vLLM
+    then chose its TRITON_ATTN backend. This is also why vLLM's long-context latency is slow on the T4.
+  - vLLM: weights cast from bfloat16 to float16 while loading (expected with dtype float16).
+  - PyTorch: "Memory Efficient attention defaults to a non-deterministic algorithm" during fp16 training,
+    so the mixed-precision runs are not bit-for-bit reproducible (determinism is in warn-only mode).
+Notebook completed: yes, both ("HW4a notebook completed" 23:48:50Z, "HW4.5 notebook completed" 01:31:24Z).
+Results are written up in METRICS.md.

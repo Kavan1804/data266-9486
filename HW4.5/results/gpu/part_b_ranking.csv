@@ -1,0 +1,5 @@
+rank,technique,memory_saved_gb,throughput_lost_sps,score_gb_per_sps,note
+1,Mixed precision (fp16 autocast + GradScaler),0.7178544998168945,-100.54823287900305,inf,saves memory with no throughput loss
+2,8-bit optimizer (AdamW8bit),0.6434602737426758,-0.21578259483049322,inf,saves memory with no throughput loss
+3,Gradient accumulation,1.432943344116211,3.903435358336921,0.3670980079267212,
+4,Gradient checkpointing,1.6467881202697754,11.786195812869913,0.13972176828010682,

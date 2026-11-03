@@ -1,0 +1,40 @@
+{
+  "run_label": "[GPU RUN \u2014 Tesla T4]",
+  "gpu": "Tesla T4",
+  "hw4a_gpu": "Tesla T4",
+  "same_card_as_hw4a": true,
+  "mixed_precision": "fp16 autocast + GradScaler",
+  "serve_dtype": "float16",
+  "best_peak_memory": {
+    "technique": "Best combination: Mixed precision (fp16 autocast + GradScaler) + Gradient accumulation + 8-bit optimizer (AdamW8bit)",
+    "peak_alloc_gb": 1.7041592597961426,
+    "test_acc": 0.6773333333333333
+  },
+  "best_throughput": {
+    "technique": "Mixed precision (fp16 autocast + GradScaler)",
+    "samples_per_s": 148.3845203537301,
+    "test_acc": 0.6906666666666667
+  },
+  "best_wall_clock": {
+    "technique": "Mixed precision (fp16 autocast + GradScaler)",
+    "wall_time_incl_eval_s": 100.86722453399987,
+    "test_acc": 0.6906666666666667
+  },
+  "gpu_hours_one_finetune": 0.08732467750527778,
+  "gpu_hours_full_tweeteval_estimate": 1.0595164468001501,
+  "part_a_max_batch": 128,
+  "part_a_first_oom": 256,
+  "part_a_plateau_batch": 32,
+  "kv_max_context_bs8_hf": 16384,
+  "vllm_status": "completed",
+  "vllm_kv_pool": {
+    "num_gpu_blocks": 57982,
+    "block_size": 16,
+    "pool_tokens": 927712,
+    "pool_gb": 10.6168212890625,
+    "max_model_len": 32768,
+    "max_context_bs8_by_pool": 32768
+  },
+  "part_c": "Part C skipped (optional)",
+  "note": "HW4.5 summary only; not an HW5 baseline"
+}

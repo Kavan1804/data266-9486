@@ -1,0 +1,23 @@
+
+======================================================================
+2026-11-02T23:27:58Z [GPU RUN — Tesla T4] HW4a notebook started
+2026-11-02T23:28:38Z [GPU RUN — Tesla T4] Dataset cardiffnlp/tweet_eval/sentiment split=train revision=b3a375baf0f4: 45615 rows available
+2026-11-02T23:28:38Z [GPU RUN — Tesla T4] Rows used: 486 to 5485 inclusive (5000 rows), sha256=24886c35fad68ff9
+2026-11-02T23:28:38Z [GPU RUN — Tesla T4] Saved split to results/hw4a_split.json
+2026-11-02T23:28:38Z [GPU RUN — Tesla T4] Split sizes (full): {'train': 3500, 'val': 750, 'test': 750}
+2026-11-02T23:28:44Z [GPU RUN — Tesla T4] Token lengths with [CLS]/[SEP]: median 30, max 89; 0 of 5000 tweets longer than MAX_LEN=128
+2026-11-02T23:28:55Z [GPU RUN — Tesla T4] Loaded google-bert/bert-base-uncased with 109,484,547 parameters on cuda
+2026-11-02T23:30:07Z [GPU RUN — Tesla T4] epoch 1: train_loss 0.9412  val_loss 0.8019  val_acc 0.6520  train 66.0s  val 4.8s
+2026-11-02T23:31:24Z [GPU RUN — Tesla T4] epoch 2: train_loss 0.6903  val_loss 0.6946  val_acc 0.6973  train 71.1s  val 5.5s
+2026-11-02T23:32:47Z [GPU RUN — Tesla T4] epoch 3: train_loss 0.5283  val_loss 0.6993  val_acc 0.7013  train 76.6s  val 5.6s
+2026-11-02T23:34:09Z [GPU RUN — Tesla T4] epoch 4: train_loss 0.4180  val_loss 0.7165  val_acc 0.7027  train 76.4s  val 5.7s
+2026-11-02T23:34:09Z [GPU RUN — Tesla T4] Training done: 290.1s training, 312.8s including validation, peak allocated 3.779 GB, peak reserved 4.049 GB
+2026-11-02T23:34:16Z [GPU RUN — Tesla T4] Saved best checkpoint (epoch 2) to checkpoints/gpu/hw4a_bert_best
+2026-11-02T23:34:23Z [GPU RUN — Tesla T4] Test loss 0.6812, test accuracy 0.6907 on 750 rows; worst class by F1: negative
+2026-11-02T23:34:27Z [GPU RUN — Tesla T4] 128 prompts, input tokens min 58 / median 76 / max 95
+2026-11-02T23:44:31Z [GPU RUN — Tesla T4] HF pipeline done. Re-tokenized output lengths: min 64, max 64 (expected about 64); peak allocated 1.855 GB
+2026-11-02T23:44:32Z [GPU RUN — Tesla T4] GPU memory before vLLM start-up: 14.31 of 14.56 GB free (vLLM asks for 85% = 12.38 GB)
+2026-11-02T23:48:26Z [GPU RUN — Tesla T4] vLLM batch 1 done
+2026-11-02T23:48:40Z [GPU RUN — Tesla T4] vLLM batch 8 done
+2026-11-02T23:48:47Z [GPU RUN — Tesla T4] vLLM batch 32 done
+2026-11-02T23:48:50Z [GPU RUN — Tesla T4] HW4a notebook completed

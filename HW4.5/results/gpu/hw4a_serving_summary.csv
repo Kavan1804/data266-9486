@@ -1,0 +1,5 @@
+config,engine,batch_size,total_requests,total_generated_tokens,timed_wall_s,tokens_per_s,requests_per_s,p50_ms,p95_ms,batching,model,dtype,max_input_tokens,max_new_tokens,warmup_calls,timed_repeats,run_label
+"HF pipeline, batch 1",hf_pipeline,1,256,16384,556.2820754459954,29.45268367107504,0.4601981823605475,1967.6091745000122,2724.8946624999917,none (one request per call),Qwen/Qwen2.5-0.5B-Instruct,float16,95,64,2,2,[GPU RUN — Tesla T4]
+"vLLM, batch 1",vllm,1,256,16384,99.67094237800006,164.3809079065793,2.5684516860403015,389.7515860001022,399.7537784999281,native (list of prompts to LLM.generate),Qwen/Qwen2.5-0.5B-Instruct,float16,95,64,2,2,[GPU RUN — Tesla T4]
+"vLLM, batch 8",vllm,8,256,16384,13.950186012999893,1174.464626115529,18.35100978305514,434.9515414999132,445.7983720001266,native (list of prompts to LLM.generate),Qwen/Qwen2.5-0.5B-Instruct,float16,95,64,2,2,[GPU RUN — Tesla T4]
+"vLLM, batch 32",vllm,32,256,16384,5.097685885999454,3214.00736851948,50.21886513311688,634.5910279999316,651.432610000029,native (list of prompts to LLM.generate),Qwen/Qwen2.5-0.5B-Instruct,float16,95,64,2,2,[GPU RUN — Tesla T4]
