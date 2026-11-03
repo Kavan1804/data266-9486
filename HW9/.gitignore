@@ -1,0 +1,7 @@
+# FashionMNIST is downloaded by the notebook; do not commit it
+data/
+# VAE latent cache (about 1.1 GB, rebuilt by the notebook)
+cache/
+# downloaded output bundle and the original Kaggle notebook download
+HW9_outputs.zip
+notebookea9ce4bc52.ipynb

@@ -1,0 +1,125 @@
+Step 0: Repository and Reference Inspection
+UTC Timestamp: 2026-11-03T16:30:00Z (approx.)
+Status: Read both demo notebooks in full. Demo_9_Stable_Diffusion.ipynb resizes FashionMNIST to
+64x64, repeats the gray channel to 3 channels, normalizes to [-1, 1], encodes with the
+stabilityai/sd-vae-ft-mse AutoencoderKL (latent_dist.sample() * 0.18215, latent [1, 4, 8, 8]),
+decodes with latents / 0.18215, mixes noise into the latent as (1 - a) z + a eps, and trains a
+tiny CNN to predict the clean latent. Demo_9_CFG.ipynb runs a class-conditional DDPM directly on
+1x64x64 images: T = 1000, linear betas 1e-4 to 0.02, q_sample, sinusoidal TimeEmbedding,
+ResidualBlock / SelfAttention / BottleNeck / Encoder / Decoder blocks (64-128-256 channels),
+an 11-row label embedding (10 classes + null) added to the time embedding, label dropout 0.1,
+Adam lr 2e-5, batch 1000, 50 epochs, and CFG sampling with w = 3. Neither demo was modified.
+The full assignment text was taken from the Canvas screenshot (no PDF exists). Looked at HW7 and
+HW8 for conventions (Step 0 personal parameters as the first code cell, a timestamped log()
+helper writing results/run_log_raw.txt, figures/ results/ checkpoints/ folders, an environment
+variable smoke-test switch, RUN_LOG.txt / METRICS.md / AI_USE.md). Personal parameter formulas
+from HW1 (SEED = SID4, SLICE = SID4 % 1000, HP_ID = SID4 % 6, CLS_A = SID4 % 10,
+CLS_B = (CLS_A + 1 + (SID4 // 10) % 9) % 10).
+Conflicts and issues found:
+  1. The assignment asks for self-attention at 16x16, but a 64x64 image gives an 8x8 latent,
+     so a U-Net on it never reaches 16x16. Decision: resize to 256x256 -> 4x32x32 latent, U-Net
+     32 -> 16 -> 8 -> 4 with attention at 16x16 (e2, d2) and in the 4x4 bottleneck.
+  2. The demo ResidualBlock has no shortcut (it never adds its input back). A 1x1-conv
+     shortcut was added.
+  3. The demo drops labels per batch (torch.rand(1) < 0.1). The assignment does not say per
+     image or per batch, so the demo's per-batch version was kept.
+  4. The demo's training DataLoader is not shuffled and its test loss uses new random noise
+     every epoch. The HW9 notebook shuffles and uses a fixed seed for the test loss.
+  5. The assignment intro mentions cross-attention conditioning, but the detailed list says to
+     combine label embeddings with the time embedding. The detailed list was followed.
+
+Step 1: Environment
+UTC Timestamp: 2026-11-03T17:15:00Z (approx.)
+Environment: Apple M1, 8 GB RAM, no CUDA, macOS, Python 3.13.9 (Anaconda) with torch 2.14.0,
+torchvision 0.29.0, numpy 2.3.5. Installed diffusers 0.42.1 and accelerate 1.15.0 with pip.
+Downloaded stabilityai/sd-vae-ft-mse (public, no login needed) into the Hugging Face cache.
+Measured with torch.utils.flop_counter: VAE encoder about 271 GFLOP per 256x256 image, decoder
+about 620 GFLOP, LatentUNet 6,406,596 parameters and about 1.22 GFLOP per forward pass on one
+4x32x32 latent. On MPS the VAE took about 2.5 s per image (memory pressure on 8 GB), so the
+full run is planned for a Colab T4 and the Mac is only used for the smoke test.
+
+Step 2: Notebook Build
+UTC Timestamp: 2026-11-03T17:25:00Z (approx.)
+Status: Generated HW9_Latent_Diffusion_CFG.ipynb with a build script, keeping the demos'
+preprocessing, VAE encode/decode with the 0.18215 scaling, schedule, q_sample, TimeEmbedding,
+SelfAttention, BottleNeck, encoder/decoder blocks, label embedding with a null label, label
+dropout, training loop with train and test loss, and the CFG sampling loop. Added: personal
+parameters, seeding, automatic device selection (cuda, mps, cpu) with fp16 autocast on CUDA,
+batched GPU preprocessing checked against the dataset transform, reconstruction MSE on 1,000
+test images, latent statistics, forward diffusion at t = 0, 200, 500, 800, 1000 (latent and
+pixel space), architecture/shape checks with hooks, a latent cache (mean and std of q(z|x) in
+float16, resampled every time), micro-batching with gradient accumulation (effective batch
+1000), per-epoch checkpoints with resume and optional Google Drive backup, conditional and
+unconditional test loss, loss plots, the 64-image CFG grid, intermediate denoising steps, a
+w = 0 vs w = 3 comparison from the same noise, a small latent classifier used only to check
+the labels, a one-step denoising figure (like Demo 3), results/hw9_metrics.json, the final
+weights, and a cell that zips the outputs and downloads them on Colab. The smoke-test switch
+(HW9_SMOKE_TEST=1) uses 64 train / 32 test images, 2 epochs, and 10 samples. The analysis and
+conclusion markdown were left as placeholders until results exist. Added HW9/.gitignore for
+data/, cache/, and HW9_outputs.zip (the repository .gitignore already excludes *.pt).
+
+Step 3: Smoke Test (Mac M1, MPS)
+UTC Timestamp: 2026-11-03T17:31:33Z to 17:48:45Z (17.5 min wall time)
+Command (on a scratch copy of the notebook, outside HW9/):
+  HW9_SMOKE_TEST=1 jupyter nbconvert --to notebook --execute HW9_Latent_Diffusion_CFG.ipynb
+Status: All code cells ran with no errors (64 train / 32 test images, 2 epochs, 10 samples).
+Verified: batched preprocessing matches the dataset transform; latent shape (4, 32, 32);
+q_sample variance matches 1 - alpha_bar (t=200: 0.3408 vs 0.3410, t=800: 0.9980 vs 0.9985);
+U-Net output equals the input shape, time and label embeddings are (B, 256), attention runs at
+(128, 16, 16) in e2, (64, 16, 16) in d2 and (256, 4, 4) in the bottleneck; y=None gives the same
+output as label 10; every parameter gets a gradient; the training loop, test loss, checkpoint,
+loss plot, CFG sampler, decoding, label classifier, metrics JSON, and zip cell all ran.
+Smoke-test numbers are not results (the model is untrained). Two things were changed after
+looking at the figures:
+  1. The w = 0 vs w = 3 figure left empty panels when there are fewer than 20 samples (smoke
+     test only). Unused panels are now hidden.
+  2. The untrained model's samples blew up (z_0 std about 578), because with eps_hat close to 0
+     each reverse step multiplies z by 1/sqrt(alpha_t), about 1/sqrt(alpha_bar_T) = 157 overall.
+     The w = 3 images decoded to a flat color. This is expected for an untrained model, but a
+     logged warning was added if the generated latents are much larger than real latents.
+Warnings seen on MPS only: index_put_with_accumulate_mps has no deterministic implementation
+(warn_only), and a huggingface_hub deprecation warning.
+
+Step 4: First Full Execution Attempt (Colab T4, interrupted)
+Status: Ran on a Colab T4 with the default settings. Training reached epoch 39 of 50, then the
+runtime shut down because the Colab compute credits ran out. BACKUP_DIR was None by default, so
+the latent cache and checkpoints/ldm_unet_latest.pt were only on the Colab machine's disk and
+were deleted with the runtime. Nothing from this attempt is reported.
+Change: the settings cell now mounts Google Drive automatically on Colab (AUTO_DRIVE_BACKUP =
+True) and sets BACKUP_DIR = /content/drive/MyDrive/HW9_backup, so the latent cache and the
+latest checkpoint are copied to Drive and a new runtime can resume from the last finished
+epoch.
+
+Step 5: Fix Before the Kaggle Rerun
+Status: The rerun moved to a Kaggle T4. The settings cell crashed in drive.mount() with
+NotImplementedError, because the Kaggle image also has the google.colab package installed, so the
+find_spec check thought it was on Colab. The Colab check now looks for /var/colab/hostname (the same
+file drive.mount checks) and skips Kaggle (KAGGLE_KERNEL_RUN_TYPE or /kaggle). The zip cell uses the
+same IN_COLAB flag, so it no longer calls google.colab.files.download on Kaggle.
+
+Step 6: Full Execution (Kaggle T4)
+UTC Timestamp: 2026-11-03T20:17:50Z to 22:22:34Z (2 h 4 min 44 s), from results/run_log_raw.txt
+Environment: Kaggle, Tesla T4 (15.6 GB), mixed precision, Python 3.13.16, torch 2.11.0+cu130,
+torchvision 0.26.0+cu130, diffusers 0.42.0, numpy 2.1.3. Peak GPU memory 13.31 GB.
+Status: Run All finished with no errors. All 50 epochs ran in one session with SEED = 9486.
+Main numbers:
+  VAE reconstruction MSE, 1,000 test images: 0.00013 on [-1, 1], 0.00003 on [0, 1]
+  Latent caching: 2,369 s. Training: 4,697 s (78.3 min, about 94 s per epoch).
+  Test loss: 1.07267 before training, 0.09184 at epoch 50 (train 0.09351).
+  Final test loss: conditional 0.09146, unconditional 0.09345.
+  Sampling time: w = 3 51.0 s, w = 0 27.9 s. Generated z_0 std: 1.84 and 1.69 (real latents 1.37).
+  Latent classifier: 71.0% on real test latents; agreement with the requested label 20.3% at
+  w = 3 and 18.8% at w = 0.
+Problem seen: the samples are weak. At w = 3, Trouser and Dress are the most recognizable, but the
+Sandal and Bag panels are basically black. The loss was still falling at epoch 50, so the model
+looks underfit with only 3,000 optimizer steps. The run was not changed or repeated; this is
+reported as it came out.
+
+Step 7: Documentation
+Status: Saved the executed notebook as HW9_Latent_Diffusion_CFG.ipynb and filled in its observation,
+analysis, limitations, and conclusion Markdown from the real outputs. Also changed two short
+Markdown notes about Colab and Kaggle in the settings and device sections. A script confirmed that
+all 30 code cells and their outputs are identical to the notebook downloaded from Kaggle. Moved
+figures/, results/, and checkpoints/ out of the HW9_outputs download folder into HW9/. Filled in
+METRICS.md, README.md, and AI_USE.md. The original download (notebookea9ce4bc52.ipynb) is kept
+locally and is gitignored.

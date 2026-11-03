@@ -1,0 +1,102 @@
+[2026-11-03T20:17:50Z] CUDA available: True | MPS available: False
+[2026-11-03T20:17:50Z] device: cuda | Tesla T4 (15.6 GB) | mixed precision: True | smoke test: False
+[2026-11-03T20:17:50Z] python 3.13.16 | torch 2.11.0+cu130 | torchvision 0.26.0+cu130 | diffusers 0.42.0 | numpy 2.1.3
+[2026-11-03T20:17:58Z] FashionMNIST ready in 8.2s | train 60000 | test 10000 | classes ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+[2026-11-03T20:17:58Z] one image: shape (3, 256, 256), range [-1.000, 0.978], label 8 (Bag)
+[2026-11-03T20:18:05Z] VAE stabilityai/sd-vae-ft-mse loaded in 5.7s | 83,653,863 parameters (frozen) | latent channels 4 | config scaling_factor 0.18215
+[2026-11-03T20:18:10Z] image shape (1, 3, 256, 256) -> latent shape (1, 4, 32, 32) -> reconstruction shape (1, 3, 256, 256)
+[2026-11-03T20:18:10Z] numbers per image 196,608 vs per latent 4,096 -> 48x smaller (the original 28x28 FashionMNIST image has 784 pixels)
+[2026-11-03T20:21:59Z] reconstruction on 1000 test images (229.4s): MSE sampled latent 0.00013 | mean latent 0.00013 | sampled on [0,1] scale 0.00003
+[2026-11-03T20:22:05Z] scaled latents (64 test images): mean 0.0048, std 1.3460 | per-channel std [1.244, 1.412, 0.506, 0.784] | average encoder std (scaled) 0.00003
+[2026-11-03T20:22:06Z] q_sample check t=200: max |empirical mean - sqrt(ab) z0| = 0.0519, empirical variance 0.3408 vs 1 - alpha_bar = 0.3410
+[2026-11-03T20:22:06Z] q_sample check t=800: max |empirical mean - sqrt(ab) z0| = 0.0888, empirical variance 0.9980 vs 1 - alpha_bar = 0.9985
+[2026-11-03T20:22:07Z] forward diffusion image: test index 512 (Shirt)
+[2026-11-03T20:22:07Z] MSE of decode(z_t) vs decode(z_0): t=0: 0.0000, t=200: 0.0662, t=500: 0.5357, t=800: 0.8400, t=1000: 0.8840
+[2026-11-03T20:22:09Z] LatentUNet: 6,406,596 parameters
+[2026-11-03T20:22:09Z] input (4, 4, 32, 32) -> output (4, 4, 32, 32) | time embedding (4, 256) | label embedding (4, 256)
+[2026-11-03T20:22:09Z] self-attention input sizes (C, H, W): e2.attn: (128, 16, 16), bottleneck.attn: (256, 4, 4), d2.attn: (64, 16, 16)
+[2026-11-03T20:22:10Z] backward check: loss 1.0933 | parameters without gradient: [] | label rows with gradient: [0, 3, 6, 9]
+[2026-11-03T20:25:32Z]   encoding train: 5,952/60,000 images | 202s | ETA 1837s
+[2026-11-03T20:28:54Z]   encoding train: 11,904/60,000 images | 404s | ETA 1632s
+[2026-11-03T20:32:15Z]   encoding train: 17,856/60,000 images | 605s | ETA 1428s
+[2026-11-03T20:35:36Z]   encoding train: 23,808/60,000 images | 806s | ETA 1226s
+[2026-11-03T20:38:57Z]   encoding train: 29,760/60,000 images | 1007s | ETA 1024s
+[2026-11-03T20:42:18Z]   encoding train: 35,712/60,000 images | 1208s | ETA 823s
+[2026-11-03T20:45:39Z]   encoding train: 41,664/60,000 images | 1409s | ETA 621s
+[2026-11-03T20:49:01Z]   encoding train: 47,616/60,000 images | 1611s | ETA 420s
+[2026-11-03T20:52:22Z]   encoding train: 53,568/60,000 images | 1812s | ETA 219s
+[2026-11-03T20:55:43Z]   encoding train: 59,520/60,000 images | 2013s | ETA 17s
+[2026-11-03T20:55:59Z]   encoding train: 60,000/60,000 images | 2029s | ETA 0s
+[2026-11-03T20:56:32Z]   encoding test: 960/10,000 images | 32s | ETA 307s
+[2026-11-03T20:57:04Z]   encoding test: 1,920/10,000 images | 65s | ETA 274s
+[2026-11-03T20:57:36Z]   encoding test: 2,880/10,000 images | 97s | ETA 242s
+[2026-11-03T20:58:09Z]   encoding test: 3,840/10,000 images | 129s | ETA 209s
+[2026-11-03T20:58:41Z]   encoding test: 4,800/10,000 images | 162s | ETA 177s
+[2026-11-03T20:59:14Z]   encoding test: 5,760/10,000 images | 194s | ETA 145s
+[2026-11-03T20:59:46Z]   encoding test: 6,720/10,000 images | 227s | ETA 112s
+[2026-11-03T21:00:19Z]   encoding test: 7,680/10,000 images | 260s | ETA 80s
+[2026-11-03T21:00:52Z]   encoding test: 8,640/10,000 images | 292s | ETA 48s
+[2026-11-03T21:01:24Z]   encoding test: 9,600/10,000 images | 325s | ETA 15s
+[2026-11-03T21:01:38Z]   encoding test: 10,000/10,000 images | 338s | ETA 0s
+[2026-11-03T21:01:39Z] cache check: max difference for test image 486 = 0.02344
+[2026-11-03T21:01:39Z] latent cache ready in 2369s | train (60000, 4, 32, 32), test (10000, 4, 32, 32) | scaled train latents: mean -0.0126, std 1.3700
+[2026-11-03T21:01:43Z] test loss before training: 1.07267
+[2026-11-03T21:03:18Z] epoch  1/50 | train 0.89949 | test 0.77814 | 94.4s | ETA 77.1 min
+[2026-11-03T21:04:52Z] epoch  2/50 | train 0.64738 | test 0.52760 | 93.8s | ETA 75.3 min
+[2026-11-03T21:06:26Z] epoch  3/50 | train 0.42929 | test 0.35180 | 94.0s | ETA 73.7 min
+[2026-11-03T21:08:00Z] epoch  4/50 | train 0.29881 | test 0.26217 | 94.1s | ETA 72.1 min
+[2026-11-03T21:09:34Z] epoch  5/50 | train 0.23921 | test 0.21878 | 93.8s | ETA 70.5 min
+[2026-11-03T21:11:08Z] epoch  6/50 | train 0.20992 | test 0.20051 | 93.6s | ETA 68.8 min
+[2026-11-03T21:12:42Z] epoch  7/50 | train 0.19529 | test 0.18857 | 93.9s | ETA 67.3 min
+[2026-11-03T21:14:16Z] epoch  8/50 | train 0.18377 | test 0.17869 | 94.0s | ETA 65.7 min
+[2026-11-03T21:15:50Z] epoch  9/50 | train 0.17562 | test 0.17102 | 93.8s | ETA 64.1 min
+[2026-11-03T21:17:23Z] epoch 10/50 | train 0.16784 | test 0.16424 | 93.6s | ETA 62.5 min
+[2026-11-03T21:18:57Z] epoch 11/50 | train 0.16133 | test 0.15860 | 93.8s | ETA 61.0 min
+[2026-11-03T21:20:31Z] epoch 12/50 | train 0.15833 | test 0.15364 | 94.0s | ETA 59.4 min
+[2026-11-03T21:22:06Z] epoch 13/50 | train 0.15179 | test 0.14827 | 94.0s | ETA 57.9 min
+[2026-11-03T21:23:40Z] epoch 14/50 | train 0.14706 | test 0.14414 | 93.8s | ETA 56.3 min
+[2026-11-03T21:25:14Z] epoch 15/50 | train 0.14292 | test 0.13996 | 94.0s | ETA 54.8 min
+[2026-11-03T21:26:48Z] epoch 16/50 | train 0.13956 | test 0.13633 | 94.1s | ETA 53.3 min
+[2026-11-03T21:28:22Z] epoch 17/50 | train 0.13566 | test 0.13295 | 94.1s | ETA 51.7 min
+[2026-11-03T21:29:56Z] epoch 18/50 | train 0.13203 | test 0.12968 | 93.8s | ETA 50.1 min
+[2026-11-03T21:31:30Z] epoch 19/50 | train 0.13026 | test 0.12689 | 94.0s | ETA 48.6 min
+[2026-11-03T21:33:04Z] epoch 20/50 | train 0.12704 | test 0.12724 | 94.1s | ETA 47.0 min
+[2026-11-03T21:34:38Z] epoch 21/50 | train 0.12621 | test 0.12253 | 93.7s | ETA 45.4 min
+[2026-11-03T21:36:12Z] epoch 22/50 | train 0.12167 | test 0.12052 | 93.9s | ETA 43.8 min
+[2026-11-03T21:37:46Z] epoch 23/50 | train 0.11902 | test 0.11812 | 94.0s | ETA 42.3 min
+[2026-11-03T21:39:21Z] epoch 24/50 | train 0.11645 | test 0.11677 | 94.1s | ETA 40.7 min
+[2026-11-03T21:40:55Z] epoch 25/50 | train 0.11587 | test 0.11472 | 94.0s | ETA 39.1 min
+[2026-11-03T21:42:29Z] epoch 26/50 | train 0.11421 | test 0.11268 | 93.8s | ETA 37.6 min
+[2026-11-03T21:44:03Z] epoch 27/50 | train 0.11313 | test 0.11144 | 93.9s | ETA 36.0 min
+[2026-11-03T21:45:37Z] epoch 28/50 | train 0.11258 | test 0.11070 | 94.0s | ETA 34.5 min
+[2026-11-03T21:47:11Z] epoch 29/50 | train 0.11051 | test 0.10869 | 93.9s | ETA 32.9 min
+[2026-11-03T21:48:45Z] epoch 30/50 | train 0.10834 | test 0.10833 | 94.0s | ETA 31.3 min
+[2026-11-03T21:50:19Z] epoch 31/50 | train 0.10873 | test 0.10607 | 93.9s | ETA 29.7 min
+[2026-11-03T21:51:53Z] epoch 32/50 | train 0.10540 | test 0.10476 | 93.7s | ETA 28.2 min
+[2026-11-03T21:53:27Z] epoch 33/50 | train 0.10456 | test 0.10360 | 93.9s | ETA 26.6 min
+[2026-11-03T21:55:01Z] epoch 34/50 | train 0.10388 | test 0.10259 | 93.9s | ETA 25.0 min
+[2026-11-03T21:56:35Z] epoch 35/50 | train 0.10343 | test 0.10180 | 94.0s | ETA 23.5 min
+[2026-11-03T21:58:09Z] epoch 36/50 | train 0.10038 | test 0.10130 | 94.1s | ETA 21.9 min
+[2026-11-03T21:59:44Z] epoch 37/50 | train 0.10171 | test 0.10067 | 94.1s | ETA 20.4 min
+[2026-11-03T22:01:18Z] epoch 38/50 | train 0.10032 | test 0.10296 | 94.1s | ETA 18.8 min
+[2026-11-03T22:02:52Z] epoch 39/50 | train 0.10087 | test 0.09838 | 93.9s | ETA 17.2 min
+[2026-11-03T22:04:26Z] epoch 40/50 | train 0.09787 | test 0.09736 | 93.9s | ETA 15.7 min
+[2026-11-03T22:06:00Z] epoch 41/50 | train 0.09819 | test 0.09669 | 94.0s | ETA 14.1 min
+[2026-11-03T22:07:34Z] epoch 42/50 | train 0.09692 | test 0.09618 | 93.7s | ETA 12.5 min
+[2026-11-03T22:09:08Z] epoch 43/50 | train 0.09619 | test 0.09579 | 93.7s | ETA 10.9 min
+[2026-11-03T22:10:42Z] epoch 44/50 | train 0.09541 | test 0.09467 | 94.2s | ETA 9.4 min
+[2026-11-03T22:12:16Z] epoch 45/50 | train 0.09515 | test 0.09397 | 93.7s | ETA 7.8 min
+[2026-11-03T22:13:50Z] epoch 46/50 | train 0.09428 | test 0.09392 | 93.8s | ETA 6.3 min
+[2026-11-03T22:15:24Z] epoch 47/50 | train 0.09386 | test 0.09282 | 94.2s | ETA 4.7 min
+[2026-11-03T22:16:58Z] epoch 48/50 | train 0.09496 | test 0.09326 | 94.3s | ETA 3.1 min
+[2026-11-03T22:18:32Z] epoch 49/50 | train 0.09411 | test 0.09210 | 93.6s | ETA 1.6 min
+[2026-11-03T22:20:06Z] epoch 50/50 | train 0.09351 | test 0.09184 | 94.0s | ETA 0.0 min
+[2026-11-03T22:20:06Z] training done | total training time 4696.7s (78.3 min) | final train 0.09351 | final test 0.09184
+[2026-11-03T22:20:06Z] peak GPU memory: 13.31 GB
+[2026-11-03T22:20:19Z] final test noise-prediction MSE | as during training: 0.09184 | conditional: 0.09146 | unconditional (null label): 0.09345
+[2026-11-03T22:21:18Z] CFG sampling w=3: 64 samples x 1000 steps in 51.0s | z_0 mean -0.3383, std 1.8371 | decoded (64, 3, 256, 256)
+[2026-11-03T22:22:11Z] sampling w=0: 27.9s | z_0 mean -0.2664, std 1.6943
+[2026-11-03T22:22:28Z] latent classifier test accuracy on real latents: 0.7097
+[2026-11-03T22:22:28Z] generated samples classified as the requested class: w=3: 0.203 | w=0: 0.188
+[2026-11-03T22:22:30Z] one-step denoising latent MSE vs clean z_0: t=200: noisy 0.3943 -> denoised 0.0682, t=500: noisy 1.7935 -> denoised 0.2718
+[2026-11-03T22:22:32Z] saved results/hw9_metrics.json and checkpoints/ldm_unet_seed_9486.pt
