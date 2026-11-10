@@ -1,0 +1,175 @@
+{
+ "config": {
+  "smoke_test": false,
+  "dataset": "ccdv/arxiv-summarization",
+  "config": "document",
+  "split": "train",
+  "n_docs": 100,
+  "s1_words": 200,
+  "s1_overlap": 40,
+  "s2_chars": 1200,
+  "s2_overlap": 200,
+  "s2_separators": [
+   ". ",
+   "; ",
+   ", ",
+   " ",
+   ""
+  ],
+  "embed_model": "mixedbread-ai/mxbai-embed-large-v1",
+  "rerank_model": "cross-encoder/ms-marco-MiniLM-L6-v2",
+  "n_candidates": 20,
+  "k_values": [
+   3,
+   5
+  ],
+  "mrr_depth": 10,
+  "llm": "llama3.2:3b",
+  "chat_strategy": "s2",
+  "seed": 9486
+ },
+ "embed_model_used": "mixedbread-ai/mxbai-embed-large-v1",
+ "rerank_model_used": "cross-encoder/ms-marco-MiniLM-L6-v2",
+ "llm_available": true,
+ "device": "mps (Apple GPU (MPS))",
+ "chunk_stats": {
+  "S1 fixed words": {
+   "settings": "200 words, 40-word overlap",
+   "chunks": 3411,
+   "words min": 41,
+   "words mean": 197.7,
+   "words max": 200,
+   "chars min": 191,
+   "chars mean": 1241.6,
+   "chars max": 3368,
+   "overlap chars mean": 249.7,
+   "pairs with no overlap %": 0.1,
+   "ends at sentence %": 7.0,
+   "chunks/paper min-max": "4-173"
+  },
+  "S2 recursive sentences": {
+   "settings": "<= 1200 chars, <= 200-char overlap",
+   "chunks": 3500,
+   "words min": 1,
+   "words mean": 172.2,
+   "words max": 419,
+   "chars min": 8,
+   "chars mean": 1079.5,
+   "chars max": 1199,
+   "overlap chars mean": 109.3,
+   "pairs with no overlap %": 21.2,
+   "ends at sentence %": 97.6,
+   "chunks/paper min-max": "3-184"
+  }
+ },
+ "token_stats": [
+  {
+   "strategy": "s1",
+   "tokens mean": 337.2,
+   "tokens median": 309,
+   "tokens max": "1717",
+   "chunks over 512": 179,
+   "% truncated": 5.25
+  },
+  {
+   "strategy": "s2",
+   "tokens mean": 293.1,
+   "tokens median": 276,
+   "tokens max": "851",
+   "chunks over 512": 137,
+   "% truncated": 3.91
+  }
+ ],
+ "index_time": {
+  "s1": {
+   "seconds": 1026.5,
+   "embedded_this_run": 3411
+  },
+  "s2": {
+   "seconds": 1039.0,
+   "embedded_this_run": 3500
+  }
+ },
+ "table_a_conditions": {
+  "S1 fixed words | no rerank": {
+   "P@3": 0.8333333333,
+   "P@5": 0.85,
+   "R@3": 0.8854166667,
+   "R@5": 0.9583333333,
+   "MRR@10": 0.9375
+  },
+  "S1 fixed words | rerank": {
+   "P@3": 0.875,
+   "P@5": 0.825,
+   "R@3": 0.9166666667,
+   "R@5": 0.9583333333,
+   "MRR@10": 0.9166666667
+  },
+  "S2 recursive sentences | no rerank": {
+   "P@3": 0.9166666667,
+   "P@5": 0.85,
+   "R@3": 0.84375,
+   "R@5": 0.9583333333,
+   "MRR@10": 1.0
+  },
+  "S2 recursive sentences | rerank": {
+   "P@3": 0.8333333333,
+   "P@5": 0.8,
+   "R@3": 0.8854166667,
+   "R@5": 0.9583333333,
+   "MRR@10": 0.9375
+  }
+ },
+ "table_e_memory_mean": {
+  "no_memory": {
+   "P@3": 0.6666666667,
+   "P@5": 0.5,
+   "R@3": 0.625,
+   "R@5": 0.7083333333,
+   "MRR@10": 0.8541666667
+  },
+  "memory_concat": {
+   "P@3": 0.8333333333,
+   "P@5": 0.8,
+   "R@3": 0.75,
+   "R@5": 0.9166666667,
+   "MRR@10": 0.9375
+  },
+  "memory_llm": {
+   "P@3": 0.6666666667,
+   "P@5": 0.55,
+   "R@3": 0.7083333333,
+   "R@5": 0.9166666667,
+   "MRR@10": 0.875
+  }
+ },
+ "rewrites": {
+  "C1-T2": "Why does injecting a squeezed vacuum field into a detuned cavity work better than probing the cavity with ordinary laser light?",
+  "C2-T2": "Does the gravity-type model require a prior origin-destination matrix to estimate the number of passengers traveling between each pair of stations?"
+ },
+ "answers": {
+  "C1-T1|memory": "According to the contexts, the linewidth of an ultrahigh-Q optical cavity can be measured without exciting nonlinear effects by injecting a squeezed vacuum field into a detuned cavity. The linewidth is then measured by observing the destruction of the correlation between the upper and lower quantum sidebands with respect to the carrier frequency. This method is advantageous over traditional optical methods as it does not excite any nonlinear processes in the cavity.",
+  "C1-T2|no_memory": "According to the contexts, the method works better than probing the cavity with ordinary laser light because it utilizes the injection of squeezed vacuum into a test cavity, which transmits only the upper or lower quantum sidebands within the cavity linewidth while reflecting the counterparts, allowing for the measurement of the cavity's linewidth and q factor without exciting any nonlinear processes in the cavity.",
+  "C1-T2|memory_llm": "According to Context 2, the method works better than probing the cavity with ordinary laser light because it utilizes the injection of squeezed vacuum into a test cavity, which transmits only the upper or lower quantum sidebands within the cavity linewidth while reflecting the counterparts. This allows for the measurement of the cavity's linewidth without exciting nonlinear processes in the cavity, as the squeezed vacuum does not interact with the cavity's nonlinear components.",
+  "C2-T1|memory": "Based on the contexts provided, a transit authority such as CityRail and Co can estimate the number of passengers traveling between each pair of stations using incomplete traffic counts and other available information. Various approaches, including gravity-type models, have been developed and tested in the literature to estimate the origin-destination (OD) matrix, which contains information on the number of travelers commuting between different zones of a region. These approaches aim to introduce prior knowledge on traffic flows and assign a cost to each journey, allowing for the estimation of the OD matrix parameters.",
+  "C2-T2|no_memory": "Based on the contexts provided, it appears that the approach does not necessarily require a prior matrix to start from. In fact, the authors mention that they use an ad hoc estimation of the origin-destination (o-d) matrix, which relies on the eigenvalues of the survey matrix, rather than relying on a prior matrix. This approach is used to overcome the assumption of equal behavior between car-user and public transport users, and to account for the potential biases in the survey results.",
+  "C2-T2|memory_llm": "According to the contexts, the approach to estimating the origin-destination (OD) matrix, such as the gravity-type model, does not necessarily require a prior matrix to start from. Instead, it uses incomplete traffic counts and other available information to introduce prior knowledge on traffic flows and assign a cost to each journey. The prior knowledge is often based on general assumptions about traffic patterns, but it is not necessarily a pre-existing OD matrix."
+ },
+ "queries_used": {
+  "Q1|standalone": "How does singular value decomposition reduce the template bank used for matched filtering of gravitational waves?",
+  "Q2|standalone": "Which network topologies give high throughput for a network-on-chip turbo decoder?",
+  "Q3|standalone": "How does a random phase diffuser reduce the scintillation of a laser beam?",
+  "Q4|standalone": "What learning rates can regularized kernel methods achieve for additive models?",
+  "Q5|standalone": "How many reticulation nodes can a binary galled network have?",
+  "Q6|standalone": "How can a magnetic tunnel junction mimic short-term plasticity and long-term potentiation of a synapse?",
+  "C1-T1|standalone": "How can the linewidth of an ultrahigh-Q optical cavity be measured without exciting nonlinear effects?",
+  "C2-T1|standalone": "How can a transit authority estimate how many passengers travel between each pair of stations?",
+  "C1-T2|no_memory": "Why does that method work better than probing the cavity with ordinary laser light?",
+  "C1-T2|memory_concat": "How can the linewidth of an ultrahigh-Q optical cavity be measured without exciting nonlinear effects? Why does that method work better than probing the cavity with ordinary laser light?",
+  "C1-T2|memory_llm": "Why does injecting a squeezed vacuum field into a detuned cavity work better than probing the cavity with ordinary laser light?",
+  "C2-T2|no_memory": "Does this approach need a prior matrix to start from?",
+  "C2-T2|memory_concat": "How can a transit authority estimate how many passengers travel between each pair of stations? Does this approach need a prior matrix to start from?",
+  "C2-T2|memory_llm": "Does the gravity-type model require a prior origin-destination matrix to estimate the number of passengers traveling between each pair of stations?"
+ },
+ "total_runtime_s": 2242.6
+}
