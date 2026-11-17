@@ -1,0 +1,471 @@
+{
+ "model": "openai/clip-vit-base-patch32",
+ "device": "mps (Apple GPU (MPS))",
+ "smoke_test": false,
+ "part1": {
+  "caption": "a photo of a shirt.",
+  "target_class": "Shirt",
+  "images": 1000,
+  "images_per_class": 100,
+  "auc_target_vs_rest": 0.8399,
+  "auc_target_vs_cls_b": 0.4293,
+  "precision_top100": 0.37,
+  "per_class": {
+   "T-shirt/top": {
+    "mean": 0.2551999986,
+    "std": 0.0201999992,
+    "min": 0.199300006,
+    "median": 0.2610999942,
+    "max": 0.2858999968,
+    "in top 100": 49,
+    "mean rank": 180.0
+   },
+   "Shirt": {
+    "mean": 0.2524999976,
+    "std": 0.0171000008,
+    "min": 0.2018000036,
+    "median": 0.2547000051,
+    "max": 0.2829999924,
+    "in top 100": 37,
+    "mean rank": 194.6
+   },
+   "Pullover": {
+    "mean": 0.2457000017,
+    "std": 0.0133999996,
+    "min": 0.1882999986,
+    "median": 0.2478999943,
+    "max": 0.2718000114,
+    "in top 100": 9,
+    "mean rank": 246.2
+   },
+   "Coat": {
+    "mean": 0.2389000058,
+    "std": 0.0131999999,
+    "min": 0.2105000019,
+    "median": 0.2397000045,
+    "max": 0.2693000138,
+    "in top 100": 2,
+    "mean rank": 314.2
+   },
+   "Dress": {
+    "mean": 0.2267999947,
+    "std": 0.0137999998,
+    "min": 0.1955000013,
+    "median": 0.2257999927,
+    "max": 0.2739000022,
+    "in top 100": 3,
+    "mean rank": 449.2
+   },
+   "Trouser": {
+    "mean": 0.2234999985,
+    "std": 0.0077999998,
+    "min": 0.1941000074,
+    "median": 0.2247000039,
+    "max": 0.2386000007,
+    "in top 100": 0,
+    "mean rank": 481.8
+   },
+   "Bag": {
+    "mean": 0.2125999928,
+    "std": 0.0087000001,
+    "min": 0.1941000074,
+    "median": 0.2118999958,
+    "max": 0.2358999997,
+    "in top 100": 0,
+    "mean rank": 621.0
+   },
+   "Sandal": {
+    "mean": 0.1985999942,
+    "std": 0.0092000002,
+    "min": 0.1727000028,
+    "median": 0.200000003,
+    "max": 0.2160000056,
+    "in top 100": 0,
+    "mean rank": 786.2
+   },
+   "Sneaker": {
+    "mean": 0.192900002,
+    "std": 0.0082999999,
+    "min": 0.1702000052,
+    "median": 0.1923999935,
+    "max": 0.2172999978,
+    "in top 100": 0,
+    "mean rank": 853.8
+   },
+   "Ankle boot": {
+    "mean": 0.1905000061,
+    "std": 0.0086000003,
+    "min": 0.1714999974,
+    "median": 0.1907999963,
+    "max": 0.2113000005,
+    "in top 100": 0,
+    "mean rank": 877.9
+   }
+  },
+  "all_captions": [
+   {
+    "caption": "a photo of a ankle boot.",
+    "class": "Ankle boot",
+    "AUC (own class vs rest)": 0.9923,
+    "own class in top 100": 0.89,
+    "mean cos own class": 0.277700007,
+    "mean cos other classes": 0.2167000026
+   },
+   {
+    "caption": "a photo of a trouser.",
+    "class": "Trouser",
+    "AUC (own class vs rest)": 0.9753,
+    "own class in top 100": 0.83,
+    "mean cos own class": 0.2748999894,
+    "mean cos other classes": 0.2314999998
+   },
+   {
+    "caption": "a photo of a sneaker.",
+    "class": "Sneaker",
+    "AUC (own class vs rest)": 0.9601,
+    "own class in top 100": 0.65,
+    "mean cos own class": 0.2736000121,
+    "mean cos other classes": 0.2241999954
+   },
+   {
+    "caption": "a photo of a bag.",
+    "class": "Bag",
+    "AUC (own class vs rest)": 0.9392,
+    "own class in top 100": 0.7,
+    "mean cos own class": 0.265899986,
+    "mean cos other classes": 0.2254000008
+   },
+   {
+    "caption": "a photo of a coat.",
+    "class": "Coat",
+    "AUC (own class vs rest)": 0.9176,
+    "own class in top 100": 0.48,
+    "mean cos own class": 0.2648999989,
+    "mean cos other classes": 0.2282000035
+   },
+   {
+    "caption": "a photo of a pullover.",
+    "class": "Pullover",
+    "AUC (own class vs rest)": 0.906,
+    "own class in top 100": 0.51,
+    "mean cos own class": 0.2951000035,
+    "mean cos other classes": 0.2478999943
+   },
+   {
+    "caption": "a photo of a dress.",
+    "class": "Dress",
+    "AUC (own class vs rest)": 0.8971,
+    "own class in top 100": 0.5,
+    "mean cos own class": 0.2667999864,
+    "mean cos other classes": 0.2287999988
+   },
+   {
+    "caption": "a photo of a t-shirt/top.",
+    "class": "T-shirt/top",
+    "AUC (own class vs rest)": 0.8726,
+    "own class in top 100": 0.55,
+    "mean cos own class": 0.266900003,
+    "mean cos other classes": 0.2239000052
+   },
+   {
+    "caption": "a photo of a shirt.",
+    "class": "Shirt",
+    "AUC (own class vs rest)": 0.8399,
+    "own class in top 100": 0.37,
+    "mean cos own class": 0.2524999976,
+    "mean cos other classes": 0.2205000073
+   },
+   {
+    "caption": "a photo of a sandal.",
+    "class": "Sandal",
+    "AUC (own class vs rest)": 0.7338,
+    "own class in top 100": 0.3,
+    "mean cos own class": 0.2433999926,
+    "mean cos other classes": 0.2245000005
+   }
+  ]
+ },
+ "part2": {
+  "images": 10000,
+  "overall_accuracy": [
+   {
+    "prompt set": "main: 'a photo of a {}.'",
+    "accuracy %": 88.33,
+    "correct": 8833,
+    "images": 10000
+   },
+   {
+    "prompt set": "demo: 'an image of a {}'",
+    "accuracy %": 89.06,
+    "correct": 8906,
+    "images": 10000
+   },
+   {
+    "prompt set": "ensemble of 8 templates",
+    "accuracy %": 89.17,
+    "correct": 8917,
+    "images": 10000
+   }
+  ],
+  "per_class_accuracy": {
+   "airplane": {
+    "main: 'a photo of a {}.'": 89.0,
+    "demo: 'an image of a {}'": 89.5,
+    "ensemble of 8 templates": 90.8,
+    "images": 1000
+   },
+   "automobile": {
+    "main: 'a photo of a {}.'": 93.3,
+    "demo: 'an image of a {}'": 93.7,
+    "ensemble of 8 templates": 93.3,
+    "images": 1000
+   },
+   "bird": {
+    "main: 'a photo of a {}.'": 89.8,
+    "demo: 'an image of a {}'": 87.5,
+    "ensemble of 8 templates": 87.7,
+    "images": 1000
+   },
+   "cat": {
+    "main: 'a photo of a {}.'": 85.7,
+    "demo: 'an image of a {}'": 87.0,
+    "ensemble of 8 templates": 85.8,
+    "images": 1000
+   },
+   "deer": {
+    "main: 'a photo of a {}.'": 76.9,
+    "demo: 'an image of a {}'": 78.9,
+    "ensemble of 8 templates": 79.8,
+    "images": 1000
+   },
+   "dog": {
+    "main: 'a photo of a {}.'": 89.1,
+    "demo: 'an image of a {}'": 89.0,
+    "ensemble of 8 templates": 88.6,
+    "images": 1000
+   },
+   "frog": {
+    "main: 'a photo of a {}.'": 71.5,
+    "demo: 'an image of a {}'": 75.7,
+    "ensemble of 8 templates": 76.9,
+    "images": 1000
+   },
+   "horse": {
+    "main: 'a photo of a {}.'": 97.1,
+    "demo: 'an image of a {}'": 96.8,
+    "ensemble of 8 templates": 97.6,
+    "images": 1000
+   },
+   "ship": {
+    "main: 'a photo of a {}.'": 95.9,
+    "demo: 'an image of a {}'": 95.7,
+    "ensemble of 8 templates": 96.4,
+    "images": 1000
+   },
+   "truck": {
+    "main: 'a photo of a {}.'": 95.0,
+    "demo: 'an image of a {}'": 96.8,
+    "ensemble of 8 templates": 94.8,
+    "images": 1000
+   }
+  },
+  "confusion_matrix_main": [
+   [
+    890,
+    7,
+    60,
+    0,
+    0,
+    1,
+    0,
+    0,
+    31,
+    11
+   ],
+   [
+    2,
+    933,
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    3,
+    61
+   ],
+   [
+    10,
+    1,
+    898,
+    19,
+    22,
+    16,
+    3,
+    30,
+    1,
+    0
+   ],
+   [
+    2,
+    4,
+    24,
+    857,
+    7,
+    83,
+    6,
+    10,
+    6,
+    1
+   ],
+   [
+    2,
+    1,
+    36,
+    17,
+    769,
+    31,
+    4,
+    137,
+    3,
+    0
+   ],
+   [
+    0,
+    1,
+    22,
+    63,
+    7,
+    891,
+    1,
+    12,
+    3,
+    0
+   ],
+   [
+    1,
+    3,
+    104,
+    85,
+    14,
+    57,
+    715,
+    8,
+    13,
+    0
+   ],
+   [
+    2,
+    1,
+    5,
+    4,
+    5,
+    9,
+    0,
+    971,
+    3,
+    0
+   ],
+   [
+    24,
+    8,
+    2,
+    0,
+    0,
+    2,
+    0,
+    0,
+    959,
+    5
+   ],
+   [
+    0,
+    37,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    13,
+    950
+   ]
+  ],
+  "classes": [
+   "airplane",
+   "automobile",
+   "bird",
+   "cat",
+   "deer",
+   "dog",
+   "frog",
+   "horse",
+   "ship",
+   "truck"
+  ],
+  "top_confusions": [
+   {
+    "true": "deer",
+    "predicted as": "horse",
+    "images": 137,
+    "% of true class": 13.7
+   },
+   {
+    "true": "frog",
+    "predicted as": "bird",
+    "images": 104,
+    "% of true class": 10.4
+   },
+   {
+    "true": "frog",
+    "predicted as": "cat",
+    "images": 85,
+    "% of true class": 8.5
+   },
+   {
+    "true": "cat",
+    "predicted as": "dog",
+    "images": 83,
+    "% of true class": 8.3
+   },
+   {
+    "true": "dog",
+    "predicted as": "cat",
+    "images": 63,
+    "% of true class": 6.3
+   },
+   {
+    "true": "automobile",
+    "predicted as": "truck",
+    "images": 61,
+    "% of true class": 6.1
+   },
+   {
+    "true": "airplane",
+    "predicted as": "bird",
+    "images": 60,
+    "% of true class": 6.0
+   },
+   {
+    "true": "frog",
+    "predicted as": "dog",
+    "images": 57,
+    "% of true class": 5.7
+   },
+   {
+    "true": "truck",
+    "predicted as": "automobile",
+    "images": 37,
+    "% of true class": 3.7
+   },
+   {
+    "true": "deer",
+    "predicted as": "bird",
+    "images": 36,
+    "% of true class": 3.6
+   }
+  ],
+  "encode_seconds": 152.3
+ },
+ "total_runtime_s": 180.8
+}
