@@ -1,0 +1,199 @@
+{
+ "llm": {
+  "id": "facebook/opt-125m",
+  "revision": "27dcfa74d334bc871f3234de431e71c6eeba5dd6",
+  "base": {
+   "Configuration": "Base LLM (fp16)",
+   "Eval loss": 3.320040411394276,
+   "Perplexity": 27.661468374435085,
+   "p50 ms": 513.7006505000272,
+   "p95 ms": 540.9137518999643,
+   "Peak memory GB": 0.276242432,
+   "Size on disk MB": 250.500968,
+   "Loaded memory GB": 0.257406976,
+   "Perplexity-run peak GB": 1.296817664
+  },
+  "gptq": {
+   "Configuration": "GPTQ-quantized LLM (4-bit)",
+   "Eval loss": 3.3917547516050863,
+   "Perplexity": 29.71805434746421,
+   "p50 ms": 1257.6305735000233,
+   "p95 ms": 1296.6164115000054,
+   "Peak memory GB": 0.158599168,
+   "Size on disk MB": 125.105176,
+   "Loaded memory GB": 0.136976384,
+   "Perplexity-run peak GB": 1.166163456
+  },
+  "rtn_perplexity": 30.49919132501123,
+  "gptq_seconds": 30.128541231155396
+ },
+ "kd": {
+  "runs": [
+   {
+    "name": "T1_a0.5",
+    "T": 1,
+    "alpha": 0.5,
+    "val_acc": 0.9428333333333333,
+    "test_acc": 0.9446052631578947,
+    "final_loss": 0.10839778184890747,
+    "final_ce": 0.12284956127405167,
+    "final_kld": 0.09394598007202148,
+    "seconds": 342.9275095462799
+   },
+   {
+    "name": "T2_a0.5",
+    "T": 2,
+    "alpha": 0.5,
+    "val_acc": 0.9428333333333333,
+    "test_acc": 0.9446052631578947,
+    "final_loss": 0.19873875379562378,
+    "final_ce": 0.1452450454235077,
+    "final_kld": 0.25223246216773987,
+    "seconds": 342.34283542633057
+   },
+   {
+    "name": "T5_a0.5",
+    "T": 5,
+    "alpha": 0.5,
+    "val_acc": 0.9418333333333333,
+    "test_acc": 0.9435526315789474,
+    "final_loss": 0.2830159664154053,
+    "final_ce": 0.16360323131084442,
+    "final_kld": 0.4024287462234497,
+    "seconds": 342.75300002098083
+   },
+   {
+    "name": "T10_a0.5",
+    "T": 10,
+    "alpha": 0.5,
+    "val_acc": 0.9431666666666667,
+    "test_acc": 0.9430263157894737,
+    "final_loss": 0.27837857604026794,
+    "final_ce": 0.16452078521251678,
+    "final_kld": 0.3922363519668579,
+    "seconds": 342.6412584781647
+   },
+   {
+    "name": "alpha0.25_T10",
+    "T": 10,
+    "alpha": 0.25,
+    "val_acc": 0.9435,
+    "test_acc": 0.9430263157894737,
+    "final_loss": 0.33944034576416016,
+    "final_ce": 0.175863578915596,
+    "final_kld": 0.3939659595489502,
+    "seconds": 342.53198432922363
+   },
+   {
+    "name": "alpha0.5_T10",
+    "T": 10,
+    "alpha": 0.5,
+    "val_acc": 0.9431666666666667,
+    "test_acc": 0.9430263157894737,
+    "final_loss": 0.27837857604026794,
+    "final_ce": 0.16452078521251678,
+    "final_kld": 0.3922363519668579,
+    "seconds": 342.6703824996948
+   },
+   {
+    "name": "alpha0.75_T10",
+    "T": 10,
+    "alpha": 0.75,
+    "val_acc": 0.943,
+    "test_acc": 0.944078947368421,
+    "final_loss": 0.21408775448799133,
+    "final_ce": 0.15086904168128967,
+    "final_kld": 0.4037438929080963,
+    "seconds": 342.37023091316223
+   }
+  ],
+  "best_T": 10,
+  "best_alpha": 0.25,
+  "teacher": {
+   "Configuration": "Teacher (BERT-base)",
+   "Accuracy": 0.9443421052631579,
+   "p50 ms": 8.124267000084728,
+   "p95 ms": 9.421213200153034,
+   "Peak memory GB": 0.756672,
+   "Size on disk MB": 437.9648,
+   "Test set seconds": 21.439526919999935,
+   "Parameters": 109485316
+  },
+  "student": {
+   "Configuration": "Best distilled student (alpha0.25_T10)",
+   "Accuracy": 0.9430263157894737,
+   "p50 ms": 4.011358499838025,
+   "p95 ms": 4.382063399998515,
+   "Peak memory GB": 0.565319168,
+   "Size on disk MB": 267.83872,
+   "Test set seconds": 10.687042267999914,
+   "Parameters": 66956548
+  },
+  "per_class": [
+   {
+    "class": "World",
+    "n": 1900,
+    "teacher acc": 0.9489473684210527,
+    "student acc": 0.9478947368421052,
+    "change": -0.001052631578947416
+   },
+   {
+    "class": "Sports",
+    "n": 1900,
+    "teacher acc": 0.988421052631579,
+    "student acc": 0.9868421052631579,
+    "change": -0.0015789473684211242
+   },
+   {
+    "class": "Business",
+    "n": 1900,
+    "teacher acc": 0.9136842105263158,
+    "student acc": 0.9084210526315789,
+    "change": -0.0052631578947368585
+   },
+   {
+    "class": "Sci/Tech",
+    "n": 1900,
+    "teacher acc": 0.9263157894736842,
+    "student acc": 0.9289473684210526,
+    "change": 0.0026315789473684292
+   }
+  ],
+  "teacher_right_student_wrong": 123,
+  "examples": [
+   {
+    "index": 110,
+    "true": "Business",
+    "student": "Sci/Tech",
+    "text": "Yahoo! Ups Ante for Small Businesses Web giant Yahoo! is gambling that price cuts on its domain name registration and Web hosting products will make it more competitive with discounters in the space -- which means that small businesses looking to move online get a sweeter deal through ..."
+   },
+   {
+    "index": 399,
+    "true": "Business",
+    "student": "Sci/Tech",
+    "text": "Nortel Downsizes Again Aug. 23, 2004 (TheDeal.com) Problem-plagued Nortel Networks Corp. announced plans Thursday, Aug. 19, to eliminate an additional 3,500 jobs and fire seven more senior executives as the company labors to reinvent "
+   },
+   {
+    "index": 408,
+    "true": "Business",
+    "student": "World",
+    "text": "Chavez rejects CD as opposition Venezuela #39;s President Hugo Chavez has announced that he will no longer recognize the Democratic Coordination or CD as the opposition coalition."
+   },
+   {
+    "index": 448,
+    "true": "Business",
+    "student": "World",
+    "text": "Oil Eases as Iraq Resumes Exports &lt;p&gt;\\&lt;/p&gt;&lt;p&gt; By Andrew Mitchell&lt;/p&gt;&lt;p&gt; LONDON (Reuters) - High-flying oil prices eased for a\\second session on Monday as Iraq resumed exports from both its\\northern and southern outlets after lengthy disruption, despite\\fierce fighting in the holy city of Najaf.&lt;/p&gt;"
+   },
+   {
+    "index": 449,
+    "true": "Business",
+    "student": "World",
+    "text": "Botswana miners 'face dismissal' Botswana's giant Debswana diamond mining firm says it will sack workers who carry on with an illegal stoppage."
+   }
+  ]
+ },
+ "smoke_test": false,
+ "gpu": "Tesla T4",
+ "total_minutes": 47.96462073326111
+}

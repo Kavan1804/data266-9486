@@ -1,0 +1,104 @@
+[2026-11-24T08:54:53Z] GPU Tesla T4 | python 3.13.16 | torch 2.11.0+cu130 | transformers 5.20.2 | smoke test False
+[2026-11-24T08:55:13Z] model facebook/opt-125m @ 27dcfa74d334bc871f3234de431e71c6eeba5dd6 | train tokens 2,428,602 | test tokens 287,645 | calibration (128, 512)
+[2026-11-24T08:55:55Z] Base LLM (fp16) {'Eval loss': 3.32, 'Perplexity': 27.6615, 'p50 ms': np.float64(513.7007), 'p95 ms': np.float64(540.9138), 'Peak memory GB': 0.2762, 'Size on disk MB': 250.501, 'Loaded memory GB': 0.2574, 'Perplexity-run peak GB': 1.2968}
+[2026-11-24T08:56:02Z] round-to-nearest 4-bit check: loss 3.4177 | perplexity 30.499
+[2026-11-24T08:56:40Z] GPTQ took 30.1s | perplexity before saving 29.718
+[2026-11-24T08:58:07Z] GPTQ-quantized LLM (4-bit) {'Eval loss': 3.3918, 'Perplexity': 29.7181, 'p50 ms': np.float64(1257.6306), 'p95 ms': np.float64(1296.6164), 'Peak memory GB': 0.1586, 'Size on disk MB': 125.1052, 'Loaded memory GB': 0.137, 'Perplexity-run peak GB': 1.1662}
+[2026-11-24T08:59:51Z] teacher: teacher_model | 12 layers | 109,485,316 parameters | id2label {0: 'WORLD', 1: 'SPORTS', 2: 'BUSINESS', 3: 'SCI/TECH'}
+[2026-11-24T09:00:22Z] AG News: 120,000 train, 7,600 test | classes ['World', 'Sports', 'Business', 'Sci/Tech']
+[2026-11-24T09:01:39Z] teacher logits for 120,000 training samples in 77.5s
+[2026-11-24T09:02:00Z] teacher accuracy: train 0.9895 | test 0.9443
+[2026-11-24T09:02:03Z] === T1_a0.5: T=1, alpha=0.5, 3564 steps
+[2026-11-24T09:02:50Z] T1_a0.5 step 500/3564 loss 0.2209 ce 0.2348 kld 0.2069
+[2026-11-24T09:03:36Z] T1_a0.5 step 1000/3564 loss 0.1825 ce 0.2001 kld 0.1648
+[2026-11-24T09:04:22Z] T1_a0.5 step 1500/3564 loss 0.1526 ce 0.1704 kld 0.1347
+[2026-11-24T09:04:50Z] T1_a0.5 epoch 1/2: val accuracy 0.9393 | 167s
+[2026-11-24T09:05:10Z] T1_a0.5 step 2000/3564 loss 0.1201 ce 0.1359 kld 0.1043
+[2026-11-24T09:05:56Z] T1_a0.5 step 2500/3564 loss 0.1237 ce 0.1386 kld 0.1089
+[2026-11-24T09:06:42Z] T1_a0.5 step 3000/3564 loss 0.1145 ce 0.1335 kld 0.0955
+[2026-11-24T09:07:28Z] T1_a0.5 step 3500/3564 loss 0.1141 ce 0.1335 kld 0.0947
+[2026-11-24T09:07:34Z] T1_a0.5 step 3564/3564 loss 0.1084 ce 0.1228 kld 0.0939
+[2026-11-24T09:07:36Z] T1_a0.5 epoch 2/2: val accuracy 0.9428 | 332s
+[2026-11-24T09:07:47Z] T1_a0.5 done: val 0.9428 | test 0.9446 | 343s
+[2026-11-24T09:07:47Z] rough time left for the remaining runs: 34 min
+[2026-11-24T09:07:48Z] === T2_a0.5: T=2, alpha=0.5, 3564 steps
+[2026-11-24T09:08:34Z] T2_a0.5 step 500/3564 loss 0.4525 ce 0.2767 kld 0.6283
+[2026-11-24T09:09:20Z] T2_a0.5 step 1000/3564 loss 0.3428 ce 0.2290 kld 0.4566
+[2026-11-24T09:10:06Z] T2_a0.5 step 1500/3564 loss 0.2856 ce 0.1968 kld 0.3743
+[2026-11-24T09:10:33Z] T2_a0.5 epoch 1/2: val accuracy 0.9370 | 166s
+[2026-11-24T09:10:53Z] T2_a0.5 step 2000/3564 loss 0.2172 ce 0.1522 kld 0.2822
+[2026-11-24T09:11:40Z] T2_a0.5 step 2500/3564 loss 0.2283 ce 0.1600 kld 0.2966
+[2026-11-24T09:12:25Z] T2_a0.5 step 3000/3564 loss 0.2062 ce 0.1554 kld 0.2569
+[2026-11-24T09:13:11Z] T2_a0.5 step 3500/3564 loss 0.2043 ce 0.1549 kld 0.2538
+[2026-11-24T09:13:17Z] T2_a0.5 step 3564/3564 loss 0.1987 ce 0.1452 kld 0.2522
+[2026-11-24T09:13:19Z] T2_a0.5 epoch 2/2: val accuracy 0.9428 | 332s
+[2026-11-24T09:13:30Z] T2_a0.5 done: val 0.9428 | test 0.9446 | 342s
+[2026-11-24T09:13:31Z] rough time left for the remaining runs: 29 min
+[2026-11-24T09:13:31Z] === T5_a0.5: T=5, alpha=0.5, 3564 steps
+[2026-11-24T09:14:17Z] T5_a0.5 step 500/3564 loss 0.7211 ce 0.3444 kld 1.0977
+[2026-11-24T09:15:03Z] T5_a0.5 step 1000/3564 loss 0.4995 ce 0.2581 kld 0.7409
+[2026-11-24T09:15:49Z] T5_a0.5 step 1500/3564 loss 0.4159 ce 0.2239 kld 0.6079
+[2026-11-24T09:16:17Z] T5_a0.5 epoch 1/2: val accuracy 0.9347 | 166s
+[2026-11-24T09:16:37Z] T5_a0.5 step 2000/3564 loss 0.3099 ce 0.1655 kld 0.4543
+[2026-11-24T09:17:24Z] T5_a0.5 step 2500/3564 loss 0.3218 ce 0.1802 kld 0.4633
+[2026-11-24T09:18:09Z] T5_a0.5 step 3000/3564 loss 0.2997 ce 0.1773 kld 0.4222
+[2026-11-24T09:18:55Z] T5_a0.5 step 3500/3564 loss 0.2909 ce 0.1753 kld 0.4064
+[2026-11-24T09:19:01Z] T5_a0.5 step 3564/3564 loss 0.2830 ce 0.1636 kld 0.4024
+[2026-11-24T09:19:03Z] T5_a0.5 epoch 2/2: val accuracy 0.9418 | 332s
+[2026-11-24T09:19:14Z] T5_a0.5 done: val 0.9418 | test 0.9436 | 343s
+[2026-11-24T09:19:15Z] rough time left for the remaining runs: 23 min
+[2026-11-24T09:19:15Z] === T10_a0.5: T=10, alpha=0.5, 3564 steps
+[2026-11-24T09:20:01Z] T10_a0.5 step 500/3564 loss 0.7123 ce 0.3459 kld 1.0788
+[2026-11-24T09:20:47Z] T10_a0.5 step 1000/3564 loss 0.4918 ce 0.2596 kld 0.7240
+[2026-11-24T09:21:33Z] T10_a0.5 step 1500/3564 loss 0.3980 ce 0.2188 kld 0.5772
+[2026-11-24T09:22:01Z] T10_a0.5 epoch 1/2: val accuracy 0.9372 | 166s
+[2026-11-24T09:22:21Z] T10_a0.5 step 2000/3564 loss 0.3080 ce 0.1683 kld 0.4476
+[2026-11-24T09:23:08Z] T10_a0.5 step 2500/3564 loss 0.3162 ce 0.1809 kld 0.4516
+[2026-11-24T09:23:53Z] T10_a0.5 step 3000/3564 loss 0.2988 ce 0.1796 kld 0.4179
+[2026-11-24T09:24:39Z] T10_a0.5 step 3500/3564 loss 0.2865 ce 0.1766 kld 0.3963
+[2026-11-24T09:24:45Z] T10_a0.5 step 3564/3564 loss 0.2784 ce 0.1645 kld 0.3922
+[2026-11-24T09:24:47Z] T10_a0.5 epoch 2/2: val accuracy 0.9432 | 332s
+[2026-11-24T09:24:58Z] T10_a0.5 done: val 0.9432 | test 0.9430 | 343s
+[2026-11-24T09:24:59Z] rough time left for the remaining runs: 17 min
+[2026-11-24T09:24:59Z] best temperature (validation): 10
+[2026-11-24T09:24:59Z] === alpha0.25_T10: T=10, alpha=0.25, 3564 steps
+[2026-11-24T09:25:45Z] alpha0.25_T10 step 500/3564 loss 0.8940 ce 0.3628 kld 1.0710
+[2026-11-24T09:26:31Z] alpha0.25_T10 step 1000/3564 loss 0.6009 ce 0.2689 kld 0.7116
+[2026-11-24T09:27:17Z] alpha0.25_T10 step 1500/3564 loss 0.4949 ce 0.2326 kld 0.5823
+[2026-11-24T09:27:45Z] alpha0.25_T10 epoch 1/2: val accuracy 0.9348 | 166s
+[2026-11-24T09:28:05Z] alpha0.25_T10 step 2000/3564 loss 0.3796 ce 0.1777 kld 0.4469
+[2026-11-24T09:28:51Z] alpha0.25_T10 step 2500/3564 loss 0.3829 ce 0.1914 kld 0.4468
+[2026-11-24T09:29:37Z] alpha0.25_T10 step 3000/3564 loss 0.3618 ce 0.1921 kld 0.4184
+[2026-11-24T09:30:23Z] alpha0.25_T10 step 3500/3564 loss 0.3423 ce 0.1840 kld 0.3951
+[2026-11-24T09:30:29Z] alpha0.25_T10 step 3564/3564 loss 0.3394 ce 0.1759 kld 0.3940
+[2026-11-24T09:30:31Z] alpha0.25_T10 epoch 2/2: val accuracy 0.9435 | 332s
+[2026-11-24T09:30:42Z] alpha0.25_T10 done: val 0.9435 | test 0.9430 | 343s
+[2026-11-24T09:30:43Z] === alpha0.5_T10: T=10, alpha=0.5, 3564 steps
+[2026-11-24T09:31:29Z] alpha0.5_T10 step 500/3564 loss 0.7123 ce 0.3459 kld 1.0788
+[2026-11-24T09:32:15Z] alpha0.5_T10 step 1000/3564 loss 0.4918 ce 0.2596 kld 0.7240
+[2026-11-24T09:33:01Z] alpha0.5_T10 step 1500/3564 loss 0.3980 ce 0.2188 kld 0.5772
+[2026-11-24T09:33:29Z] alpha0.5_T10 epoch 1/2: val accuracy 0.9372 | 166s
+[2026-11-24T09:33:49Z] alpha0.5_T10 step 2000/3564 loss 0.3080 ce 0.1683 kld 0.4476
+[2026-11-24T09:34:35Z] alpha0.5_T10 step 2500/3564 loss 0.3162 ce 0.1809 kld 0.4516
+[2026-11-24T09:35:21Z] alpha0.5_T10 step 3000/3564 loss 0.2988 ce 0.1796 kld 0.4179
+[2026-11-24T09:36:07Z] alpha0.5_T10 step 3500/3564 loss 0.2865 ce 0.1766 kld 0.3963
+[2026-11-24T09:36:13Z] alpha0.5_T10 step 3564/3564 loss 0.2784 ce 0.1645 kld 0.3922
+[2026-11-24T09:36:15Z] alpha0.5_T10 epoch 2/2: val accuracy 0.9432 | 332s
+[2026-11-24T09:36:26Z] alpha0.5_T10 done: val 0.9432 | test 0.9430 | 343s
+[2026-11-24T09:36:27Z] === alpha0.75_T10: T=10, alpha=0.75, 3564 steps
+[2026-11-24T09:37:13Z] alpha0.75_T10 step 500/3564 loss 0.4857 ce 0.2956 kld 1.0562
+[2026-11-24T09:37:59Z] alpha0.75_T10 step 1000/3564 loss 0.3683 ce 0.2395 kld 0.7546
+[2026-11-24T09:38:45Z] alpha0.75_T10 step 1500/3564 loss 0.3090 ce 0.2074 kld 0.6139
+[2026-11-24T09:39:12Z] alpha0.75_T10 epoch 1/2: val accuracy 0.9365 | 166s
+[2026-11-24T09:39:32Z] alpha0.75_T10 step 2000/3564 loss 0.2392 ce 0.1587 kld 0.4809
+[2026-11-24T09:40:19Z] alpha0.75_T10 step 2500/3564 loss 0.2454 ce 0.1677 kld 0.4785
+[2026-11-24T09:41:04Z] alpha0.75_T10 step 3000/3564 loss 0.2266 ce 0.1599 kld 0.4264
+[2026-11-24T09:41:50Z] alpha0.75_T10 step 3500/3564 loss 0.2258 ce 0.1618 kld 0.4178
+[2026-11-24T09:41:56Z] alpha0.75_T10 step 3564/3564 loss 0.2141 ce 0.1509 kld 0.4037
+[2026-11-24T09:41:58Z] alpha0.75_T10 epoch 2/2: val accuracy 0.9430 | 332s
+[2026-11-24T09:42:09Z] alpha0.75_T10 done: val 0.9430 | test 0.9441 | 342s
+[2026-11-24T09:42:10Z] best student (validation, loss-weighting sweep): alpha0.25_T10
+[2026-11-24T09:42:37Z] {'Configuration': 'Teacher (BERT-base)', 'Accuracy': 0.9443421052631579, 'p50 ms': np.float64(8.124267000084728), 'p95 ms': np.float64(9.421213200153034), 'Peak memory GB': 0.756672, 'Size on disk MB': 437.9648, 'Test set seconds': 21.439526919999935, 'Parameters': 109485316}
+[2026-11-24T09:42:51Z] {'Configuration': 'Best distilled student (alpha0.25_T10)', 'Accuracy': 0.9430263157894737, 'p50 ms': np.float64(4.011358499838025), 'p95 ms': np.float64(4.382063399998515), 'Peak memory GB': 0.565319168, 'Size on disk MB': 267.83872, 'Test set seconds': 10.687042267999914, 'Parameters': 66956548}
+[2026-11-24T09:42:51Z] class with the largest drop: Business (-0.0053)
+[2026-11-24T09:42:51Z] total time 48.0 min

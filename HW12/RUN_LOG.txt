@@ -1,0 +1,41 @@
+Step 0: Inspection
+UTC Timestamp: 2026-11-24T04:10:00Z (approx.)
+Status: Read both screenshots and the HW12 demos (smolagents, LangGraph, function calling, memory). They're
+about agents and don't cover GPTQ or distillation, so nothing was reused. A first draft followed the HW11
+distillation demo, but that was taken out because HW12 is a separate homework. The links in the screenshots
+(GPTQ model, teacher_model) can't be read from an image. teacher_model.7z was added to the folder later.
+Listing it and reading config.json shows a 12-layer BertForSequenceClassification
+(odunola/bert-base-uncased-ag-news-finetuned) with labels 0-3 = WORLD, SPORTS, BUSINESS, SCI/TECH, the same
+order as AG News. It wasn't extracted or loaded here, the notebook does that on Kaggle. The base LLM is
+facebook/opt-125m. The GPTQ link was checked later (Step 4).
+Fall_2025_Agent_Tools_Smolagents.ipynb has a hard-coded Hugging Face token in it, so it wasn't used and
+shouldn't be committed.
+
+Step 1: Notebook Build
+UTC Timestamp: 2026-11-24T04:30:00Z (approx.)
+Status: HW12_GPTQ_Distillation.ipynb generated with a build script. Only syntax and notebook format were
+checked. No cell was executed.
+  1. gptqmodel 7.12.2 (PyPI metadata) needs torch>=2.15 and transformers>=5.23 on Python 3.11+, which
+     would replace Kaggle's CUDA setup. GPTQ was implemented in PyTorch instead.
+  2. Review found the teacher logits were created under torch.inference_mode and later used in the training
+     loss. Changed to torch.no_grad before any run.
+
+Step 2: Smoke Test on Kaggle
+UTC Timestamp: 2026-11-24T08:38:22Z to 2026-11-24T08:39:54Z
+Status: Tiny subsets, 1.5 min, no errors. This run was meant to be the full run, but the log said
+"smoke test True": the smoke cell was deleted without restarting the kernel, so the setting was still
+active. Those numbers aren't used.
+
+Step 3: Full Run on Kaggle
+UTC Timestamp: 2026-11-24T08:54:53Z to 2026-11-24T09:42:51Z
+Status: Save & Run All in a new session, Tesla T4, Python 3.13.16, torch 2.11.0+cu130, transformers 5.20.2.
+The log says "smoke test False". GPTQ took 30.1 s, teacher logits for 120,000 samples 77.5 s, and each of the
+7 students about 343 s. Total 48.0 min, no errors. The raw log is results/run_log_raw.txt.
+
+Step 4: Result Check and Write-Up
+UTC Timestamp: 2026-11-24 (after the run)
+Status: The code cells match the version that was built. The GPTQ link (Hugging Face Transformers docs) was
+checked: it doesn't require a certain base model, and it uses the gptqmodel library, while this notebook has
+its own implementation. Sections 7, 15 and 16 were written from the outputs. The model choice note in
+Section 3 and one sentence in Section 12 were also updated. Only Markdown was edited after the run, no code
+cell was changed or re-run.
